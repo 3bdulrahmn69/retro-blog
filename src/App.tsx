@@ -1,17 +1,19 @@
 import { BrowserRouter, Route, Routes } from 'react-router';
 import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import BlogPage from './pages/BlogPage';
 import ControlPostsPage from './pages/ControlPostsPage';
+import AuthPage from './pages/AuthPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/blog" element={<BlogPage />} />
+        <Route path="/auth/:mod" element={<AuthPage />} />
         <Route path="/posts/:id" element={<ControlPostsPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
