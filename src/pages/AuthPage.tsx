@@ -24,7 +24,7 @@ const AuthPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsInitialLoad(false);
-    }, 600);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, []);

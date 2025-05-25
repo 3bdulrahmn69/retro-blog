@@ -9,6 +9,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   fullWidth?: boolean;
   className?: string;
+  onClick?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -17,6 +18,7 @@ const Button: React.FC<ButtonProps> = ({
   size = 'md',
   fullWidth = true,
   className = '',
+  onClick,
   ...props
 }) => {
   // Base classes for all buttons
@@ -50,7 +52,7 @@ const Button: React.FC<ButtonProps> = ({
   const classes = `${baseClasses} ${widthClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
 
   return (
-    <button className={classes} {...props}>
+    <button className={classes} onClick={onClick} {...props}>
       {children}
     </button>
   );
