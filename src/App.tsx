@@ -4,17 +4,20 @@ import BlogPage from './pages/BlogPage';
 import ControlPostsPage from './pages/ControlPostsPage';
 import AuthPage from './pages/AuthPage';
 import NotFoundPage from './pages/NotFoundPage';
+import { AuthProvider } from './context/AuthContext ';
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/auth/:mod" element={<AuthPage />} />
-        <Route path="/posts/:id" element={<ControlPostsPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/auth/:mod" element={<AuthPage />} />
+          <Route path="/posts/:id" element={<ControlPostsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   );
 }

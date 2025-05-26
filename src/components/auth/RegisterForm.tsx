@@ -65,7 +65,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       </div>
 
       <div className="mt-auto">
-        <Button>Register</Button>
+        <Button type="submit">Register</Button>
       </div>
     </form>
   );

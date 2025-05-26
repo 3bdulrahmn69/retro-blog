@@ -1,18 +1,21 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate, Link } from 'react-router';
 import LoginForm from '../components/auth/LoginForm';
 import RegisterForm from '../components/auth/RegisterForm';
 import AuthToggle from '../components/auth/AuthToggle';
 import AuthWelcome from '../components/auth/AuthWelcome';
 import AuthForm from '../components/auth/AuthForm';
+import { userLogin, userRegister } from '../utils/api';
+import { useAuth } from '../context/AuthContext ';
 
 const AuthPage = () => {
   // State to manage login/registration mode
-  const [user, setUser] = useState({
+  const [userForm, setUserForm] = useState({
     name: '',
     email: '',
     password: '',
   });
+  const { isAuthenticated, login } = useAuth();
 
   // Animation state
   const [animating, setAnimating] = useState(false);
@@ -37,6 +40,12 @@ const AuthPage = () => {
     }
   }, [mod]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
+
   const handleModeChange = (mode: string) => {
     setAnimating(true);
     setTimeout(() => {
@@ -45,24 +54,64 @@ const AuthPage = () => {
     }, 300);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
+
     if (isLogin) {
-      console.log('Login attempt with:', {
-        email: user.email,
-        password: user.password,
-      });
+      try {
+        const userData = await userLogin(userForm.email, userForm.password);
+        if (userData) {
+          const { accessToken, user } = userData;
+          const userInfo = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            token: accessToken,
+          };
+          login(userInfo);
+        } else {
+          console.error('Login failed: Invalid credentials');
+        }
+      } catch (error) {
+        console.error('Login failed', error);
+      }
     } else {
-      console.log('Registration attempt with:', {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      });
+      try {
+        const userData = await userRegister(
+          userForm.name,
+          userForm.email,
+          userForm.password
+        );
+        if (userData) {
+          const { accessToken, user } = userData;
+          const userInfo = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            token: accessToken,
+          };
+          login(userInfo);
+        } else {
+          console.error('Registration failed: Invalid data');
+        }
+      } catch (error) {
+        console.error('Registration failed', error);
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4 font-mono">
+    <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 font-mono relative">
+      <div className="absolute top-4 left-4">
+        <Link
+          to="/"
+          className="inline-block bg-amber-100 border-2 border-amber-700 shadow-[4px_4px_0px_0px_rgba(180,83,9)] px-4 py-2 text-amber-800 font-bold hover:bg-amber-200 transition-all duration-200 transform hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(180,83,9)]"
+        >
+          ← Back to Home
+        </Link>
+      </div>
+
       <AuthToggle
         isLogin={isLogin}
         onModeChange={handleModeChange}
@@ -99,13 +148,15 @@ const AuthPage = () => {
           ) : (
             <AuthForm title="REGISTER">
               <RegisterForm
-                name={user.name}
-                setName={(name: string) => setUser({ ...user, name })}
-                email={user.email}
-                setEmail={(email: string) => setUser({ ...user, email })}
-                password={user.password}
+                name={userForm.name}
+                setName={(name: string) => setUserForm({ ...userForm, name })}
+                email={userForm.email}
+                setEmail={(email: string) =>
+                  setUserForm({ ...userForm, email })
+                }
+                password={userForm.password}
                 setPassword={(password: string) =>
-                  setUser({ ...user, password })
+                  setUserForm({ ...userForm, password })
                 }
                 onSubmit={handleSubmit}
               />
@@ -127,11 +178,13 @@ const AuthPage = () => {
           {isLogin ? (
             <AuthForm title="LOGIN">
               <LoginForm
-                email={user.email}
-                setEmail={(email: string) => setUser({ ...user, email })}
-                password={user.password}
+                email={userForm.email}
+                setEmail={(email: string) =>
+                  setUserForm({ ...userForm, email })
+                }
+                password={userForm.password}
                 setPassword={(password: string) =>
-                  setUser({ ...user, password })
+                  setUserForm({ ...userForm, password })
                 }
                 onSubmit={handleSubmit}
               />

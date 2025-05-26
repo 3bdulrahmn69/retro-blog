@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router';
 import Button from './Button';
 import Container from './Container';
+import { useAuth } from '../../context/AuthContext ';
 
 interface HeaderProps {
   isLoaded: boolean;
@@ -10,6 +11,8 @@ interface HeaderProps {
 const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { isAuthenticated, logout, user } = useAuth();
+  console.log(user?.name);
 
   const handleSectionNavigation = (sectionId: string) => {
     if (location.pathname === '/') {
@@ -90,11 +93,22 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
               >
                 CONTACT
               </button>
-              <Link to="/auth/login">
-                <Button variant="primary" size="sm" fullWidth={false}>
-                  LOGIN
+              {isAuthenticated ? (
+                <Button
+                  variant="danger"
+                  size="sm"
+                  fullWidth={false}
+                  onClick={logout}
+                >
+                  Logout
                 </Button>
-              </Link>
+              ) : (
+                <Link to="/auth/login">
+                  <Button variant="primary" size="sm" fullWidth={false}>
+                    LOGIN
+                  </Button>
+                </Link>
+              )}
             </div>
             <div className="md:hidden flex items-center">
               <button className="text-amber-800">
