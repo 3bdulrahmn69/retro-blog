@@ -42,7 +42,9 @@ export const userLogin = async (email: string, password: string) => {
 export const getAllPosts = async () => {
   try {
     const response = await axios.get('http://localhost:3000/posts');
-    return response.data;
+    // Filter out deleted posts
+    const posts = response.data.filter((post: any) => !post.isDeleted);
+    return posts;
   } catch (e) {
     console.error('Error fetching posts:', e);
     return [];
@@ -52,23 +54,126 @@ export const getAllPosts = async () => {
 export const getPostById = async (id: string) => {
   try {
     const response = await axios.get(`http://localhost:3000/posts/${id}`);
-    return response.data;
+    const post = response.data;
+    // Return null if post is deleted
+    if (post && post.isDeleted) {
+      return null;
+    }
+    return post;
   } catch (e) {
     console.error('Error fetching post:', e);
     return null;
   }
 };
 
-export const createPost = async (postData: unknown, token: string) => {
+export const createPost = async (postData: any, token: string) => {
   try {
-    const response = await axios.post('http://localhost:3000/posts', postData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    // Add isDeleted: false to new posts
+    const postWithDeleteFlag = {
+      ...postData,
+      isDeleted: false,
+    };
+
+    const response = await axios.post(
+      'http://localhost:3000/posts',
+      postWithDeleteFlag,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (e) {
     console.error('Error creating post:', e);
+    return null;
+  }
+};
+
+export const updatePost = async (id: string, postData: any, token: string) => {
+  try {
+    // Ensure isDeleted flag is preserved/set correctly
+    const postWithDeleteFlag = {
+      ...postData,
+      isDeleted: postData.isDeleted || false,
+    };
+
+    const response = await axios.put(
+      `http://localhost:3000/posts/${id}`,
+      postWithDeleteFlag,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    console.error('Error updating post:', e);
+    return null;
+  }
+};
+
+// New soft delete function
+export const deletePost = async (id: string, token: string) => {
+  try {
+    // First get the current post data
+    const currentPost = await axios.get(`http://localhost:3000/posts/${id}`);
+
+    if (!currentPost.data) {
+      return null;
+    }
+
+    // Update the post with isDeleted: true
+    const deletedPost = {
+      ...currentPost.data,
+      isDeleted: true,
+      deletedAt: new Date().toISOString(), // Optional: track when it was deleted
+    };
+
+    const response = await axios.put(
+      `http://localhost:3000/posts/${id}`,
+      deletedPost,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    console.error('Error deleting post:', e);
+    return null;
+  }
+};
+
+// Optional: Function to restore deleted posts
+export const restorePost = async (id: string, token: string) => {
+  try {
+    const currentPost = await axios.get(`http://localhost:3000/posts/${id}`);
+
+    if (!currentPost.data) {
+      return null;
+    }
+
+    const restoredPost = {
+      ...currentPost.data,
+      isDeleted: false,
+      deletedAt: null,
+    };
+
+    const response = await axios.put(
+      `http://localhost:3000/posts/${id}`,
+      restoredPost,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (e) {
+    console.error('Error restoring post:', e);
     return null;
   }
 };

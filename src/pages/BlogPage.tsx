@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link, useSearchParams } from 'react-router';
 import { getAllPosts } from '../utils/api';
 import { useAuth } from '../context/AuthContext ';
 import Header from '../components/ui/Header';
@@ -22,9 +22,13 @@ interface Post {
 
 const BlogPage = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchParams] = useSearchParams();
   const { isAuthenticated } = useAuth();
+
+  const searchQuery = searchParams.get('search') || '';
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -49,12 +53,69 @@ const BlogPage = () => {
     fetchPosts();
   }, []);
 
+  // Filter posts based on search query
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredPosts(posts);
+    } else {
+      const query = searchQuery.toLowerCase();
+      const filtered = posts.filter(
+        (post) =>
+          post.title.toLowerCase().includes(query) ||
+          post.content.toLowerCase().includes(query) ||
+          post.author.toLowerCase().includes(query)
+      );
+      setFilteredPosts(filtered);
+    }
+  }, [posts, searchQuery]);
+
+  const displayedPosts = filteredPosts;
+
   return (
     <div className="min-h-screen bg-amber-50 font-mono">
       <Header isLoaded={isLoaded} />
 
       <Section id="posts">
         <Container>
+          {/* Search Results Header */}
+          {searchQuery && (
+            <div className="mb-8">
+              <div
+                className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] p-6 transition-all duration-500 ${
+                  isLoaded
+                    ? 'opacity-100 translate-y-0'
+                    : 'opacity-0 translate-y-8'
+                }`}
+              >
+                <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-3 text-amber-900 font-bold border-b-4 border-amber-700 mb-4">
+                  <h2 className="text-xl tracking-wider">SEARCH RESULTS</h2>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="text-amber-800 font-mono">
+                      <span className="text-amber-600">{'>'}</span> Searching
+                      for: "
+                      <span className="font-bold text-amber-900">
+                        {searchQuery}
+                      </span>
+                      "
+                    </p>
+                    <p className="text-amber-700 text-sm mt-1">
+                      Found {displayedPosts.length} result
+                      {displayedPosts.length !== 1 ? 's' : ''}
+                    </p>
+                  </div>
+                  <Link
+                    to="/blog"
+                    className="text-amber-600 hover:text-amber-800 font-mono text-sm underline"
+                  >
+                    Clear search
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
           {loading ? (
             <div className="text-center">
               <div
@@ -80,7 +141,7 @@ const BlogPage = () => {
                 </p>
               </div>
             </div>
-          ) : posts.length === 0 ? (
+          ) : displayedPosts.length === 0 ? (
             <div className="text-center">
               <div
                 className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] p-8 transition-all duration-500 ${
@@ -90,32 +151,58 @@ const BlogPage = () => {
                 }`}
               >
                 <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-2 text-amber-900 font-bold border-b-4 border-amber-700 mb-6">
-                  <h3 className="text-xl tracking-wider">NO POSTS FOUND</h3>
+                  <h3 className="text-xl tracking-wider">
+                    {searchQuery ? 'NO RESULTS FOUND' : 'NO POSTS FOUND'}
+                  </h3>
                 </div>
                 <div className="flex justify-center mb-6">
-                  <RetroTerminal title="error-terminal">
-                    <p>{'>'} No data found</p>
-                    <p>{'>'} Database empty</p>
-                    <p className="animate-pulse">{'>'} Waiting..._</p>
+                  <RetroTerminal title="search-terminal">
+                    {searchQuery ? (
+                      <>
+                        <p>
+                          {'>'} Search query: "{searchQuery}"
+                        </p>
+                        <p>{'>'} No matches found</p>
+                        <p>{'>'} Try different keywords</p>
+                        <p className="animate-pulse">{'>'} Waiting..._</p>
+                      </>
+                    ) : (
+                      <>
+                        <p>{'>'} No data found</p>
+                        <p>{'>'} Database empty</p>
+                        <p className="animate-pulse">{'>'} Waiting..._</p>
+                      </>
+                    )}
                   </RetroTerminal>
                 </div>
                 <p className="text-amber-700 mb-6">
-                  Be the first to share your retro computing story!
+                  {searchQuery
+                    ? 'Try searching with different keywords or browse all posts.'
+                    : 'Be the first to share your retro computing story!'}
                 </p>
-                {isAuthenticated ? (
-                  <Link to="/posts/create">
-                    <Button variant="primary">CREATE FIRST POST</Button>
-                  </Link>
-                ) : (
-                  <Link to="/auth/register">
-                    <Button variant="primary">JOIN TO POST</Button>
-                  </Link>
-                )}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  {searchQuery && (
+                    <Link to="/blog">
+                      <Button variant="outline">VIEW ALL POSTS</Button>
+                    </Link>
+                  )}
+                  {isAuthenticated ? (
+                    <Link to="/posts/create">
+                      <Button variant="primary">
+                        {searchQuery ? 'CREATE NEW POST' : 'CREATE FIRST POST'}
+                      </Button>
+                    </Link>
+                  ) : (
+                    <Link to="/auth/register">
+                      <Button variant="primary">JOIN TO POST</Button>
+                    </Link>
+                  )}
+                </div>
               </div>
             </div>
           ) : (
             <div className="grid gap-8">
-              {posts.map((post, index) => (
+              {displayedPosts.map((post, index) => (
                 <BlogPostCard
                   key={post.id}
                   post={post}
@@ -126,7 +213,7 @@ const BlogPage = () => {
             </div>
           )}
 
-          {posts.length > 0 && (
+          {displayedPosts.length > 0 && (
             <div className="text-center mt-12">
               <div className="bg-amber-100 p-6 border-4 border-amber-600 rounded-lg shadow-lg">
                 <h3 className="text-xl font-bold text-amber-800 mb-4">

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext ';
+import { deletePost } from '../../utils/api';
 import Button from './Button';
+import { Link } from 'react-router';
 
 interface Post {
   id: number;
@@ -25,6 +27,7 @@ const BlogPostCard = ({
 }: BlogPostCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { isAuthenticated, user } = useAuth();
 
   const formatDate = (dateString: string) => {
@@ -69,12 +72,31 @@ const BlogPostCard = ({
     setIsExpanded(!isExpanded);
   };
 
-  const handleEdit = () => {
-    console.log('Edit post:', post.id);
-  };
+  const handleDelete = async () => {
+    if (
+      !window.confirm(
+        'Are you sure you want to delete this post? This action can be undone later.'
+      )
+    ) {
+      return;
+    }
 
-  const handleDelete = () => {
-    console.log('Delete post:', post.id);
+    setIsDeleting(true);
+
+    try {
+      const result = await deletePost(post.id.toString(), user?.token || '');
+      if (result) {
+        // Optionally refresh the page or remove the post from the UI
+        window.location.reload();
+      } else {
+        alert('Failed to delete post. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Error deleting post. Please try again.');
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   const handleImageError = () => {
@@ -84,10 +106,6 @@ const BlogPostCard = ({
   const shouldShowReadMore = post.content && post.content.length > 150;
   const isPostOwner =
     isAuthenticated && Number(user?.id) === Number(post.userId);
-  console.log('Post Owner:', isPostOwner);
-  console.log('isAuthenticated:', isAuthenticated);
-  console.log('user id:', user?.id);
-  console.log('post.userIdr:', post.userId);
   const hasValidImage = post.image && !imageError;
 
   return (
@@ -250,26 +268,34 @@ const BlogPostCard = ({
 
               {/* Owner Actions */}
               {isPostOwner && (
-                <div className="flex flex-col xs:flex-row gap-2 pt-2 border-t border-amber-200">
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    className="flex-1 transition-all duration-200 hover:scale-105"
-                    onClick={handleEdit}
-                    aria-label={`Edit post: ${post.title}`}
-                  >
-                    <span className="mr-2">✏️</span>
-                    EDIT POST
-                  </Button>
+                <div className="flex flex-row gap-3 pt-4 border-t-2 border-amber-200">
+                  <Link to={`/posts/edit/${post.id}`} className="flex-1">
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="w-full transition-all duration-200 hover:scale-105 hover:shadow-[4px_4px_0px_0px_rgba(180,83,9)] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_0px_rgba(180,83,9)]"
+                      aria-label={`Edit post: ${post.title}`}
+                      disabled={isDeleting}
+                    >
+                      <span className="font-bold tracking-wider">
+                        EDIT POST
+                      </span>
+                    </Button>
+                  </Link>
                   <Button
                     variant="danger"
                     size="sm"
-                    className="flex-1 transition-all duration-200 hover:scale-105"
+                    className="flex-1 transition-all duration-200 hover:scale-105 hover:shadow-[4px_4px_0px_0px_rgba(153,27,27)] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_0px_rgba(153,27,27)]"
                     onClick={handleDelete}
                     aria-label={`Delete post: ${post.title}`}
+                    disabled={isDeleting}
                   >
-                    <span className="mr-2">🗑️</span>
-                    DELETE POST
+                    <span className="font-bold tracking-wider">
+                      {isDeleting ? 'DELETING...' : 'DELETE POST'}
+                    </span>
+                    {isDeleting && (
+                      <div className="ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    )}
                   </Button>
                 </div>
               )}

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
 import Button from './Button';
 import Container from './Container';
 import Input from './Input';
@@ -15,9 +15,16 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { isAuthenticated, logout } = useAuth();
 
   const isBlogPage = location.pathname === '/blog';
+
+  // Initialize search query from URL params
+  useEffect(() => {
+    const urlSearchQuery = searchParams.get('search') || '';
+    setSearchQuery(urlSearchQuery);
+  }, [searchParams]);
 
   const handleSectionNavigation = (sectionId: string) => {
     if (location.pathname === '/') {
@@ -32,8 +39,11 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      // TODO: Implement search functionality
-      console.log('Searching for:', searchQuery);
+      // Navigate to blog page with search query
+      navigate(`/blog?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      // If empty search, just go to blog page
+      navigate('/blog');
     }
   };
 
@@ -73,7 +83,7 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                   variant="search"
                   value={searchQuery}
                   onChange={setSearchQuery}
-                  placeholder="Search retro posts..."
+                  placeholder="Search posts by title, content, or author..."
                   onSubmit={handleSearch}
                   submitButtonText="SEARCH"
                   className="w-full"
@@ -142,30 +152,25 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                 <div className="flex items-center space-x-2">
                   {isBlogPage ? (
                     <Link to="/posts/create">
-                      <Button variant="secondary" size="sm" fullWidth={false}>
-                        New Post
+                      <Button variant="secondary" size="sm">
+                        NEW POST
                       </Button>
                     </Link>
                   ) : (
                     <Link to="/blog">
-                      <Button variant="secondary" size="sm" fullWidth={false}>
-                        Blog
+                      <Button variant="secondary" size="sm">
+                        BLOG
                       </Button>
                     </Link>
                   )}
-                  <Button
-                    variant="danger"
-                    size="sm"
-                    fullWidth={false}
-                    onClick={handleLogout}
-                  >
+                  <Button variant="danger" size="sm" onClick={handleLogout}>
                     LOGOUT
                   </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
                   <Link to="/auth/login">
-                    <Button variant="primary" size="sm" fullWidth={false}>
+                    <Button variant="primary" size="sm">
                       LOGIN
                     </Button>
                   </Link>
@@ -207,7 +212,7 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                 variant="search"
                 value={searchQuery}
                 onChange={setSearchQuery}
-                placeholder="Search retro posts..."
+                placeholder="Search posts..."
                 onSubmit={handleSearch}
                 submitButtonText="SEARCH"
                 className="w-full"
@@ -274,14 +279,14 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                     to="/posts/create"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Button variant="secondary" size="sm" className="w-full">
+                    <Button variant="secondary" size="sm" fullWidth>
                       NEW POST
                     </Button>
                   </Link>
                   <Button
                     variant="danger"
                     size="sm"
-                    className="w-full"
+                    fullWidth
                     onClick={handleLogout}
                   >
                     LOGOUT
@@ -293,7 +298,7 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                     to="/auth/login"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <Button variant="outline" size="sm" className="w-full">
+                    <Button variant="outline" size="sm" fullWidth>
                       LOGIN
                     </Button>
                   </Link>

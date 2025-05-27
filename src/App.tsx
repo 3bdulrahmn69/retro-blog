@@ -14,7 +14,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/auth/:mod" element={<AuthPage />} />
-          <Route path="/posts/:id" element={<ControlPostsPage />} />
+          <Route path="/posts/create" element={<ControlPostsPage />} />
+          <Route path="/posts/edit/:id" element={<ControlPostsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AuthProvider>

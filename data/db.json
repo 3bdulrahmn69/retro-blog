@@ -15,7 +15,8 @@
       "content": "Remember when upgrading from a 386 to a 486 felt like entering the future? The Intel 486 processor, released in 1989, was a game-changer for personal computing. With built-in math coprocessor and cache memory, it brought desktop publishing and early multimedia to the masses.\n\nI still remember the first time I ran Windows 3.1 on a 486DX2/66 - the speed was incredible! Games like Doom and Wolfenstein 3D finally ran smoothly, and multitasking became a reality rather than a dream. Those were the days when 4MB of RAM was considered luxurious and a 120MB hard drive could store everything you'd ever need.\n\nThe 486 also introduced features we take for granted today: pipelining, burst mode memory access, and power management. It's fascinating how this 25+ year old technology laid the foundation for modern computing.",
       "author": "RetroTech Enthusiast",
       "image": "https://plus.unsplash.com/premium_photo-1687864550351-6351804c91b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-15T10:30:00.000Z"
+      "createdAt": "2025-01-15T10:30:00.000Z",
+      "isDeleted": false
     },
     {
       "id": 2,
@@ -24,7 +25,8 @@
       "content": "In an age of 4K OLED displays and ultra-wide monitors, why do some of us still swear by our old CRT monitors? The answer lies in the unique characteristics that modern displays struggle to replicate.\n\nThe instant response time (literally zero input lag), perfect blacks, and that distinctive warm glow create an experience that LCD and OLED simply can't match. For retro gaming, CRTs are essential - light guns won't work on modern displays, and the pixel art of classic games was designed with CRT scanlines in mind.\n\nPlus, there's something magical about the ritual of degaussing your monitor and hearing that satisfying *THUNK* sound. The geometric distortions, the slight curve of the screen, even the electromagnetic hum - these 'imperfections' are what make CRTs irreplaceable for authentic retro computing.",
       "author": "CRT Collector",
       "image": "https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-12T14:45:00.000Z"
+      "createdAt": "2025-01-12T14:45:00.000Z",
+      "isDeleted": false
     },
     {
       "id": 3,
@@ -33,7 +35,8 @@
       "content": "After months of hunting through garage sales, eBay, and retro computing forums, I've finally assembled my ultimate retro gaming station. The centerpiece is a pristine Commodore Amiga 1200 paired with a period-correct 1084S monitor.\n\nAlongside it sits a fully restored Apple IIe with a Mockingboard sound card and a collection of original software on 5.25\" floppies. The crown jewel is my mint-condition Nintendo Entertainment System with a CRT TV from 1985.\n\nEvery component has been lovingly restored to working condition. New capacitors in the power supplies, cleaned and lubricated disk drives, and even period-correct cables. Playing classics like The Secret of Monkey Island or Super Mario Bros. 3 in their original glory is pure magic. The investment in time and money has been worth every penny for this authentic retro experience.",
       "author": "Pixel Perfectionist",
       "image": "https://images.unsplash.com/photo-1587731556938-38755b4803a6?q=80&w=2078&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-08T09:15:00.000Z"
+      "createdAt": "2025-01-08T09:15:00.000Z",
+      "isDeleted": false
     },
     {
       "id": 4,
@@ -42,7 +45,8 @@
       "content": "Before the World Wide Web, before social media, there were Bulletin Board Systems. These dial-up communities were the beating heart of early online culture, accessible only through a modem and terminal software.\n\nI remember the excitement of discovering a new BBS with a vast file library or active message boards. The ritual of waiting for your turn to connect (most BBSs only supported one user at a time), the distinctive sounds of the modem handshake, and the ASCII art that greeted you upon login.\n\nBBSs fostered tight-knit communities where SysOps (system operators) knew their users personally. Door games like Trade Wars 2002 and Legend of the Red Dragon provided endless entertainment. File transfers happened at blazing 2400 baud speeds, and every byte was precious.\n\nToday, a few BBS systems still operate via telnet, keeping this piece of computing history alive for new generations to discover.",
       "author": "Digital Archaeologist",
       "image": "https://plus.unsplash.com/premium_photo-1687119905599-09fe40700389?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-05T16:20:00.000Z"
+      "createdAt": "2025-01-05T16:20:00.000Z",
+      "isDeleted": false
     },
     {
       "id": 5,
@@ -51,7 +55,9 @@
       "content": "When I acquired a non-functional IBM PC Model 5150 from an estate sale, I knew I was in for a challenge. This machine, released in 1981, was the computer that put IBM on the map in personal computing and established the PC standard we still use today.\n\nThe restoration process was both frustrating and rewarding. The power supply had failed (a common issue with these machines), several capacitors had leaked, and the keyboard had numerous dead keys. But piece by piece, I brought this piece of history back to life.\n\nReplacing the tantalum capacitors, cleaning corrosion from the motherboard, and sourcing period-correct expansion cards took months. The final touch was installing PC-DOS 1.1 on a period-appropriate 160KB floppy disk.\n\nSeeing that familiar 'IBM Personal Computer' boot screen and hearing the mechanical keyboard click to life was an emotional moment. This machine represents the dawn of the personal computer revolution - a revolution that changed the world forever.",
       "author": "Hardware Historian",
       "image": "https://images.unsplash.com/photo-1619983081593-e2ba5b543168?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-02T11:30:00.000Z"
+      "createdAt": "2025-01-02T11:30:00.000Z",
+      "isDeleted": false,
+      "deletedAt": "2025-05-27T18:51:48.747Z"
     },
     {
       "id": 6,
@@ -60,7 +66,8 @@
       "content": "When I acquired a non-functional IBM PC Model 5150 from an estate sale, I knew I was in for a challenge. This machine, released in 1981, was the computer that put IBM on the map in personal computing and established the PC standard we still use today.\n\nThe restoration process was both frustrating and rewarding. The power supply had failed (a common issue with these machines), several capacitors had leaked, and the keyboard had numerous dead keys. But piece by piece, I brought this piece of history back to life.\n\nReplacing the tantalum capacitors, cleaning corrosion from the motherboard, and sourcing period-correct expansion cards took months. The final touch was installing PC-DOS 1.1 on a period-appropriate 160KB floppy disk.\n\nSeeing that familiar 'IBM Personal Computer' boot screen and hearing the mechanical keyboard click to life was an emotional moment. This machine represents the dawn of the personal computer revolution - a revolution that changed the world forever. When I acquired a non-functional IBM PC Model 5150 from an estate sale, I knew I was in for a challenge. This machine, released in 1981, was the computer that put IBM on the map in personal computing and established the PC standard we still use today.\n\nThe restoration process was both frustrating and rewarding. The power supply had failed (a common issue with these machines), several capacitors had leaked, and the keyboard had numerous dead keys. But piece by piece, I brought this piece of history back to life.\n\nReplacing the tantalum capacitors, cleaning corrosion from the motherboard, and sourcing period-correct expansion cards took months. The final touch was installing PC-DOS 1.1 on a period-appropriate 160KB floppy disk.\n\nSeeing that familiar 'IBM Personal Computer' boot screen and hearing the mechanical keyboard click to life was an emotional moment. This machine represents the dawn of the personal computer revolution - a revolution that changed the world forever.",
       "author": "Hardware Historian",
       "image": "https://images.unsplash.com/photo-1498145645178-ab2c7cebc433?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-02T11:30:00.000Z"
+      "createdAt": "2025-01-02T11:30:00.000Z",
+      "isDeleted": false
     }
   ]
 }

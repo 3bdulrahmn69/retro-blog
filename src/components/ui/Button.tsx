@@ -1,58 +1,91 @@
-import React, { type ButtonHTMLAttributes } from 'react';
+import React from 'react';
 
-type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'outline' | 'subtle';
-type ButtonSize = 'sm' | 'md' | 'lg';
-
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps {
   children: React.ReactNode;
-  variant?: ButtonVariant;
-  size?: ButtonSize;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+  size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
   className?: string;
-  onClick?: () => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
+  onClick,
+  type = 'button',
+  disabled = false,
   variant = 'primary',
   size = 'md',
-  fullWidth = true,
+  fullWidth = false,
   className = '',
-  onClick,
-  ...props
 }) => {
-  // Base classes for all buttons
-  const baseClasses =
-    'font-bold border-b-4 transform hover:translate-y-0.5 transition-transform cursor-pointer';
+  const baseClasses = `
+    font-mono font-bold uppercase tracking-wider
+    border-2 transition-all duration-200
+    focus:outline-none focus:ring-2 focus:ring-offset-2
+    disabled:opacity-50 disabled:cursor-not-allowed
+    disabled:transform-none disabled:shadow-none
+    cursor-pointer
+  `;
 
-  // Width classes
-  const widthClasses = fullWidth ? 'w-full' : '';
-
-  // Size classes
   const sizeClasses = {
-    sm: 'py-1 px-3 text-sm',
-    md: 'py-2 px-4',
-    lg: 'py-3 px-6 text-lg',
+    sm: 'px-3 py-2 text-xs',
+    md: 'px-4 py-2 text-sm',
+    lg: 'px-6 py-3 text-base',
   };
 
-  // Variant classes
   const variantClasses = {
-    primary:
-      'bg-gradient-to-r from-yellow-400 to-amber-600 hover:from-yellow-500 hover:to-amber-700 text-amber-900 border-amber-700 hover:border-amber-800',
-    secondary:
-      'bg-gradient-to-r from-blue-400 to-cyan-600 hover:from-blue-500 hover:to-cyan-700 text-cyan-900 border-cyan-700 hover:border-cyan-800',
-    danger:
-      'bg-gradient-to-r from-red-400 to-rose-600 hover:from-red-500 hover:to-rose-700 text-rose-900 border-rose-700 hover:border-rose-800',
-    outline:
-      'bg-white hover:bg-amber-50 text-amber-700 border-amber-600 hover:border-amber-700',
-    subtle:
-      'bg-amber-100 hover:bg-amber-200 text-amber-800 border-amber-300 hover:border-amber-400',
+    primary: `
+      bg-yellow-400 border-amber-700 text-amber-900
+      shadow-[4px_4px_0px_0px_rgba(180,83,9)]
+      hover:bg-yellow-300 hover:shadow-[6px_6px_0px_0px_rgba(180,83,9)]
+      active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_0px_rgba(180,83,9)]
+      focus:ring-yellow-500
+    `,
+    secondary: `
+      bg-amber-100 border-amber-600 text-amber-800
+      shadow-[3px_3px_0px_0px_rgba(180,83,9)]
+      hover:bg-amber-200 hover:shadow-[5px_5px_0px_0px_rgba(180,83,9)]
+      active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_0px_rgba(180,83,9)]
+      focus:ring-amber-500
+    `,
+    outline: `
+      bg-white border-amber-600 text-amber-700
+      shadow-[3px_3px_0px_0px_rgba(180,83,9)]
+      hover:bg-amber-50 hover:shadow-[5px_5px_0px_0px_rgba(180,83,9)]
+      active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_0px_rgba(180,83,9)]
+      focus:ring-amber-500
+    `,
+    danger: `
+      bg-red-500 border-red-700 text-white
+      shadow-[3px_3px_0px_0px_rgba(153,27,27)]
+      hover:bg-red-600 hover:shadow-[5px_5px_0px_0px_rgba(153,27,27)]
+      active:translate-x-1 active:translate-y-1 active:shadow-[1px_1px_0px_0px_rgba(153,27,27)]
+      focus:ring-red-500
+    `,
   };
 
-  const classes = `${baseClasses} ${widthClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`;
+  const widthClass = fullWidth ? 'w-full' : '';
+
+  const combinedClasses = `
+    ${baseClasses}
+    ${sizeClasses[size]}
+    ${variantClasses[variant]}
+    ${widthClass}
+    ${className}
+  `
+    .trim()
+    .replace(/\s+/g, ' ');
 
   return (
-    <button className={classes} onClick={onClick} {...props}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={combinedClasses}
+    >
       {children}
     </button>
   );

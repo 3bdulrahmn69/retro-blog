@@ -254,3 +254,26 @@ export const validatePasswordMatch = (
     message: 'Passwords match',
   };
 };
+
+/**
+ * Validates that a value is not empty
+ * @param value - The value to validate
+ * @param fieldName - The name of the field (for error message)
+ * @returns ValidationResult object with isValid boolean and message string
+ */
+export const validateRequired = (
+  value: string,
+  fieldName: string
+): ValidationResult => {
+  if (!value || value.trim().length === 0) {
+    return {
+      isValid: false,
+      message: `${fieldName} is required`,
+    };
+  }
+
+  return {
+    isValid: true,
+    message: '',
+  };
+};
