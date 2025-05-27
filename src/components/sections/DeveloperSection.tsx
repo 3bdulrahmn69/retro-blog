@@ -1,5 +1,6 @@
 import Button from '../ui/Button';
 import Container from '../ui/Container';
+import RetroTerminal from '../ui/RetroTerminal';
 import Section from '../ui/Section';
 
 interface DeveloperSectionProps {
@@ -153,33 +154,20 @@ const DeveloperSection = ({ activeSection }: DeveloperSectionProps) => {
               </div>
 
               <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-80 h-64 border-8 border-amber-800 bg-amber-100 rounded-lg overflow-hidden shadow-lg">
-                    <div className="h-6 bg-amber-800 flex items-center px-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                      <span className="text-xs text-white ml-auto">
-                        developer-workspace
-                      </span>
-                    </div>
-                    <div className="p-4 font-mono text-amber-800 text-sm">
-                      <p className="text-green-600"># Development Stats</p>
-                      <p>{'>'} Projects completed: 25+</p>
-                      <p>{'>'} Lines of code: 50K+</p>
-                      <p>{'>'} Coffee consumed: ∞</p>
-                      <p>{'>'} Retro vibes: Maximum</p>
-                      <p className="mt-4 text-blue-600"># Specializations</p>
-                      <p>{'>'} Frontend Development ✓</p>
-                      <p>{'>'} Backend APIs ✓</p>
-                      <p>{'>'} UI/UX Design ✓</p>
-                      <p>{'>'} Problem Solving ✓</p>
-                      <p className="mt-4 animate-pulse text-green-600">
-                        {'>'} Building innovative solutions_
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <RetroTerminal title="developer-workplace">
+                  <p className="text-green-600"># Development Stats</p>
+                  <p>{'>'} Projects completed: 15+</p>
+                  <p>{'>'} Lines of code: 50K+</p>
+                  <p>{'>'} YouTube consumed: ∞</p>
+                  <p>{'>'} Retro vibes: Maximum</p>
+                  <p className="mt-4 text-blue-600"># Specializations</p>
+                  <p>{'>'} Front-end Development</p>
+                  <p>{'>'} Responsive Design</p>
+                  <p>{'>'} Modern Web Technologies</p>
+                  <p className="mt-4 animate-pulse text-green-600">
+                    {'>'} Building innovative solutions_
+                  </p>
+                </RetroTerminal>
               </div>
             </div>
 

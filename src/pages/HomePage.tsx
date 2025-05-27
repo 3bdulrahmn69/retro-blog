@@ -7,6 +7,7 @@ import Container from '../components/ui/Container';
 import Footer from '../components/ui/Footer';
 import Header from '../components/ui/Header';
 import DeveloperSection from '../components/sections/DeveloperSection';
+import RetroTerminal from '../components/ui/RetroTerminal';
 
 const HomePage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -111,27 +112,15 @@ const HomePage = () => {
                 </div>
               </div>
               <div className="flex justify-center">
-                <div className="relative">
-                  <div className="w-72 h-60 border-8 border-amber-800 bg-amber-100 rounded-lg overflow-hidden shadow-lg">
-                    <div className="h-6 bg-amber-800 flex items-center px-2">
-                      <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
-                      <div className="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
-                      <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
-                      <span className="text-xs text-white ml-auto">
-                        retro-terminal
-                      </span>
-                    </div>
-                    <div className="p-4 font-mono text-amber-800 text-sm">
-                      <p>{'>'} Welcome to Retro Blog</p>
-                      <p>{'>'} The year is 2025</p>
-                      <p>{'>'} But the aesthetic is 1995</p>
-                      <p>{'>'} Loading nostalgia...</p>
-                      <p className="mt-4 animate-pulse">
-                        {'>'} Press Enter key to continue_
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <RetroTerminal title="retro-terminal">
+                  <p>{'>'} Welcome to Retro Blog</p>
+                  <p>{'>'} The year is 2025</p>
+                  <p>{'>'} But the aesthetic is 1995</p>
+                  <p>{'>'} Loading nostalgia...</p>
+                  <p className="mt-4 animate-pulse">
+                    {'>'} Press Enter key to continue_
+                  </p>
+                </RetroTerminal>
               </div>
             </div>
           </div>

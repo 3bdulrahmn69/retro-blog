@@ -1,23 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
-import LoginForm from '../components/auth/LoginForm';
-import RegisterForm from '../components/auth/RegisterForm';
 import AuthToggle from '../components/auth/AuthToggle';
 import AuthWelcome from '../components/auth/AuthWelcome';
-import AuthForm from '../components/auth/AuthForm';
+import Form from '../components/ui/Form';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
 import { userLogin, userRegister } from '../utils/api';
 import { useAuth } from '../context/AuthContext ';
+import {
+  validateName,
+  validateEmail,
+  validatePassword,
+} from '../utils/validation';
 
 const AuthPage = () => {
-  // State to manage login/registration mode
   const [userForm, setUserForm] = useState({
     name: '',
     email: '',
     password: '',
   });
-  const { isAuthenticated, login } = useAuth();
 
-  // Animation state
+  const [validationErrors, setValidationErrors] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { isAuthenticated, login } = useAuth();
   const [animating, setAnimating] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isLogin, setIsLogin] = useState(true);
@@ -28,7 +38,6 @@ const AuthPage = () => {
     const timer = setTimeout(() => {
       setIsInitialLoad(false);
     }, 200);
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -38,6 +47,7 @@ const AuthPage = () => {
     } else {
       setIsLogin(true);
     }
+    setValidationErrors({ name: '', email: '', password: '' });
   }, [mod]);
 
   useEffect(() => {
@@ -54,9 +64,79 @@ const AuthPage = () => {
     }, 300);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const validateForm = (): boolean => {
+    const errors = { name: '', email: '', password: '' };
+    let isValid = true;
+
+    const emailValidation = validateEmail(userForm.email);
+    if (!emailValidation.isValid) {
+      errors.email = emailValidation.message;
+      isValid = false;
+    }
+
+    const passwordValidation = validatePassword(userForm.password);
+    if (!passwordValidation.isValid) {
+      errors.password = passwordValidation.message;
+      isValid = false;
+    }
+
+    if (!isLogin) {
+      const nameValidation = validateName(userForm.name);
+      if (!nameValidation.isValid) {
+        errors.name = nameValidation.message;
+        isValid = false;
+      }
+    }
+
+    setValidationErrors(errors);
+    return isValid;
+  };
+
+  const handleNameChange = (name: string) => {
+    setUserForm({ ...userForm, name });
+    if (name.trim()) {
+      const nameValidation = validateName(name);
+      setValidationErrors((prev) => ({
+        ...prev,
+        name: nameValidation.isValid ? '' : nameValidation.message,
+      }));
+    } else {
+      setValidationErrors((prev) => ({ ...prev, name: '' }));
+    }
+  };
+
+  const handleEmailChange = (email: string) => {
+    setUserForm({ ...userForm, email });
+    if (email.trim()) {
+      const emailValidation = validateEmail(email);
+      setValidationErrors((prev) => ({
+        ...prev,
+        email: emailValidation.isValid ? '' : emailValidation.message,
+      }));
+    } else {
+      setValidationErrors((prev) => ({ ...prev, email: '' }));
+    }
+  };
+
+  const handlePasswordChange = (password: string) => {
+    setUserForm({ ...userForm, password });
+    if (password) {
+      const passwordValidation = validatePassword(password);
+      setValidationErrors((prev) => ({
+        ...prev,
+        password: passwordValidation.isValid ? '' : passwordValidation.message,
+      }));
+    } else {
+      setValidationErrors((prev) => ({ ...prev, password: '' }));
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
 
     if (isLogin) {
       try {
@@ -71,10 +151,19 @@ const AuthPage = () => {
           };
           login(userInfo);
         } else {
-          console.error('Login failed: Invalid credentials');
+          setValidationErrors((prev) => ({
+            ...prev,
+            email: 'Invalid email or password',
+            password: 'Invalid email or password',
+          }));
         }
       } catch (error) {
         console.error('Login failed', error);
+        setValidationErrors((prev) => ({
+          ...prev,
+          email: 'Login failed. Please try again.',
+          password: 'Login failed. Please try again.',
+        }));
       }
     } else {
       try {
@@ -93,12 +182,21 @@ const AuthPage = () => {
           };
           login(userInfo);
         } else {
-          console.error('Registration failed: Invalid data');
+          setValidationErrors((prev) => ({
+            ...prev,
+            email: 'Registration failed. Email might already exist.',
+          }));
         }
       } catch (error) {
         console.error('Registration failed', error);
+        setValidationErrors((prev) => ({
+          ...prev,
+          email: 'Registration failed. Please try again.',
+        }));
       }
     }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -118,10 +216,10 @@ const AuthPage = () => {
         isInitialLoad={isInitialLoad}
       />
 
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4 mt-12">
+      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 md:items-stretch">
         {/* Left Side */}
         <div
-          className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] h-full transition-all duration-300 ${
+          className={`flex transition-all duration-300 ${
             animating ? 'transform scale-95' : 'transform scale-100'
           } ${
             isInitialLoad
@@ -130,7 +228,11 @@ const AuthPage = () => {
           }`}
         >
           {isLogin ? (
-            <AuthForm title="LOGIN">
+            <Form
+              title="WELCOME TO RETRO BLOG"
+              onSubmit={() => {}}
+              className="flex-1 h-full"
+            >
               <AuthWelcome>
                 <h2 className="text-2xl font-bold text-amber-800 mb-4">
                   Welcome Back to Retro Blog!
@@ -144,29 +246,52 @@ const AuthPage = () => {
                   our retro community!
                 </p>
               </AuthWelcome>
-            </AuthForm>
+            </Form>
           ) : (
-            <AuthForm title="REGISTER">
-              <RegisterForm
-                name={userForm.name}
-                setName={(name: string) => setUserForm({ ...userForm, name })}
-                email={userForm.email}
-                setEmail={(email: string) =>
-                  setUserForm({ ...userForm, email })
-                }
-                password={userForm.password}
-                setPassword={(password: string) =>
-                  setUserForm({ ...userForm, password })
-                }
-                onSubmit={handleSubmit}
+            <Form
+              title="REGISTER"
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              className="flex-1 h-full"
+            >
+              <Input
+                label="Full Name"
+                value={userForm.name}
+                onChange={handleNameChange}
+                error={validationErrors.name}
+                placeholder="Enter your full name"
+                required
               />
-            </AuthForm>
+              <Input
+                label="Email Address"
+                type="email"
+                value={userForm.email}
+                onChange={handleEmailChange}
+                error={validationErrors.email}
+                placeholder="Enter your email"
+                required
+              />
+              <Input
+                label="Password"
+                type="password"
+                value={userForm.password}
+                onChange={handlePasswordChange}
+                error={validationErrors.password}
+                placeholder="Enter your password"
+                required
+              />
+              <div className="mt-auto">
+                <Button type="submit" disabled={isSubmitting} fullWidth>
+                  {isSubmitting ? 'REGISTERING...' : 'REGISTER'}
+                </Button>
+              </div>
+            </Form>
           )}
         </div>
 
         {/* Right Side */}
         <div
-          className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] h-full transition-all duration-300 ${
+          className={`flex transition-all duration-300 ${
             animating ? 'transform scale-95' : 'transform scale-100'
           } ${
             isInitialLoad
@@ -176,21 +301,42 @@ const AuthPage = () => {
           style={{ transitionDelay: isInitialLoad ? '100ms' : '0ms' }}
         >
           {isLogin ? (
-            <AuthForm title="LOGIN">
-              <LoginForm
-                email={userForm.email}
-                setEmail={(email: string) =>
-                  setUserForm({ ...userForm, email })
-                }
-                password={userForm.password}
-                setPassword={(password: string) =>
-                  setUserForm({ ...userForm, password })
-                }
-                onSubmit={handleSubmit}
+            <Form
+              title="LOGIN"
+              onSubmit={handleSubmit}
+              isSubmitting={isSubmitting}
+              className="flex-1 h-full"
+            >
+              <Input
+                label="Email Address"
+                type="email"
+                value={userForm.email}
+                onChange={handleEmailChange}
+                error={validationErrors.email}
+                placeholder="Enter your email"
+                required
               />
-            </AuthForm>
+              <Input
+                label="Password"
+                type="password"
+                value={userForm.password}
+                onChange={handlePasswordChange}
+                error={validationErrors.password}
+                placeholder="Enter your password"
+                required
+              />
+              <div className="mt-auto">
+                <Button type="submit" disabled={isSubmitting} fullWidth>
+                  {isSubmitting ? 'LOGGING IN...' : 'LOGIN'}
+                </Button>
+              </div>
+            </Form>
           ) : (
-            <AuthForm title="WELCOME">
+            <Form
+              title="WELCOME TO RETRO BLOG"
+              onSubmit={() => {}}
+              className="flex-1 h-full"
+            >
               <AuthWelcome>
                 <h2 className="text-2xl font-bold text-amber-800 mb-4">
                   Join The Retro Blog!
@@ -204,7 +350,7 @@ const AuthPage = () => {
                   retro dashboard!
                 </p>
               </AuthWelcome>
-            </AuthForm>
+            </Form>
           )}
         </div>
       </div>
