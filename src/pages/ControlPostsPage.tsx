@@ -193,6 +193,7 @@ const ControlPostsPage = () => {
 
     try {
       const postPayload = {
+        id: mod === 'create' ? crypto.randomUUID() : id!,
         ...postData,
         userId: user?.id,
         createdAt: mod === 'create' ? new Date().toISOString() : undefined,
@@ -291,6 +292,7 @@ const ControlPostsPage = () => {
               error={validationErrors.author}
               placeholder="Your name or pseudonym"
               required
+              disabled={true}
             />
 
             {/* Image URL Input with Preview */}

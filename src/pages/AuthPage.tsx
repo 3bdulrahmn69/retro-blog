@@ -52,7 +52,7 @@ const AuthPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/');
+      navigate('/blog');
     }
   }, [isAuthenticated, navigate]);
 

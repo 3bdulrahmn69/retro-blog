@@ -104,10 +104,12 @@ const HomePage = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 pt-4">
                   <Link to="/auth/register" className="flex-1">
-                    <Button>JOIN NOW</Button>
+                    <Button fullWidth>JOIN NOW</Button>
                   </Link>
                   <Link to="/blog" className="flex-1">
-                    <Button variant="secondary">READ BLOG</Button>
+                    <Button fullWidth variant="secondary">
+                      READ BLOG
+                    </Button>
                   </Link>
                 </div>
               </div>

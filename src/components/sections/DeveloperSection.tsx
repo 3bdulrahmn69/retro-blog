@@ -61,7 +61,7 @@ const DeveloperSection = ({ activeSection }: DeveloperSectionProps) => {
                     rel="noopener noreferrer"
                     className="flex-1"
                   >
-                    <Button variant="primary" size="sm">
+                    <Button variant="primary" size="md" fullWidth>
                       <span className="flex items-center justify-center gap-2">
                         <svg
                           className="h-4 w-4"
@@ -87,7 +87,7 @@ const DeveloperSection = ({ activeSection }: DeveloperSectionProps) => {
                     rel="noopener noreferrer"
                     className="flex-1"
                   >
-                    <Button variant="outline" size="sm">
+                    <Button variant="secondary" size="md" fullWidth>
                       <span className="flex items-center justify-center gap-2">
                         <svg
                           className="h-4 w-4"
@@ -113,7 +113,7 @@ const DeveloperSection = ({ activeSection }: DeveloperSectionProps) => {
                     rel="noopener noreferrer"
                     className="flex-1"
                   >
-                    <Button variant="secondary" size="sm">
+                    <Button variant="secondary" size="md" fullWidth>
                       <span className="flex items-center justify-center gap-2">
                         <svg
                           className="h-4 w-4"
@@ -131,7 +131,7 @@ const DeveloperSection = ({ activeSection }: DeveloperSectionProps) => {
                     href="mailto:abdulrahmanmoussa69@gmail.com"
                     className="flex-1"
                   >
-                    <Button variant="subtle" size="sm">
+                    <Button variant="primary" size="md" fullWidth>
                       <span className="flex items-center justify-center gap-2">
                         <svg
                           className="h-4 w-4"

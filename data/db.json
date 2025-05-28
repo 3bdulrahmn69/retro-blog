@@ -1,73 +1,100 @@
 {
   "users": [
     {
-      "email": "test1@g.c",
-      "password": "$2a$10$b8pgTY0aJVAo5losLj1v9.uQMfnLx6NDQ0AdZ9xKWRERwcHA2tukW",
-      "name": "test",
-      "id": 1
+      "email": "email@a.c",
+      "password": "$2a$10$DonmYae.niD8JS8n2objSe6wAnOIOIstq1u/QgkRgukAcVBLBrNtu",
+      "name": "Abdulrahman Moussa",
+      "id": 2
+    },
+    {
+      "email": "e@e.c",
+      "password": "$2a$10$94fWtSf4JgXqejhpMbPs3u6kARleauLBYyLAXv/D0wPePVP8p0bpe",
+      "name": "Anonymous",
+      "id": 3
+    },
+    {
+      "email": "old@g.c",
+      "password": "$2a$10$SLtbhQtsHyN8DoSQNdjsGesBOgBl1fD4eUbBH0NyS04zB5wN53HIq",
+      "name": "The Old Man",
+      "id": 4
+    },
+    {
+      "email": "ghost@g.c",
+      "password": "$2a$10$EaXbbM5sdWyqp2C6RzII5OmLCCdgxPADe8v5da45UCrMOqezZk/zK",
+      "name": "Ghost Writer",
+      "id": 5
     }
   ],
   "posts": [
     {
-      "id": 1,
-      "userId": 1,
-      "title": "The Golden Age of 486 Processors",
-      "content": "Remember when upgrading from a 386 to a 486 felt like entering the future? The Intel 486 processor, released in 1989, was a game-changer for personal computing. With built-in math coprocessor and cache memory, it brought desktop publishing and early multimedia to the masses.\n\nI still remember the first time I ran Windows 3.1 on a 486DX2/66 - the speed was incredible! Games like Doom and Wolfenstein 3D finally ran smoothly, and multitasking became a reality rather than a dream. Those were the days when 4MB of RAM was considered luxurious and a 120MB hard drive could store everything you'd ever need.\n\nThe 486 also introduced features we take for granted today: pipelining, burst mode memory access, and power management. It's fascinating how this 25+ year old technology laid the foundation for modern computing.",
-      "author": "RetroTech Enthusiast",
-      "image": "https://plus.unsplash.com/premium_photo-1687864550351-6351804c91b7?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-15T10:30:00.000Z",
-      "isDeleted": false
-    },
-    {
-      "id": 2,
-      "userId": 1,
-      "title": "Why CRT Monitors Still Matter in 2025",
-      "content": "In an age of 4K OLED displays and ultra-wide monitors, why do some of us still swear by our old CRT monitors? The answer lies in the unique characteristics that modern displays struggle to replicate.\n\nThe instant response time (literally zero input lag), perfect blacks, and that distinctive warm glow create an experience that LCD and OLED simply can't match. For retro gaming, CRTs are essential - light guns won't work on modern displays, and the pixel art of classic games was designed with CRT scanlines in mind.\n\nPlus, there's something magical about the ritual of degaussing your monitor and hearing that satisfying *THUNK* sound. The geometric distortions, the slight curve of the screen, even the electromagnetic hum - these 'imperfections' are what make CRTs irreplaceable for authentic retro computing.",
-      "author": "CRT Collector",
-      "image": "https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-12T14:45:00.000Z",
-      "isDeleted": false
-    },
-    {
-      "id": 3,
-      "userId": 1,
-      "title": "Building My Dream Retro Gaming Setup",
-      "content": "After months of hunting through garage sales, eBay, and retro computing forums, I've finally assembled my ultimate retro gaming station. The centerpiece is a pristine Commodore Amiga 1200 paired with a period-correct 1084S monitor.\n\nAlongside it sits a fully restored Apple IIe with a Mockingboard sound card and a collection of original software on 5.25\" floppies. The crown jewel is my mint-condition Nintendo Entertainment System with a CRT TV from 1985.\n\nEvery component has been lovingly restored to working condition. New capacitors in the power supplies, cleaned and lubricated disk drives, and even period-correct cables. Playing classics like The Secret of Monkey Island or Super Mario Bros. 3 in their original glory is pure magic. The investment in time and money has been worth every penny for this authentic retro experience.",
-      "author": "Pixel Perfectionist",
-      "image": "https://images.unsplash.com/photo-1587731556938-38755b4803a6?q=80&w=2078&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-08T09:15:00.000Z",
-      "isDeleted": false
-    },
-    {
-      "id": 4,
-      "userId": 1,
-      "title": "The Lost Art of Bulletin Board Systems (BBS)",
-      "content": "Before the World Wide Web, before social media, there were Bulletin Board Systems. These dial-up communities were the beating heart of early online culture, accessible only through a modem and terminal software.\n\nI remember the excitement of discovering a new BBS with a vast file library or active message boards. The ritual of waiting for your turn to connect (most BBSs only supported one user at a time), the distinctive sounds of the modem handshake, and the ASCII art that greeted you upon login.\n\nBBSs fostered tight-knit communities where SysOps (system operators) knew their users personally. Door games like Trade Wars 2002 and Legend of the Red Dragon provided endless entertainment. File transfers happened at blazing 2400 baud speeds, and every byte was precious.\n\nToday, a few BBS systems still operate via telnet, keeping this piece of computing history alive for new generations to discover.",
-      "author": "Digital Archaeologist",
-      "image": "https://plus.unsplash.com/premium_photo-1687119905599-09fe40700389?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-05T16:20:00.000Z",
-      "isDeleted": false
-    },
-    {
-      "id": 5,
-      "userId": 1,
-      "title": "Restoring a 1981 IBM PC: A Journey Back in Time",
-      "content": "When I acquired a non-functional IBM PC Model 5150 from an estate sale, I knew I was in for a challenge. This machine, released in 1981, was the computer that put IBM on the map in personal computing and established the PC standard we still use today.\n\nThe restoration process was both frustrating and rewarding. The power supply had failed (a common issue with these machines), several capacitors had leaked, and the keyboard had numerous dead keys. But piece by piece, I brought this piece of history back to life.\n\nReplacing the tantalum capacitors, cleaning corrosion from the motherboard, and sourcing period-correct expansion cards took months. The final touch was installing PC-DOS 1.1 on a period-appropriate 160KB floppy disk.\n\nSeeing that familiar 'IBM Personal Computer' boot screen and hearing the mechanical keyboard click to life was an emotional moment. This machine represents the dawn of the personal computer revolution - a revolution that changed the world forever.",
-      "author": "Hardware Historian",
-      "image": "https://images.unsplash.com/photo-1619983081593-e2ba5b543168?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-02T11:30:00.000Z",
-      "isDeleted": false,
-      "deletedAt": "2025-05-27T18:51:48.747Z"
-    },
-    {
-      "id": 6,
+      "id": "205a6293-6324-4ee4-9e32-6c93fa2f3d03",
+      "title": "The Glorious Return of the Floppy Disk: More Than Just a Save Icon",
+      "content": "In the age of cloud storage and terabyte drives that fit in your pocket, the floppy disk might seem like an ancient relic—something you'd find in a dusty drawer or as a quirky icon in your favorite software. But the floppy disk was once a cornerstone of personal computing, and its legacy is far more fascinating than just being the \"save\" button.\n\nIntroduced in the 1970s and popularized through the 80s and 90s, floppy disks were the original portable storage solution. At 1.44 MB (for the 3.5-inch version), they seem laughably small by today’s standards—but back then, that was enough to hold entire programs, dozens of documents, or even a basic video game.\n\nWhat made floppies magical wasn’t just their portability—it was the sound they made when you inserted them, the satisfying click of the drive, and the ritual of labeling them with a Sharpie. They represented the early hacker spirit, a time when people traded disks like Pokémon cards, sharing software, games, and secrets in byte-sized packages.\n\nToday, floppies have found new life as retro collectibles. Some artists and hobbyists even use them for digital art canvases or install Linux distros on them just for fun. And believe it or not, some industrial systems—including parts of the U.S. government until recently—still relied on floppy disks because of their reliability and air-gapped security.\n\nThe floppy disk is more than nostalgia—it's a symbol of a simpler, more tactile era of computing. So next time you click that save icon, remember: you’re paying homage to one of the unsung heroes of the digital revolution.\n\nStay retro.",
+      "image": "https://images.unsplash.com/photo-1652195019227-4f3d3f599959?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "Abdulrahman Moussa",
       "userId": 2,
-      "title": "Cd-ROMs: The Unsung Heroes of the 90s",
-      "content": "When I acquired a non-functional IBM PC Model 5150 from an estate sale, I knew I was in for a challenge. This machine, released in 1981, was the computer that put IBM on the map in personal computing and established the PC standard we still use today.\n\nThe restoration process was both frustrating and rewarding. The power supply had failed (a common issue with these machines), several capacitors had leaked, and the keyboard had numerous dead keys. But piece by piece, I brought this piece of history back to life.\n\nReplacing the tantalum capacitors, cleaning corrosion from the motherboard, and sourcing period-correct expansion cards took months. The final touch was installing PC-DOS 1.1 on a period-appropriate 160KB floppy disk.\n\nSeeing that familiar 'IBM Personal Computer' boot screen and hearing the mechanical keyboard click to life was an emotional moment. This machine represents the dawn of the personal computer revolution - a revolution that changed the world forever. When I acquired a non-functional IBM PC Model 5150 from an estate sale, I knew I was in for a challenge. This machine, released in 1981, was the computer that put IBM on the map in personal computing and established the PC standard we still use today.\n\nThe restoration process was both frustrating and rewarding. The power supply had failed (a common issue with these machines), several capacitors had leaked, and the keyboard had numerous dead keys. But piece by piece, I brought this piece of history back to life.\n\nReplacing the tantalum capacitors, cleaning corrosion from the motherboard, and sourcing period-correct expansion cards took months. The final touch was installing PC-DOS 1.1 on a period-appropriate 160KB floppy disk.\n\nSeeing that familiar 'IBM Personal Computer' boot screen and hearing the mechanical keyboard click to life was an emotional moment. This machine represents the dawn of the personal computer revolution - a revolution that changed the world forever.",
-      "author": "Hardware Historian",
-      "image": "https://images.unsplash.com/photo-1498145645178-ab2c7cebc433?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "createdAt": "2025-01-02T11:30:00.000Z",
+      "createdAt": "2025-05-28T10:16:02.325Z",
       "isDeleted": false
+    },
+    {
+      "id": "31ec6d8a-b24a-4c21-a186-e9332a20909e",
+      "title": "Cassette Tapes: The Analog Heartbeat of the '80s",
+      "content": "Before Spotify playlists and MP3 downloads, there was the mixtape—a handcrafted collection of songs recorded onto a humble cassette tape. Born in the 1960s and booming through the '70s and '80s, cassette tapes were more than a music format. They were a cultural statement, a love letter, a rebellion, and sometimes a secret message between friends.\n\nThere was an art to it: waiting by the radio to hit record when your favorite song came on, carefully timing Side A and Side B to maximize the 60 or 90 minutes, and crafting cover art with doodles and tracklists in loopy handwriting. Mixtapes weren't just music—they were memories encoded in magnetic tape.\n\nThe technology was simple but brilliant. A plastic shell, two reels, and a ribbon of magnetic tape capable of capturing voices, songs, and stories. Cassette players were everywhere—in cars, bedrooms, and walkmans clipped to denim jackets. They gave rise to the “personal soundtrack,” where music moved with you, not just around you.\n\nDespite their decline in the digital age, cassette tapes are seeing a resurgence among collectors, indie bands, and nostalgia seekers. Their analog imperfections—hiss, wow, and flutter—are now considered part of their charm. New releases are even dropping on cassette, and old decks are being dusted off with pride.\n\nCassette tapes remind us that music isn’t just something we consume—it's something we feel. And sometimes, the best way to feel it is with a little rewind and a satisfying click.\n\nLong live the mixtape.",
+      "image": "https://images.unsplash.com/photo-1524779709304-40b5a3560c60?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "Abdulrahman Moussa",
+      "userId": 2,
+      "createdAt": "2025-05-28T10:19:21.028Z",
+      "isDeleted": false
+    },
+    {
+      "id": "5a1c7b58-ebd4-4ec3-9955-522d89bae866",
+      "title": "Pixel Art: When Limitations Sparked a Creative Revolution",
+      "content": "Before hyper-realistic graphics and ray tracing, game developers had to work with tight restrictions—tiny screens, minimal colors, and limited memory. The result? Pixel art. What began as a necessity in the early days of gaming evolved into a beloved and enduring art form that continues to captivate artists and players alike.\n\nIn the 8-bit and 16-bit eras, pixel art wasn’t just a style—it was the language of gaming. Characters like Mario, Mega Man, and Link were born from grids of tiny squares, each pixel carefully placed to suggest life, motion, and emotion. Developers had to convey entire worlds using just a few colors and a lot of imagination. And it worked.\n\nThere’s something timeless about pixel art. It speaks to a generation that grew up blowing into NES cartridges and watching sprites dance across CRT screens. But it also resonates with younger audiences who appreciate the charm, nostalgia, and aesthetic precision of pixel-based design. Today, indie games like Stardew Valley, Celeste, and Undertale show that pixel art is far from dead—it’s thriving.\n\nWhat’s more amazing is how pixel art has extended beyond gaming. You’ll find it in fashion, animations, NFTs, and even street art. Artists continue to push the boundaries, not in resolution, but in storytelling and emotion within each tiny square.\n\nPixel art reminds us that creativity isn’t about having no limits—it’s about doing something magical within them.\n\nSometimes, less really is more.",
+      "image": "https://images.unsplash.com/photo-1628011636812-eb8acf17e7b0?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "Anonymous",
+      "userId": 3,
+      "createdAt": "2025-05-28T10:21:52.431Z",
+      "isDeleted": false
+    },
+    {
+      "id": "93f9c63e-83c8-4180-a945-8ba4bd752d5f",
+      "title": "The Rotary Phone: When Dialing Meant Something",
+      "content": "In today’s world of instant messaging and voice assistants, the rotary phone feels like a relic from another planet. But once upon a time, it was the centerpiece of the home—a solid, mechanical marvel that turned making a phone call into a small ritual.\n\nInvented in the early 20th century and reaching peak popularity in the mid-1900s, rotary phones worked by sending electrical pulses as you spun the dial. Each number had its own rhythm, and frequent callers could recognize a number just by the sound it made. No touchscreens, no contacts list—just a satisfying click-click-click with every digit.\n\nThese phones were built to last. They had real weight, a thick cord you could twirl around your finger, and a bell that rang like it meant something. And because you had to physically dial each number, making a call felt more intentional. You remembered phone numbers. You spoke more thoughtfully. You couldn't text someone \"k.\"\n\nAnd here's the kicker—rotary phones still work. If you plug one into a landline, chances are it’ll ring loud and clear, ready to connect you the old-school way. Some people are even modifying them with Bluetooth or USB connectors, blending vintage charm with modern tech.\n\nThe rotary phone is more than a communication device—it’s a symbol of a slower, more deliberate time. A time when patience was part of the process and hearing someone’s voice meant spinning a circle and waiting for magic to happen.\n\nSo go ahead—give it a spin.",
+      "image": "https://plus.unsplash.com/premium_photo-1701760279195-89257eecdda7?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "The Old Man",
+      "userId": 4,
+      "createdAt": "2025-05-28T10:24:05.228Z",
+      "isDeleted": false
+    },
+    {
+      "id": "6068fc13-16d1-4f62-b30e-95be765601c7",
+      "title": "Arcade Games: The Electric Heartbeat of the '80s",
+      "content": "Step into a dark room lit only by neon lights and glowing screens, where the air hums with digital bleeps and the clatter of buttons. Welcome to the golden age of arcade games—a time when entertainment meant standing shoulder to shoulder with strangers, quarters in hand, chasing high scores and pixelated glory.\n\nIn the late '70s through the '80s, arcades were more than just places to play—they were social hubs, battlegrounds, and shrines to cutting-edge technology. Games like Pac-Man, Donkey Kong, Galaga, and Street Fighter II didn’t just entertain—they defined an era. With bright graphics, pulsing soundtracks, and punishing difficulty, arcade machines challenged players to master patterns, perfect timing, and lightning reflexes.\n\nThere was nothing quite like the thrill of seeing your initials on the high score list, or the adrenaline rush of a crowd forming behind you during a tense match. Each cabinet was a doorway into a different world, and every quarter was a ticket to escape.\n\nEven today, arcades are alive—not just in retro bars and nostalgic collections, but in the DNA of modern gaming. Indie developers pay homage to arcade aesthetics, esports echo the competitive spirit, and titles like Cuphead and Geometry Wars revive the old-school challenge in new-school forms.\n\nArcade games remind us of a time when graphics weren’t everything, but fun was everything. When “just one more game” meant a pocketful of coins and a night to remember.\n\nInsert coin to continue.",
+      "image": "https://images.unsplash.com/photo-1598894159088-42210e20d2d6?q=80&w=1947&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "The Old Man",
+      "userId": 4,
+      "createdAt": "2025-05-28T10:25:18.044Z",
+      "isDeleted": false
+    },
+    {
+      "id": "c1acc044-4ad0-4fa8-a3e3-f36c47c6dc99",
+      "title": "Polybius: The Creepy Legend of the Arcade Game That Never Was",
+      "content": "In the shadowy corners of retro gaming history lies one of the creepiest urban legends to ever haunt the arcade scene: Polybius. According to the myth, it was a mysterious game that appeared in a few arcades in Portland, Oregon, in the early 1980s. Players who dared to try it reported strange effects—nightmares, memory loss, seizures, and even paranoia.\n\nThe cabinet was said to be sleek and all black, with no flashy artwork—just the name Polybius in glowing green letters. The gameplay? Descriptions vary, but it was supposedly a fast-paced puzzle-shooter hybrid with swirling visuals and subliminal messages woven into the screen. Some say it was mesmerizing—others claim it was mind-breaking.\n\nThen, just as suddenly as it appeared, Polybius vanished. Arcade owners claimed the machines were removed overnight by men in black suits. Players who had tried the game couldn’t remember much, and no physical unit was ever confirmed to exist.\n\nWas it a government experiment in psychological manipulation? A CIA mind-control project? Or just a hoax born from the collective imagination of early internet forums?\n\nNo one knows for sure. But the legend refuses to die. Over the years, fake cabinets, tribute games, and creepy recreations have surfaced—feeding the myth and keeping the story alive in the minds of gamers and conspiracy theorists alike.\n\nWhether real or imagined, Polybius is the perfect ghost story for arcade lovers. A digital phantom that blurs the line between entertainment and something much darker.\n\nPlay… if you dare.",
+      "image": "https://upload.wikimedia.org/wikipedia/en/8/8c/Polybius_2017_cover_art.jpg?20171230133013",
+      "author": "Ghost Writer",
+      "userId": 5,
+      "isDeleted": false,
+      "editedAt": "2025-05-28T10:37:48.899Z"
+    },
+    {
+      "id": "3565541f-345a-40ea-b931-8a133824453d",
+      "title": "The Max Headroom Incident: A Broadcast Hijack Straight Out of a Nightmare",
+      "content": "On the night of November 22, 1987, Chicago television viewers witnessed one of the most bizarre and unsettling moments in broadcast history. During a regular evening newscast on WGN, the signal was suddenly hijacked. The screen cut to static, then to a man wearing a rubber Max Headroom mask—a parody of the popular 1980s AI TV character. What followed was a cryptic, creepy display that left viewers—and authorities—shocked.\n\nThere was no explanation, no motive. Just a distorted figure rocking back and forth in front of a spinning metal background, speaking in garbled nonsense and cryptic phrases like “They're coming to get me!” and “My brother is wearing the other glove.” His voice was distorted, and his movements jerky and erratic. It was surreal, unnerving, and completely unexpected.\n\nMinutes later, the signal returned to normal. But just a couple hours later, it happened again—this time during an episode of Doctor Who on PBS. The hijacker returned, this time holding objects, quoting old commercials, and ending the transmission with a chilling scene: someone spanking the masked figure with a flyswatter while he screamed and laughed.\n\nDespite an investigation by the FCC and FBI, the perpetrators were never caught. The technology needed to override a broadcast in the 1980s wasn’t easily accessible, suggesting the work of someone with serious technical know-how—and a twisted imagination.\n\nTo this day, the Max Headroom incident remains one of the most mysterious and disturbing unsolved media crimes in history. It’s a glitch in the polished veneer of 1980s TV—a reminder that even in an age of innocence and analog charm, the weird and the eerie could break through the static.\n\nAnd just like that... he was gone.",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTv_OJ7fLxJMVjkPYA7CEErhnIMj5nP2lwwaF7LTylqojA7CbNuNdxkr-mbTX-XGjb68qw&usqp=CAU",
+      "author": "Ghost Writer",
+      "userId": 5,
+      "isDeleted": false,
+      "editedAt": "2025-05-28T10:36:18.594Z"
     }
   ]
 }

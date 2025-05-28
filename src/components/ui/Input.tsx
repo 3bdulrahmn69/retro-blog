@@ -30,6 +30,7 @@ const Input: React.FC<InputProps> = ({
   onSubmit,
   submitButtonText = 'SUBMIT',
   icon,
+  ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordField = type === 'password';
@@ -63,6 +64,7 @@ const Input: React.FC<InputProps> = ({
             ? 'border-red-600 focus:border-red-600 focus:ring-red-500'
             : 'border-amber-700'
         } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+        {...props}
       />
 
       {/* Password toggle button */}
@@ -115,6 +117,7 @@ const Input: React.FC<InputProps> = ({
             placeholder={placeholder}
             disabled={disabled}
             className="flex-1 px-4 py-2 bg-transparent text-amber-800 placeholder-amber-600 focus:outline-none font-mono text-sm"
+            {...props}
           />
           {onSubmit && (
             <button

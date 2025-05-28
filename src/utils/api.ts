@@ -39,11 +39,20 @@ export const userLogin = async (email: string, password: string) => {
 };
 
 // Add blog posts API functions
+// Define a Post type
+type Post = {
+  id: string;
+  title: string;
+  content: string;
+  author: string;
+  isDeleted?: boolean;
+};
+
 export const getAllPosts = async () => {
   try {
     const response = await axios.get('http://localhost:3000/posts');
     // Filter out deleted posts
-    const posts = response.data.filter((post: any) => !post.isDeleted);
+    const posts = response.data.filter((post: Post) => !post.isDeleted);
     return posts;
   } catch (e) {
     console.error('Error fetching posts:', e);
@@ -66,7 +75,7 @@ export const getPostById = async (id: string) => {
   }
 };
 
-export const createPost = async (postData: any, token: string) => {
+export const createPost = async (postData: Post, token: string) => {
   try {
     // Add isDeleted: false to new posts
     const postWithDeleteFlag = {
@@ -90,12 +99,13 @@ export const createPost = async (postData: any, token: string) => {
   }
 };
 
-export const updatePost = async (id: string, postData: any, token: string) => {
+export const updatePost = async (id: string, postData: Post, token: string) => {
   try {
     // Ensure isDeleted flag is preserved/set correctly
     const postWithDeleteFlag = {
       ...postData,
       isDeleted: postData.isDeleted || false,
+      editedAt: new Date().toISOString(), // add an editedAt timestamp
     };
 
     const response = await axios.put(
@@ -128,7 +138,7 @@ export const deletePost = async (id: string, token: string) => {
     const deletedPost = {
       ...currentPost.data,
       isDeleted: true,
-      deletedAt: new Date().toISOString(), // Optional: track when it was deleted
+      deletedAt: new Date().toISOString(), // add a deletedAt timestamp
     };
 
     const response = await axios.put(
@@ -143,37 +153,6 @@ export const deletePost = async (id: string, token: string) => {
     return response.data;
   } catch (e) {
     console.error('Error deleting post:', e);
-    return null;
-  }
-};
-
-// Optional: Function to restore deleted posts
-export const restorePost = async (id: string, token: string) => {
-  try {
-    const currentPost = await axios.get(`http://localhost:3000/posts/${id}`);
-
-    if (!currentPost.data) {
-      return null;
-    }
-
-    const restoredPost = {
-      ...currentPost.data,
-      isDeleted: false,
-      deletedAt: null,
-    };
-
-    const response = await axios.put(
-      `http://localhost:3000/posts/${id}`,
-      restoredPost,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return response.data;
-  } catch (e) {
-    console.error('Error restoring post:', e);
     return null;
   }
 };
