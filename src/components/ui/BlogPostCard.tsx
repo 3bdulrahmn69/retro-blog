@@ -1,38 +1,48 @@
-import { useState } from 'react';
-import { useAuth } from '../../context/AuthContext ';
-import { deletePost } from '../../utils/api';
+import { useState, useEffect } from 'react';
+import useAuth from '../../hooks/useAuth';
+import { deletePost, getAllPosts, getCommentsByPostId } from '../../utils/api';
 import Button from './Button';
 import Dialog from './Dialog';
 import { Link } from 'react-router';
-
-interface Post {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  image?: string;
-  userId: number;
-  createdAt: string;
-  editedAt?: string;
-  isDeleted?: boolean;
-}
-
+import type { Post } from '../../types/types';
 interface BlogPostCardProps {
   post: Post;
   index?: number;
   isLoaded?: boolean;
+  setPosts?: (posts: Post[]) => void;
 }
 
 const BlogPostCard = ({
   post,
   index = 0,
   isLoaded = true,
+  setPosts,
 }: BlogPostCardProps) => {
   const [imageError, setImageError] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [showContentDialog, setShowContentDialog] = useState(false);
+  const [scrollToComments, setScrollToComments] = useState(false);
+  const [commentsCount, setCommentsCount] = useState(0);
+  const [commentsLoading, setCommentsLoading] = useState(true);
   const { isAuthenticated, user } = useAuth();
+
+  // Load comments count when component mounts
+  useEffect(() => {
+    const loadCommentsCount = async () => {
+      try {
+        const comments = await getCommentsByPostId(post.id.toString());
+        setCommentsCount(comments ? comments.length : 0);
+      } catch (error) {
+        console.error('Error loading comments count:', error);
+        setCommentsCount(0);
+      } finally {
+        setCommentsLoading(false);
+      }
+    };
+
+    loadCommentsCount();
+  }, [post.id]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -79,10 +89,10 @@ const BlogPostCard = ({
     try {
       const result = await deletePost(post.id.toString(), user?.token || '');
       if (result) {
-        // Optionally refresh the page or remove the post from the UI
-        window.location.reload();
-      } else {
-        alert('Failed to delete post. Please try again.');
+        const fetchedPosts: Post[] = await getAllPosts();
+        if (setPosts) {
+          setPosts(fetchedPosts);
+        }
       }
     } catch (error) {
       console.error('Error deleting post:', error);
@@ -98,11 +108,28 @@ const BlogPostCard = ({
   };
 
   const handleReadMore = () => {
+    setScrollToComments(false);
+    setShowContentDialog(true);
+  };
+
+  const handleCommentsClick = () => {
+    setScrollToComments(true);
     setShowContentDialog(true);
   };
 
   const handleCloseContentDialog = () => {
     setShowContentDialog(false);
+    setScrollToComments(false);
+    // Reload comments count when dialog closes (in case new comments were added)
+    const loadCommentsCount = async () => {
+      try {
+        const comments = await getCommentsByPostId(post.id.toString());
+        setCommentsCount(comments ? comments.length : 0);
+      } catch (error) {
+        console.error('Error reloading comments count:', error);
+      }
+    };
+    loadCommentsCount();
   };
 
   const shouldShowReadMore = post.content && post.content.length > 150;
@@ -271,15 +298,28 @@ const BlogPostCard = ({
                 )}
               </div>
 
-              {/* Reading Time Estimate */}
-              {post.content && (
-                <div className="mt-4 pt-3 border-t border-amber-100">
-                  <span className="text-xs text-amber-500 font-mono">
-                    📖 {Math.ceil(post.content.split(' ').length / 200)} min
-                    read
+              {/* Post Stats */}
+              <div className="mt-4 pt-3 border-t border-amber-100 flex flex-wrap items-center gap-4 text-xs text-amber-500 font-mono">
+                <span>
+                  📖 {Math.ceil(post.content.split(' ').length / 200)} min read
+                </span>
+                <button
+                  onClick={handleCommentsClick}
+                  className="group/comments hover:text-amber-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-1 rounded px-1 py-0.5 hover:bg-amber-50"
+                  title="View comments"
+                  aria-label={`View ${commentsCount} comment${
+                    commentsCount !== 1 ? 's' : ''
+                  } for ${post.title}`}
+                >
+                  <span className="group-hover/comments:scale-110 transition-transform inline-block">
+                    💬
+                  </span>{' '}
+                  <span className="group-hover/comments:underline">
+                    {commentsLoading ? '...' : commentsCount} comment
+                    {commentsCount !== 1 ? 's' : ''}
                   </span>
-                </div>
-              )}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -292,6 +332,7 @@ const BlogPostCard = ({
         onClose={handleCloseContentDialog}
         title={post.title}
         post={post}
+        scrollToComments={scrollToComments}
       />
 
       {/* Delete Confirmation Dialog */}

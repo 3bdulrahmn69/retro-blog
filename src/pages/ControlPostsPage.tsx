@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link, useLocation } from 'react-router';
-import { useAuth } from '../context/AuthContext ';
+import useAuth from '../hooks/useAuth';
 import { getPostById, createPost, updatePost } from '../utils/api';
 import Form from '../components/ui/Form';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { validateRequired } from '../utils/validation';
+import type { Post } from '../types/types';
 
 interface PostData {
   title: string;
@@ -193,10 +194,13 @@ const ControlPostsPage = () => {
 
     try {
       const postPayload = {
-        id: mod === 'create' ? crypto.randomUUID() : id!,
+        id: mod === 'create' ? Date.now() : Number(id),
         ...postData,
-        userId: user?.id,
-        createdAt: mod === 'create' ? new Date().toISOString() : undefined,
+        userId: Number(user?.id),
+        createdAt:
+          mod === 'create'
+            ? new Date().toISOString()
+            : (postData as Post).createdAt || new Date().toISOString(),
       };
 
       let result;

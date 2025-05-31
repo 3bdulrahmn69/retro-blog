@@ -6,7 +6,7 @@ import Form from '../components/ui/Form';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { userLogin, userRegister } from '../utils/api';
-import { useAuth } from '../context/AuthContext ';
+import useAuth from '../hooks/useAuth';
 import {
   validateName,
   validateEmail,

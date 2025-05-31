@@ -119,47 +119,29 @@ body {
   text-shadow: none;
 }
 
-/* Retro button press effect animation */
-@keyframes retro-press {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(1px, 1px);
-  }
-}
+/* Theme Extends */
+@theme {
+  --animate-retro-flicker: retro-flicker 0.2s ease-in-out infinite;
+  --animate-retro-glow: retro-glow 2s ease-in-out infinite;
 
-.retro-press {
-  animation: retro-press 0.1s ease-in-out;
-}
-
-/* Retro glow effect for interactive elements */
-@keyframes retro-glow {
-  0%,
-  100% {
-    box-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+  @keyframes retro-flicker {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.95;
+    }
   }
-  50% {
-    box-shadow: 0 0 20px rgba(251, 191, 36, 0.8),
-      0 0 30px rgba(251, 191, 36, 0.6);
-  }
-}
 
-.retro-glow {
-  animation: retro-glow 2s ease-in-out infinite;
-}
-
-/* Retro screen flicker effect */
-@keyframes retro-flicker {
-  0%,
-  100% {
-    opacity: 1;
+  @keyframes retro-glow {
+    0%,
+    100% {
+      box-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(251, 191, 36, 0.8),
+        0 0 30px rgba(251, 191, 36, 0.6);
+    }
   }
-  50% {
-    opacity: 0.95;
-  }
-}
-
-.retro-flicker {
-  animation: retro-flicker 0.15s ease-in-out infinite;
 }

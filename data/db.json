@@ -23,6 +23,30 @@
       "password": "$2a$10$EaXbbM5sdWyqp2C6RzII5OmLCCdgxPADe8v5da45UCrMOqezZk/zK",
       "name": "Ghost Writer",
       "id": 5
+    },
+    {
+      "email": "l@e.c",
+      "password": "$2a$10$BUo4ey/U3EOCXbghzgIAye/D46HhOvDLKcSrUiGpwEeQAnmfv1jZC",
+      "name": "L L",
+      "id": 6
+    },
+    {
+      "email": "ihatesara@g.c",
+      "password": "$2a$10$iPy4EaFsEAJUQLbDcyz3FOBd4oBzlLQviDvqWHjeUDoRziyr3Xt0y",
+      "name": "I Hate Sara",
+      "id": 7
+    },
+    {
+      "email": "kissmyasssouzan@hate.fuck",
+      "password": "$2a$10$sTQMLwJSZLICJ1pXjR7L4ugDTnVbSVlcequuBe7gfKVGiDSWmvLK6",
+      "name": "Fuck You Souzan",
+      "id": 8
+    },
+    {
+      "email": "test@g.c",
+      "password": "$2a$10$FJE22gp8lGouVlb/dvoEGeJM9Bkj65qIftZxGfKYeZRZrIIlXvnd2",
+      "name": "test",
+      "id": 9
     }
   ],
   "posts": [
@@ -34,7 +58,16 @@
       "author": "Abdulrahman Moussa",
       "userId": 2,
       "createdAt": "2025-05-28T10:16:02.325Z",
-      "isDeleted": false
+      "isDeleted": false,
+      "comments": [
+        {
+          "id": "1748433965243",
+          "content": "somthing test",
+          "userId": "2",
+          "userName": "Abdulrahman Moussa",
+          "createdAt": "2025-05-28T12:06:05.243Z"
+        }
+      ]
     },
     {
       "id": "31ec6d8a-b24a-4c21-a186-e9332a20909e",
@@ -44,7 +77,8 @@
       "author": "Abdulrahman Moussa",
       "userId": 2,
       "createdAt": "2025-05-28T10:19:21.028Z",
-      "isDeleted": false
+      "isDeleted": false,
+      "comments": []
     },
     {
       "id": "5a1c7b58-ebd4-4ec3-9955-522d89bae866",
@@ -54,7 +88,8 @@
       "author": "Anonymous",
       "userId": 3,
       "createdAt": "2025-05-28T10:21:52.431Z",
-      "isDeleted": false
+      "isDeleted": false,
+      "comments": []
     },
     {
       "id": "93f9c63e-83c8-4180-a945-8ba4bd752d5f",
@@ -64,7 +99,8 @@
       "author": "The Old Man",
       "userId": 4,
       "createdAt": "2025-05-28T10:24:05.228Z",
-      "isDeleted": false
+      "isDeleted": false,
+      "comments": []
     },
     {
       "id": "6068fc13-16d1-4f62-b30e-95be765601c7",
@@ -74,7 +110,8 @@
       "author": "The Old Man",
       "userId": 4,
       "createdAt": "2025-05-28T10:25:18.044Z",
-      "isDeleted": false
+      "isDeleted": false,
+      "comments": []
     },
     {
       "id": "c1acc044-4ad0-4fa8-a3e3-f36c47c6dc99",
@@ -84,7 +121,8 @@
       "author": "Ghost Writer",
       "userId": 5,
       "isDeleted": false,
-      "editedAt": "2025-05-28T10:37:48.899Z"
+      "editedAt": "2025-05-28T10:37:48.899Z",
+      "comments": []
     },
     {
       "id": "3565541f-345a-40ea-b931-8a133824453d",
@@ -94,7 +132,124 @@
       "author": "Ghost Writer",
       "userId": 5,
       "isDeleted": false,
-      "editedAt": "2025-05-28T10:36:18.594Z"
+      "editedAt": "2025-05-28T10:36:18.594Z",
+      "comments": [
+        {
+          "id": "1748434019621",
+          "content": "i hate the matrix",
+          "userId": "2",
+          "userName": "Abdulrahman Moussa",
+          "createdAt": "2025-05-28T12:06:59.621Z"
+        }
+      ]
+    },
+    {
+      "id": 1748439284342,
+      "title": "TV Static at Midnight: The Eerie Silence of the Dead Air Era",
+      "content": "Before 24/7 programming and streaming took over, television in the '80s and early '90s had an end. Literally. At a certain hour—usually around midnight or shortly after—broadcasts would stop. The final moments were strangely ceremonial: a national anthem, a station identification screen… and then, nothing but static.\n\nThat sound. That unsettling, endless shhhhhh. To a child awake past bedtime, or a night owl alone in the dark, it wasn’t just noise—it was ominous. The screen, once alive with sitcoms and cartoons, turned into a flickering snowstorm of black and white pixels, whispering with electrical chaos. The living room felt colder. Time felt slower.\n\nEven creepier? If you left the TV on, sometimes it wasn’t just static. Occasionally, it might show color bars with a high-pitched tone, a test pattern with an unsettling stillness, or emergency broadcast tests with robotic voices declaring, “This is only a test.” As a kid, that line alone was enough to send a chill down your spine.\n\nSome urban legends even grew out of this eerie phenomenon. Tales of ghostly faces appearing in the static, strange messages hidden in the noise, or voices that weren’t supposed to be there. It was the perfect backdrop for unease—an empty stage where imagination ran wild.\n\nTV static isn’t scary because of what it shows. It’s scary because of what it doesn’t. It’s the absence of signal, of comfort, of control. A blank screen that stares back.\n\nIn today’s world of constant content, that kind of dead air no longer exists. But for those who grew up in the analog era, the memory of that midnight static still hums in the back of their minds—like a ghost waiting for a signal.",
+      "image": "",
+      "author": "L L",
+      "userId": 6,
+      "createdAt": "2025-05-28T13:34:44.342Z",
+      "isDeleted": false,
+      "comments": [
+        {
+          "id": "1748441452819",
+          "content": "\"\"\"\"\"\"\"\"\"\"\"\"",
+          "userId": "8",
+          "userName": "Fuck You Souzan",
+          "createdAt": "2025-05-28T14:10:52.819Z"
+        }
+      ]
+    },
+    {
+      "id": 1748439396542,
+      "title": "VHS Tapes: Rewinding Time, One Tape at a Tim",
+      "content": "There was a time—before Netflix queues, digital libraries, and “skip intro” buttons—when watching a movie at home felt like a small event. You didn’t click play. You popped in a tape. VHS, short for Video Home System, was the dominant force in home entertainment from the late 1970s through the 1990s. For two glorious decades, the chunky black cassette was the undisputed king of the living room.\n\nWalking into a video rental store was an experience in itself. Rows and rows of colorful boxes with dramatic cover art and bold fonts stretched as far as the eye could see. Horror movies had the bloodiest artwork. Action movies showcased explosions and muscle-bound heroes. Comedies featured exaggerated faces frozen in a moment of mayhem. You judged a movie by its cover, and half the fun was picking the perfect Friday night flick.\n\nVHS tapes weren’t perfect—far from it. The video quality was grainy, the tracking needed adjustment, and if you didn’t rewind the tape after watching, you earned the scorn of every future viewer (and sometimes, a fee from the video store). But all of these quirks made the experience feel more personal. The physicality of inserting a tape, the mechanical whirring as it played, and the satisfying clunk when you hit stop—these moments created a tangible connection to the media.\n\nEvery VHS tape had character. Some had rental stickers from long-defunct stores, handwritten labels, or warbly sound from being played one too many times. Bootleg copies of movies passed from friend to friend became cherished possessions. Tapes recorded from TV—commercials and all—became accidental time capsules, preserving not just the movie, but the era it came from.\n\nLet’s not forget the commercials either. If you grew up watching tapes from the '80s or '90s, you probably remember the unforgettable warning: “You wouldn’t steal a car... you wouldn’t steal a handbag…”—a PSA turned meme in the streaming age. Or the classic “Coming Soon to Home Video” bumpers that made even the previews feel special.\n\nAnd then there was the shelf. That towering shelf full of tapes that every family had. A messy, beloved collection of Disney classics, late-night action flicks, and obscure documentaries taped off PBS. Organizing it was an art; finding that one tape with your favorite cartoon episode was a treasure hunt. When friends came over, you proudly showed off your collection like a badge of honor.\n\nEventually, DVD arrived. Then Blu-ray. Then streaming. VHS tapes began to disappear—slowly at first, then all at once. Rental stores closed, tapes were boxed up or thrown away, and the humble VCR became a forgotten appliance. But a funny thing happened: people started to miss them.\n\nNow, VHS is back in a niche but passionate way. Collectors trade rare tapes online. Artists create custom VHS-style covers for modern movies. Some indie filmmakers even release their work on tape, just for the aesthetic. Why? Because VHS isn’t just about watching a movie—it’s about how it felt to watch one.\n\nIt’s about walking to the store, picking a tape, and making it a whole event. It’s about the grain, the rewind, the physical memory. VHS tapes didn’t just hold films—they held moments.\n\nSo here’s to the humble VHS. Rewinder of time, preserver of memories, and a true retro icon. Be kind, rewind—and never forget what it was like to press play.",
+      "image": "https://images.unsplash.com/photo-1636750570049-aec176ca3784?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "author": "L L",
+      "userId": 6,
+      "createdAt": "2025-05-28T13:36:36.542Z",
+      "isDeleted": false,
+      "comments": []
+    },
+    {
+      "id": 1748439578267,
+      "title": "Sidewalk Surfers: The Wild Rise of Skateboarding in the 1970s",
+      "content": "Before it was a billion-dollar industry, before the X Games, and way before Tony Hawk was a household name, skateboarding was something raw, rebellious, and utterly improvised. And nowhere was that truer than in the 1970s—a decade that took the humble sidewalk toy of the ‘60s and transformed it into a full-blown cultural phenomenon.\n\nIn the early 1970s, skateboarding was still finding its identity. The boards were narrow, the wheels were made of clay (yes, clay), and most of the tricks involved simply staying upright. But things changed dramatically in 1973 with the invention of urethane wheels. Suddenly, skateboards had grip, speed, and smoothness. Riding felt more like surfing on land—and that’s exactly how many early skaters described it.\n\nEnter the Z-Boys: a group of young surfers from Dogtown (a gritty stretch of Santa Monica and Venice Beach, California) who brought a new style and attitude to skating. When the waves were flat, they took to the streets and schoolyards, carving deep turns like they were riding a wave. But it wasn’t until California’s drought struck in the mid-70s that the true revolution began.\n\nEmpty swimming pools—drained to conserve water—became the new playgrounds. These concrete bowls were perfect for aggressive, flowing moves. The Z-Boys dove in headfirst, literally skating the vertical walls, pushing limits, and unintentionally inventing what we now call vert skating. The photos of Jay Adams, Tony Alva, and Stacy Peralta frozen mid-air in backyard pools are now iconic. Back then, they were just kids looking for something new to conquer.\n\nThe gear was simple: flat wooden boards with rounded noses, wide trucks, and those beautiful urethane wheels. Helmets and pads were rare—if used at all. Road rash was a rite of passage. What mattered wasn’t safety—it was style. How low could you crouch? How fast could you go? Could you make the turn without bailing?\n\nSkating in the '70s wasn’t clean. It was gritty, sun-drenched, and a little dangerous. It didn’t care about rules or regulations. Cops would chase kids off private property. Schools banned skateboarding. But that only made it cooler. To ride was to rebel.\n\nMagazines like Skateboarder and homemade VHS tapes helped spread the movement beyond California. By the end of the decade, skateboarding competitions were popping up everywhere. Brands started forming. New trick names were coined. And while it would rise and fall in popularity through the years, the soul of the sport—the defiance, the creativity, the freedom—was born right there in the '70s.\n\nSo the next time you see someone carving a bowl or bombing a hill, remember: they’re riding in the tracks of those first sidewalk surfers. No skateparks, no sponsors—just sunburned kids, empty pools, and a dream to fly.\n\nThe 1970s didn’t just invent modern skateboarding. It defined its attitude.",
+      "image": "https://images.unsplash.com/photo-1622553683138-a9507ec42448?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2thdGVib2FyZCUyMHJldHJvfGVufDB8fDB8fHww",
+      "author": "I Hate Sara",
+      "userId": 7,
+      "createdAt": "2025-05-28T13:39:38.267Z",
+      "isDeleted": false,
+      "comments": []
+    },
+    {
+      "id": 1748439786462,
+      "title": "The Summer We Never Had: A Love Story That Could’ve Been an ’80s Class",
+      "content": "Imagine this: It’s 1985. Big hair is in, cassette mixtapes are currency, and movie theaters are packed with action heroes and teen comedies. But nestled between the explosions and prom-night plotlines, there almost was another kind of movie. A quieter, bittersweet film about love, timing, and growing up. Something like a soft punch to the heart. Something like 500 Days of Summer—if it had been made a quarter-century earlier.\n\nLet’s call it “That Summer With Elise.”\n\nIt’s not your typical boy-meets-girl story. The lead, Daniel, isn’t a jock or a rocker. He’s a wide-eyed dreamer in his early 20s, working at a small record store in San Francisco. He believes in signs, fate, and love at first mixtape. Enter Elise—a girl with a Walkman, a sarcastic smile, and a mysterious past. She doesn’t believe in fate. She doesn’t even believe in love. Not like Daniel does.\n\nThey meet. They talk about The Smiths. They share a milkshake. They walk the foggy streets of the city at night, talking about favorite lyrics and childhood dreams. It’s not flashy. It’s not perfect. But for Daniel, it feels like magic.\n\nAnd just like that—it ends.\n\nNo grand betrayal. No cheating. Just life.\n\nElise wasn’t ready. Daniel thought he was. And the summer they shared becomes a polaroid in his mind—bright, a little overexposed, and fading with time.\n\nIn the movie, the story isn’t told in order. It jumps around—from their first touch to their last conversation, from laughter to heartbreak to hope again. The kind of storytelling that was rare in the '80s, when love stories had tidy endings and heartbreak was just a plot point to overcome.\n\nThat Summer With Elise never existed, of course. But it could have. And if it had, it might’ve changed the way a whole generation thought about love. It would’ve shown that some people come into your life to teach you something—not to stay forever. That love isn’t always about happy endings. Sometimes, it’s just about the middle.\n\nThe soundtrack? Pure perfection. The Cure. Echo & the Bunnymen. Kate Bush. The kind of music that aches and dances at the same time. The kind of songs you’d rewind over and over, hoping they’d reveal some hidden truth.\n\nMaybe it wouldn’t have won an Oscar. Maybe it would’ve been a quiet box-office blip between Back to the Future and The Breakfast Club. But for the right kind of viewer—the ones who loved a little too hard, hoped a little too much, and remembered every small detail of a fading love—it would’ve been unforgettable.\n\nIn an alternate 1980s, That Summer With Elise sits on a dusty VHS shelf somewhere. A cult classic. A love story that doesn’t try to fix you—just understands you.\n\nAnd maybe, just maybe, that’s enough.",
+      "image": "https://plus.unsplash.com/premium_photo-1725075084525-9ab65e574f2f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YnJva2VuJTIwaGVhcnR8ZW58MHx8MHx8fDA%3D",
+      "author": "Fuck You Souzan",
+      "userId": 8,
+      "createdAt": "2025-05-28T13:43:06.462Z",
+      "isDeleted": false,
+      "comments": [
+        {
+          "id": "1748441517090",
+          "content": "i will search for you my love :````(",
+          "userId": "8",
+          "userName": "Fuck You Souzan",
+          "createdAt": "2025-05-28T14:11:57.090Z"
+        }
+      ]
+    },
+    {
+      "id": 1748618636980,
+      "title": "test",
+      "content": "t",
+      "image": "",
+      "author": "test",
+      "userId": 9,
+      "createdAt": "2025-05-30T15:23:56.981Z",
+      "isDeleted": true,
+      "comments": [],
+      "deletedAt": "2025-05-30T15:24:32.876Z"
+    },
+    {
+      "id": 1748618650309,
+      "title": "dsfsdf",
+      "content": "sdfsdf",
+      "image": "",
+      "author": "test",
+      "userId": 9,
+      "createdAt": "2025-05-30T15:24:10.309Z",
+      "isDeleted": true,
+      "comments": [],
+      "deletedAt": "2025-05-30T15:24:27.109Z"
+    },
+    {
+      "id": 1748618683456,
+      "title": "sadasd",
+      "content": "asdsad",
+      "image": "",
+      "author": "test",
+      "userId": 9,
+      "createdAt": "2025-05-30T15:24:43.456Z",
+      "isDeleted": true,
+      "comments": [],
+      "deletedAt": "2025-05-30T15:24:49.981Z"
+    },
+    {
+      "id": 1748621653579,
+      "title": "vc dfv",
+      "content": "dc fd c",
+      "image": "",
+      "author": "test",
+      "userId": 9,
+      "createdAt": "2025-05-30T16:14:13.579Z",
+      "isDeleted": true,
+      "comments": [],
+      "deletedAt": "2025-05-30T16:14:21.710Z"
     }
   ]
 }

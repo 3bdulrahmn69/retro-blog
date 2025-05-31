@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
 import Button from './Button';
 import Container from './Container';
 import Input from './Input';
-import { useAuth } from '../../context/AuthContext ';
+import useAuth from '../../hooks/useAuth';
 
 interface HeaderProps {
   isLoaded: boolean;
