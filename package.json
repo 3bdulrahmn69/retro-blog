@@ -11,14 +11,17 @@
     "server": "json-server ./data/db.json --port 3000 -m ./node_modules/json-server-auth"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.7",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.1.0",
+    "@mui/material": "^7.1.0",
+    "@mui/system": "^7.1.0",
     "axios": "^1.9.0",
     "clsx": "^2.1.1",
     "js-cookie": "^3.0.5",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router": "^7.6.0",
-    "tailwindcss": "^4.1.7"
+    "react-router": "^7.6.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

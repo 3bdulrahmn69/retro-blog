@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import { faqItems } from '../../lib/faqItems';
 import Container from '../ui/Container';
 import FaqItem from '../ui/FaqItem';
@@ -8,7 +9,7 @@ const FaqSection = ({ activeSection }: { activeSection: number }) => {
     <Section id="faq">
       <Container>
         <Title>FREQUENTLY ASKED QUESTIONS</Title>
-        <div className="space-y-4">
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           {faqItems.map((item, index) => (
             <FaqItem
               key={index}
@@ -17,7 +18,7 @@ const FaqSection = ({ activeSection }: { activeSection: number }) => {
               item={item}
             />
           ))}
-        </div>
+        </Box>
       </Container>
     </Section>
   );

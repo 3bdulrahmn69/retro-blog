@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router';
+import { Box, Typography, CircularProgress } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { getAllPosts } from '../utils/api';
 import useAuth from '../hooks/useAuth';
 import Header from '../components/ui/Header';
@@ -9,6 +11,41 @@ import Section from '../components/ui/Section';
 import Button from '../components/ui/Button';
 import RetroTerminal from '../components/ui/RetroTerminal';
 import BlogPostCard from '../components/ui/BlogPostCard';
+
+const SearchResultsCard = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: `4px solid ${theme.palette.primary.dark}`,
+  boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+  padding: theme.spacing(3),
+  transition: 'all 0.5s ease',
+}));
+
+const SearchResultsHeader = styled(Box)(({ theme }) => ({
+  background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+  padding: theme.spacing(1.5),
+  color: theme.palette.primary.dark,
+  fontWeight: 'bold',
+  borderBottom: `4px solid ${theme.palette.primary.dark}`,
+  marginBottom: theme.spacing(2),
+}));
+
+const LoadingCard = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: `4px solid ${theme.palette.primary.dark}`,
+  boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+  padding: theme.spacing(4),
+  transition: 'all 0.5s ease',
+  textAlign: 'center',
+}));
+
+const CtaCard = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light + '66',
+  padding: theme.spacing(3),
+  border: `4px solid ${theme.palette.primary.main}`,
+  borderRadius: theme.spacing(1),
+  boxShadow: theme.shadows[3],
+  textAlign: 'center',
+}));
 
 interface Post {
   id: number;
@@ -46,169 +83,275 @@ const BlogPage = () => {
         post.author.toLowerCase().includes(query)
     );
   }, [posts, searchQuery]);
-
   // Memoize display components to prevent unnecessary re-renders
   const searchResultsHeader = useMemo(() => {
     if (!searchQuery) return null;
 
     return (
-      <div className="mb-8">
-        <div
-          className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] p-6 transition-all duration-500 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
+      <Box sx={{ mb: 4 }}>
+        <SearchResultsCard
+          sx={{
+            opacity: isLoaded ? 1 : 0,
+            transform: isLoaded ? 'translateY(0)' : 'translateY(32px)',
+          }}
         >
-          <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-3 text-amber-900 font-bold border-b-4 border-amber-700 mb-4">
-            <h2 className="text-xl tracking-wider">SEARCH RESULTS</h2>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <p className="text-amber-800 font-mono">
-                <span className="text-amber-600">{'>'}</span> Searching for: "
-                <span className="font-bold text-amber-900">{searchQuery}</span>"
-              </p>
-              <p className="text-amber-700 text-sm mt-1">
+          <SearchResultsHeader>
+            <Typography
+              variant="h5"
+              sx={{ letterSpacing: '0.1em', fontWeight: 'bold' }}
+            >
+              SEARCH RESULTS
+            </Typography>
+          </SearchResultsHeader>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              alignItems: { sm: 'center' },
+              justifyContent: { sm: 'space-between' },
+              gap: 2,
+            }}
+          >
+            <Box>
+              <Typography
+                sx={{ color: 'primary.main', fontFamily: 'monospace' }}
+              >
+                <Typography component="span" sx={{ color: 'primary.main' }}>
+                  {'>'}
+                </Typography>{' '}
+                Searching for: "
+                <Typography
+                  component="span"
+                  sx={{ fontWeight: 'bold', color: 'primary.dark' }}
+                >
+                  {searchQuery}
+                </Typography>
+                "
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: 'primary.main', mt: 0.5 }}
+              >
                 Found {filteredPosts.length} result
                 {filteredPosts.length !== 1 ? 's' : ''}
-              </p>
-            </div>
-            <Link
+              </Typography>
+            </Box>
+            <Box
+              component={Link}
               to="/blog"
-              className="text-amber-600 hover:text-amber-800 font-mono text-sm underline"
+              sx={{
+                color: 'primary.main',
+                '&:hover': { color: 'primary.dark' },
+                fontFamily: 'monospace',
+                fontSize: '0.875rem',
+                textDecoration: 'underline',
+              }}
             >
               Clear search
-            </Link>
-          </div>
-        </div>
-      </div>
+            </Box>
+          </Box>
+        </SearchResultsCard>
+      </Box>
     );
   }, [searchQuery, filteredPosts.length, isLoaded]);
-
   const loadingComponent = useMemo(
     () => (
-      <div className="text-center">
-        <div
-          className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] p-8 transition-all duration-500 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-2 text-amber-900 font-bold border-b-4 border-amber-700 mb-6">
-            <h3 className="text-xl tracking-wider">LOADING POSTS...</h3>
-          </div>
-          <div className="flex justify-center">
-            <div className="w-16 h-16 border-8 border-amber-800 bg-amber-100 rounded-lg overflow-hidden shadow-lg">
-              <div className="h-full bg-amber-800 flex items-center justify-center">
-                <div className="animate-spin w-6 h-6 border-2 border-white border-t-transparent rounded-full"></div>
-              </div>
-            </div>
-          </div>
-          <p className="text-amber-700 mt-4 font-mono">
-            {'>'} Accessing database...
-            <span className="animate-pulse">_</span>
-          </p>
-        </div>
-      </div>
+      <LoadingCard
+        sx={{
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? 'translateY(0)' : 'translateY(32px)',
+        }}
+      >
+        <SearchResultsHeader sx={{ mb: 3 }}>
+          <Typography
+            variant="h5"
+            sx={{ letterSpacing: '0.1em', fontWeight: 'bold' }}
+          >
+            LOADING POSTS...
+          </Typography>
+        </SearchResultsHeader>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Box
+            sx={{
+              width: 64,
+              height: 64,
+              border: '8px solid',
+              borderColor: 'primary.dark',
+              backgroundColor: 'primary.light',
+              borderRadius: 1,
+              overflow: 'hidden',
+              boxShadow: 3,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <CircularProgress
+              size={24}
+              sx={{
+                color: 'background.paper',
+              }}
+            />
+          </Box>
+        </Box>
+        <Typography sx={{ color: 'primary.main', fontFamily: 'monospace' }}>
+          {'>'} Accessing database...
+          <Typography
+            component="span"
+            sx={{
+              animation: 'pulse 2s infinite',
+              '@keyframes pulse': {
+                '0%, 100%': { opacity: 1 },
+                '50%': { opacity: 0.5 },
+              },
+            }}
+          >
+            _
+          </Typography>
+        </Typography>
+      </LoadingCard>
     ),
     [isLoaded]
   );
-
   const emptyStateComponent = useMemo(
     () => (
-      <div className="text-center">
-        <div
-          className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] p-8 transition-all duration-500 ${
-            isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          }`}
-        >
-          <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-2 text-amber-900 font-bold border-b-4 border-amber-700 mb-6">
-            <h3 className="text-xl tracking-wider">
-              {searchQuery ? 'NO RESULTS FOUND' : 'NO POSTS FOUND'}
-            </h3>
-          </div>
-          <div className="flex justify-center mb-6">
-            <RetroTerminal title="search-terminal">
-              {searchQuery ? (
-                <>
-                  <p>
-                    {'>'} Search query: "{searchQuery}"
-                  </p>
-                  <p>{'>'} No matches found</p>
-                  <p>{'>'} Try different keywords</p>
-                  <p className="animate-pulse">{'>'} Waiting..._</p>
-                </>
-              ) : (
-                <>
-                  <p>{'>'} No data found</p>
-                  <p>{'>'} Database empty</p>
-                  <p className="animate-pulse">{'>'} Waiting..._</p>
-                </>
-              )}
-            </RetroTerminal>
-          </div>
-          <p className="text-amber-700 mb-6">
-            {searchQuery
-              ? 'Try searching with different keywords or browse all posts.'
-              : 'Be the first to share your retro computing story!'}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {searchQuery && (
-              <Link to="/blog">
-                <Button variant="outline">VIEW ALL POSTS</Button>
-              </Link>
-            )}
-            {isAuthenticated ? (
-              <Link to="/posts/create">
-                <Button variant="primary">
-                  {searchQuery ? 'CREATE NEW POST' : 'CREATE FIRST POST'}
-                </Button>
-              </Link>
+      <LoadingCard
+        sx={{
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? 'translateY(0)' : 'translateY(32px)',
+        }}
+      >
+        <SearchResultsHeader sx={{ mb: 3 }}>
+          <Typography
+            variant="h5"
+            sx={{ letterSpacing: '0.1em', fontWeight: 'bold' }}
+          >
+            {searchQuery ? 'NO RESULTS FOUND' : 'NO POSTS FOUND'}
+          </Typography>
+        </SearchResultsHeader>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+          <RetroTerminal title="search-terminal">
+            {searchQuery ? (
+              <>
+                <Typography>
+                  {'>'} Search query: "{searchQuery}"
+                </Typography>
+                <Typography>{'>'} No matches found</Typography>
+                <Typography>{'>'} Try different keywords</Typography>
+                <Typography sx={{ animation: 'pulse 2s infinite' }}>
+                  {'>'} Waiting..._
+                </Typography>
+              </>
             ) : (
-              <Link to="/auth/register">
-                <Button variant="primary">JOIN TO POST</Button>
-              </Link>
+              <>
+                <Typography>{'>'} No data found</Typography>
+                <Typography>{'>'} Database empty</Typography>
+                <Typography sx={{ animation: 'pulse 2s infinite' }}>
+                  {'>'} Waiting..._
+                </Typography>
+              </>
             )}
-          </div>
-        </div>
-      </div>
+          </RetroTerminal>
+        </Box>
+        <Typography sx={{ color: 'primary.main', mb: 3 }}>
+          {searchQuery
+            ? 'Try searching with different keywords or browse all posts.'
+            : 'Be the first to share your retro computing story!'}
+        </Typography>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
+            justifyContent: 'center',
+          }}
+        >
+          {searchQuery && (
+            <Box component={Link} to="/blog" sx={{ textDecoration: 'none' }}>
+              <Button variant="outline">VIEW ALL POSTS</Button>
+            </Box>
+          )}
+          {isAuthenticated ? (
+            <Box
+              component={Link}
+              to="/posts/create"
+              sx={{ textDecoration: 'none' }}
+            >
+              <Button variant="primary">
+                {searchQuery ? 'CREATE NEW POST' : 'CREATE FIRST POST'}
+              </Button>
+            </Box>
+          ) : (
+            <Box
+              component={Link}
+              to="/auth/register"
+              sx={{ textDecoration: 'none' }}
+            >
+              <Button variant="primary">JOIN TO POST</Button>
+            </Box>
+          )}
+        </Box>
+      </LoadingCard>
     ),
     [searchQuery, isAuthenticated, isLoaded]
   );
-
   const ctaSection = useMemo(() => {
     if (filteredPosts.length === 0) return null;
 
     return (
-      <div className="text-center mt-12">
-        <div className="bg-amber-100 p-6 border-4 border-amber-600 rounded-lg shadow-lg">
-          <h3 className="text-xl font-bold text-amber-800 mb-4">
+      <Box sx={{ textAlign: 'center', mt: 6 }}>
+        <CtaCard>
+          <Typography
+            variant="h5"
+            sx={{ fontWeight: 'bold', color: 'primary.dark', mb: 2 }}
+          >
             Join the Conversation
-          </h3>
-          <p className="text-amber-700 mb-4">
+          </Typography>
+          <Typography sx={{ color: 'primary.main', mb: 2 }}>
             Have a retro computing story to share? Join our community and start
             writing today!
-          </p>
+          </Typography>
           {isAuthenticated ? (
-            <Link to="/posts/create">
-              <Button variant="primary" className="px-8">
+            <Box
+              component={Link}
+              to="/posts/create"
+              sx={{ textDecoration: 'none' }}
+            >
+              <Button variant="primary" sx={{ px: 4 }}>
                 WRITE YOUR STORY
               </Button>
-            </Link>
+            </Box>
           ) : (
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth/register">
-                <Button variant="primary" className="px-6">
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: 2,
+                justifyContent: 'center',
+              }}
+            >
+              <Box
+                component={Link}
+                to="/auth/register"
+                sx={{ textDecoration: 'none' }}
+              >
+                <Button variant="primary" sx={{ px: 3 }}>
                   REGISTER
                 </Button>
-              </Link>
-              <Link to="/auth/login">
-                <Button variant="secondary" className="px-6">
+              </Box>
+              <Box
+                component={Link}
+                to="/auth/login"
+                sx={{ textDecoration: 'none' }}
+              >
+                <Button variant="secondary" sx={{ px: 3 }}>
                   LOGIN
                 </Button>
-              </Link>
-            </div>
+              </Box>
+            </Box>
           )}
-        </div>
-      </div>
+        </CtaCard>
+      </Box>
     );
   }, [filteredPosts.length, isAuthenticated]);
 
@@ -235,9 +378,14 @@ const BlogPage = () => {
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
-
   return (
-    <div className="min-h-screen bg-amber-50 font-mono">
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'primary.light' + '40',
+        fontFamily: 'monospace',
+      }}
+    >
       <Header isLoaded={isLoaded} />
 
       <Section id="posts">
@@ -249,7 +397,7 @@ const BlogPage = () => {
           ) : filteredPosts.length === 0 ? (
             emptyStateComponent
           ) : (
-            <div className="grid gap-8">
+            <Box sx={{ display: 'grid', gap: 4 }}>
               {filteredPosts.map((post, index) => (
                 <BlogPostCard
                   key={post.id}
@@ -259,7 +407,7 @@ const BlogPage = () => {
                   setPosts={setPosts}
                 />
               ))}
-            </div>
+            </Box>
           )}
 
           {ctaSection}
@@ -267,7 +415,7 @@ const BlogPage = () => {
       </Section>
 
       <Footer />
-    </div>
+    </Box>
   );
 };
 

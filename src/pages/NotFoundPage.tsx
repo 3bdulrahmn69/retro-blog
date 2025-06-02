@@ -1,6 +1,50 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { keyframes } from '@mui/system';
 import Button from '../components/ui/Button';
+
+const blinkAnimation = keyframes`
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+`;
+
+const ErrorContainer = styled(Box)(({ theme }) => ({
+  width: '100%',
+  maxWidth: '32rem',
+  backgroundColor: theme.palette.background.paper,
+  border: `4px solid ${theme.palette.primary.dark}`,
+  boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+  transition: 'all 0.5s ease',
+}));
+
+const HeaderSection = styled(Box)(({ theme }) => ({
+  background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+  padding: theme.spacing(1),
+  color: theme.palette.primary.dark,
+  textAlign: 'center',
+  fontWeight: 'bold',
+  borderBottom: `4px solid ${theme.palette.primary.dark}`,
+}));
+
+const ErrorBox = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light + '80',
+  borderLeft: `4px solid ${theme.palette.primary.main}`,
+  padding: theme.spacing(2),
+}));
+
+const BlinkingCursor = styled('span')({
+  animation: `${blinkAnimation} 1s infinite`,
+});
+
+const FooterSection = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light + '80',
+  padding: theme.spacing(1.5),
+  borderTop: `4px solid ${theme.palette.primary.dark}`,
+  textAlign: 'center',
+  color: theme.palette.primary.dark,
+}));
 
 const NotFoundPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -24,57 +68,119 @@ const NotFoundPage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-amber-50 flex items-center justify-center p-4 font-mono">
-      <div
-        className={`w-full max-w-2xl bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] transition-all duration-500 ${
-          isLoaded
-            ? 'opacity-100 transform translate-y-0'
-            : 'opacity-0 transform translate-y-8'
-        }`}
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'primary.light' + '40',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 2,
+        fontFamily: 'monospace',
+      }}
+    >
+      <ErrorContainer
+        sx={{
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? 'translateY(0)' : 'translateY(32px)',
+        }}
       >
-        <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-2 text-amber-900 text-center font-bold border-b-4 border-amber-700">
-          <h1 className="text-2xl tracking-wider">ERROR 404</h1>
-        </div>
+        <HeaderSection>
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: '2rem',
+              fontWeight: 'bold',
+              letterSpacing: '0.1em',
+              fontFamily: 'monospace',
+            }}
+          >
+            ERROR 404
+          </Typography>
+        </HeaderSection>
 
-        <div className="p-6 space-y-6">
-          <div className="bg-amber-100 border-l-4 border-amber-500 p-4">
-            <p className="font-bold text-amber-800 mb-2">System Error:</p>
-            <p className="text-amber-700 font-mono">
+        <Box sx={{ p: 3, display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <ErrorBox>
+            <Typography
+              sx={{ fontWeight: 'bold', color: 'primary.dark', mb: 1 }}
+            >
+              System Error:
+            </Typography>
+            <Typography sx={{ color: 'primary.main', fontFamily: 'monospace' }}>
               &gt; The page you are looking for does not exist
-              {blinkCursor ? '_' : ' '}
-            </p>
-            <p className="text-amber-700 font-mono mt-2">
+              {blinkCursor ? <BlinkingCursor>_</BlinkingCursor> : ' '}
+            </Typography>
+            <Typography
+              sx={{ color: 'primary.main', fontFamily: 'monospace', mt: 1 }}
+            >
               &gt; Error code: PAGE_NOT_FOUND
-            </p>
-          </div>
+            </Typography>
+          </ErrorBox>
 
-          <div className="bg-amber-100 border-l-4 border-amber-500 p-4">
-            <p className="font-bold text-amber-800 mb-2">Suggested Actions:</p>
-            <ul className="list-disc list-inside text-amber-700 space-y-1">
-              <li>Check the URL for typing errors</li>
-              <li>Return to the homepage</li>
-              <li>Contact system administrator</li>
-            </ul>
-          </div>
+          <ErrorBox>
+            <Typography
+              sx={{ fontWeight: 'bold', color: 'primary.dark', mb: 1 }}
+            >
+              Suggested Actions:
+            </Typography>
+            <Box
+              component="ul"
+              sx={{
+                listStyle: 'disc',
+                listStylePosition: 'inside',
+                color: 'primary.main',
+                m: 0,
+                pl: 2,
+              }}
+            >
+              <Typography component="li" sx={{ color: 'primary.main' }}>
+                Check the URL for typing errors
+              </Typography>
+              <Typography component="li" sx={{ color: 'primary.main' }}>
+                Return to the homepage
+              </Typography>
+              <Typography component="li" sx={{ color: 'primary.main' }}>
+                Contact system administrator
+              </Typography>
+            </Box>
+          </ErrorBox>
 
-          <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Link to="/" className="flex-1">
-              <Button>RETURN HOME</Button>
-            </Link>
-            <Link to="/blog" className="flex-1">
-              <Button variant="secondary">GO TO BLOG</Button>
-            </Link>
-          </div>
-        </div>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 2,
+              pt: 2,
+            }}
+          >
+            <Box sx={{ flex: 1 }}>
+              <Link to="/" style={{ textDecoration: 'none', display: 'block' }}>
+                <Button fullWidth>RETURN HOME</Button>
+              </Link>
+            </Box>
+            <Box sx={{ flex: 1 }}>
+              <Link
+                to="/blog"
+                style={{ textDecoration: 'none', display: 'block' }}
+              >
+                <Button variant="secondary" fullWidth>
+                  GO TO BLOG
+                </Button>
+              </Link>
+            </Box>
+          </Box>
+        </Box>
 
-        <div className="bg-amber-100 p-3 border-t-4 border-amber-700 text-center text-amber-800 text-sm">
-          <p>RETRO BLOG SYSTEM © {new Date().getFullYear()}</p>
-          <p className="text-xs mt-1">
+        <FooterSection>
+          <Typography sx={{ fontSize: '0.875rem' }}>
+            RETRO BLOG SYSTEM © {new Date().getFullYear()}
+          </Typography>
+          <Typography sx={{ fontSize: '0.75rem', mt: 0.5 }}>
             Memory available: 640K (Should be enough for anybody)
-          </p>
-        </div>
-      </div>
-    </div>
+          </Typography>
+        </FooterSection>
+      </ErrorContainer>
+    </Box>
   );
 };
 

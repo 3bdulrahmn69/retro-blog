@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { Box } from '@mui/material';
 
 /* sections */
 import Header from '../components/ui/Header';
@@ -20,7 +21,7 @@ const HomePage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 100);
+    }, 50);
 
     return () => clearTimeout(timer);
   }, []);
@@ -75,9 +76,14 @@ const HomePage = () => {
       window.removeEventListener('keydown', handleEnterPress);
     };
   }, [navigate, activeSection]);
-
   return (
-    <div className="min-h-screen bg-amber-50 font-mono">
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'primary.light' + '40',
+        fontFamily: 'monospace',
+      }}
+    >
       {/* Header */}
       <Header isLoaded={isLoaded} activeSection={activeSection} />
 
@@ -104,7 +110,7 @@ const HomePage = () => {
 
       {/* Footer */}
       <Footer />
-    </div>
+    </Box>
   );
 };
 

@@ -1,15 +1,22 @@
-import { clsx } from 'clsx';
+import { Box, type BoxProps } from '@mui/material';
 
-interface ContainerProps {
+interface ContainerProps extends Omit<BoxProps, 'children'> {
   children: React.ReactNode;
-  className?: string;
 }
 
-const Container = ({ children, className }: ContainerProps) => {
+const Container = ({ children, sx, ...props }: ContainerProps) => {
   return (
-    <div className={clsx('max-w-7xl mx-auto px-4 sm:px-6 lg:px-8', className)}>
+    <Box
+      sx={{
+        maxWidth: '1280px',
+        mx: 'auto',
+        px: { xs: 2, sm: 3, lg: 4 },
+        ...sx,
+      }}
+      {...props}
+    >
       {children}
-    </div>
+    </Box>
   );
 };
 

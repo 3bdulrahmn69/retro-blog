@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router';
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import AuthToggle from '../components/auth/AuthToggle';
 import AuthWelcome from '../components/auth/AuthWelcome';
 import Form from '../components/ui/Form';
@@ -12,6 +14,26 @@ import {
   validateEmail,
   validatePassword,
 } from '../utils/validation';
+
+const BackButton = styled(Link)(({ theme }) => ({
+  position: 'absolute',
+  top: theme.spacing(2),
+  left: theme.spacing(2),
+  display: 'inline-block',
+  backgroundColor: theme.palette.primary.light,
+  border: `2px solid ${theme.palette.primary.dark}`,
+  boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+  padding: theme.spacing(1, 2),
+  color: theme.palette.primary.main,
+  fontWeight: 'bold',
+  textDecoration: 'none',
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.light + '80',
+    transform: 'translate(4px, 4px)',
+    boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+  },
+}));
 
 const AuthPage = () => {
   const [userForm, setUserForm] = useState({
@@ -198,53 +220,70 @@ const AuthPage = () => {
 
     setIsSubmitting(false);
   };
-
   return (
-    <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 font-mono relative">
-      <div className="absolute top-4 left-4">
-        <Link
-          to="/"
-          className="inline-block bg-amber-100 border-2 border-amber-700 shadow-[4px_4px_0px_0px_rgba(180,83,9)] px-4 py-2 text-amber-800 font-bold hover:bg-amber-200 transition-all duration-200 transform hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(180,83,9)]"
-        >
-          ← Back to Home
-        </Link>
-      </div>
-
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'primary.light' + '40',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 2,
+        fontFamily: 'monospace',
+        position: 'relative',
+      }}
+    >
+      {' '}
+      <BackButton to="/">← Back to Home</BackButton>
       <AuthToggle
         isLogin={isLogin}
         onModeChange={handleModeChange}
         isInitialLoad={isInitialLoad}
       />
-
-      <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4 mt-12 md:items-stretch">
+      <Box
+        sx={{
+          width: '100%',
+          maxWidth: '80rem',
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' },
+          gap: 2,
+          mt: 6,
+          alignItems: 'stretch',
+        }}
+      >
+        {' '}
         {/* Left Side */}
-        <div
-          className={`flex transition-all duration-300 ${
-            animating ? 'transform scale-95' : 'transform scale-100'
-          } ${
-            isInitialLoad
-              ? 'opacity-0 translate-y-4'
-              : 'opacity-100 translate-y-0'
-          }`}
+        <Box
+          sx={{
+            display: 'flex',
+            transition: 'all 0.3s ease',
+            transform: animating ? 'scale(0.95)' : 'scale(1)',
+            opacity: isInitialLoad ? 0 : 1,
+            translateY: isInitialLoad ? '16px' : '0',
+          }}
         >
           {isLogin ? (
             <Form
               title="WELCOME TO RETRO BLOG"
               onSubmit={() => {}}
-              className="flex-1 h-full"
+              sx={{ flex: 1, height: '100%' }}
             >
               <AuthWelcome>
-                <h2 className="text-2xl font-bold text-amber-800 mb-4">
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 'bold', color: 'primary.main', mb: 2 }}
+                >
                   Welcome Back to Retro Blog!
-                </h2>
-                <p className="text-amber-700 mb-3">
+                </Typography>
+                <Typography sx={{ color: 'primary.main', mb: 1.5 }}>
                   Log in to your account to continue your retro blogging
                   journey. Share your thoughts with a nostalgic flair!
-                </p>
-                <p className="text-amber-700">
+                </Typography>
+                <Typography sx={{ color: 'primary.main' }}>
                   Don't have an account yet? Click the REGISTER button to join
                   our retro community!
-                </p>
+                </Typography>
               </AuthWelcome>
             </Form>
           ) : (
@@ -252,7 +291,7 @@ const AuthPage = () => {
               title="REGISTER"
               onSubmit={handleSubmit}
               isSubmitting={isSubmitting}
-              className="flex-1 h-full"
+              sx={{ flex: 1, height: '100%' }}
             >
               <Input
                 label="Full Name"
@@ -280,32 +319,31 @@ const AuthPage = () => {
                 placeholder="Enter your password"
                 required
               />
-              <div className="mt-auto">
+              <Box sx={{ mt: 'auto' }}>
                 <Button type="submit" disabled={isSubmitting} fullWidth>
                   {isSubmitting ? 'REGISTERING...' : 'REGISTER'}
                 </Button>
-              </div>
+              </Box>
             </Form>
           )}
-        </div>
-
+        </Box>{' '}
         {/* Right Side */}
-        <div
-          className={`flex transition-all duration-300 ${
-            animating ? 'transform scale-95' : 'transform scale-100'
-          } ${
-            isInitialLoad
-              ? 'opacity-0 translate-y-4'
-              : 'opacity-100 translate-y-0'
-          }`}
-          style={{ transitionDelay: isInitialLoad ? '100ms' : '0ms' }}
+        <Box
+          sx={{
+            display: 'flex',
+            transition: 'all 0.3s ease',
+            transform: animating ? 'scale(0.95)' : 'scale(1)',
+            opacity: isInitialLoad ? 0 : 1,
+            translateY: isInitialLoad ? '16px' : '0',
+            transitionDelay: isInitialLoad ? '100ms' : '0ms',
+          }}
         >
           {isLogin ? (
             <Form
               title="LOGIN"
               onSubmit={handleSubmit}
               isSubmitting={isSubmitting}
-              className="flex-1 h-full"
+              sx={{ flex: 1, height: '100%' }}
             >
               <Input
                 label="Email Address"
@@ -325,36 +363,39 @@ const AuthPage = () => {
                 placeholder="Enter your password"
                 required
               />
-              <div className="mt-auto">
+              <Box sx={{ mt: 'auto' }}>
                 <Button type="submit" disabled={isSubmitting} fullWidth>
                   {isSubmitting ? 'LOGGING IN...' : 'LOGIN'}
                 </Button>
-              </div>
+              </Box>
             </Form>
           ) : (
             <Form
               title="WELCOME TO RETRO BLOG"
               onSubmit={() => {}}
-              className="flex-1 h-full"
+              sx={{ flex: 1, height: '100%' }}
             >
               <AuthWelcome>
-                <h2 className="text-2xl font-bold text-amber-800 mb-4">
+                <Typography
+                  variant="h4"
+                  sx={{ fontWeight: 'bold', color: 'primary.main', mb: 2 }}
+                >
                   Join The Retro Blog!
-                </h2>
-                <p className="text-amber-700 mb-3">
+                </Typography>
+                <Typography sx={{ color: 'primary.main', mb: 1.5 }}>
                   Create an account and start your nostalgic blogging
                   experience. Express yourself with the charm of the past!
-                </p>
-                <p className="text-amber-700">
+                </Typography>
+                <Typography sx={{ color: 'primary.main' }}>
                   Already have an account? Click the LOGIN button to access your
                   retro dashboard!
-                </p>
+                </Typography>
               </AuthWelcome>
             </Form>
           )}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

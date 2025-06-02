@@ -1,11 +1,77 @@
-import { clsx } from 'clsx';
+import React from 'react';
+import { Box, Typography, keyframes } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 interface RetroTerminalProps {
   title: string;
-  children?: React.ReactNode;
+  children: React.ReactNode;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
 }
+
+// Retro flicker animation
+const retroFlicker = keyframes`
+  0%, 98% { opacity: 1; }
+  99% { opacity: 0.98; }
+  100% { opacity: 1; }
+`;
+
+const TerminalHeader = styled(Box)(({ theme }) => ({
+  height: 16,
+  backgroundColor: '#92400e',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 4px',
+  [theme.breakpoints.up('sm')]: {
+    height: 20,
+    padding: '0 8px',
+  },
+  [theme.breakpoints.up('md')]: {
+    height: 24,
+    padding: '0 12px',
+  },
+}));
+
+const TrafficLights = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
+  [theme.breakpoints.up('sm')]: {
+    gap: 8,
+  },
+}));
+
+const TrafficLight = styled(Box)<{ color: string }>(({ color, theme }) => ({
+  width: 8,
+  height: 8,
+  borderRadius: '50%',
+  backgroundColor: color,
+  [theme.breakpoints.up('sm')]: {
+    width: 10,
+    height: 10,
+  },
+  [theme.breakpoints.up('md')]: {
+    width: 12,
+    height: 12,
+  },
+}));
+
+const TerminalTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '10px',
+  color: '#ffffff',
+  fontFamily: 'Courier New, monospace',
+  marginLeft: 'auto',
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  maxWidth: '60%',
+  [theme.breakpoints.up('sm')]: {
+    fontSize: '12px',
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: '14px',
+  },
+}));
 
 const RetroTerminal = ({
   title,
@@ -13,114 +79,80 @@ const RetroTerminal = ({
   className = '',
   size = 'md',
 }: RetroTerminalProps) => {
-  // Size variants for different use cases
-  const sizeClasses = {
-    sm: 'w-full max-w-xs sm:max-w-sm',
-    md: 'w-full max-w-sm sm:max-w-md md:max-w-lg',
-    lg: 'w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl',
+  const getSizeConfig = (size: 'sm' | 'md' | 'lg') => {
+    switch (size) {
+      case 'sm':
+        return {
+          maxWidth: { xs: '100%', sm: '384px' },
+          border: '4px solid #92400e',
+          padding: { xs: 2, sm: 3 },
+          fontSize: { xs: '12px', sm: '14px' },
+          minHeight: { xs: 80, sm: 100 },
+        };
+      case 'md':
+        return {
+          maxWidth: { xs: '100%', sm: '448px', md: '512px' },
+          border: '6px solid #92400e',
+          padding: { xs: 3, sm: 4 },
+          fontSize: { xs: '14px', sm: '16px' },
+          minHeight: { xs: 100, sm: 120 },
+        };
+      case 'lg':
+        return {
+          maxWidth: { xs: '100%', sm: '512px', md: '576px', lg: '672px' },
+          border: '8px solid #92400e',
+          padding: { xs: 4, sm: 5 },
+          fontSize: { xs: '16px', sm: '18px' },
+          minHeight: { xs: 120, sm: 140 },
+        };
+      default:
+        return {
+          maxWidth: { xs: '100%', sm: '448px', md: '512px' },
+          border: '6px solid #92400e',
+          padding: { xs: 3, sm: 4 },
+          fontSize: { xs: '14px', sm: '16px' },
+          minHeight: { xs: 100, sm: 120 },
+        };
+    }
   };
 
-  const borderClasses = {
-    sm: 'border-4 sm:border-6',
-    md: 'border-4 sm:border-6 md:border-8',
-    lg: 'border-6 sm:border-8 md:border-10',
-  };
-
-  const paddingClasses = {
-    sm: 'p-2 sm:p-3',
-    md: 'p-3 sm:p-4 md:p-5',
-    lg: 'p-4 sm:p-5 md:p-6',
-  };
-
-  const textClasses = {
-    sm: 'text-xs sm:text-sm',
-    md: 'text-xs sm:text-sm md:text-base',
-    lg: 'text-sm sm:text-base md:text-lg',
-  };
+  const sizeConfig = getSizeConfig(size);
 
   return (
-    <div className="relative w-full flex justify-center">
-      <div
-        className={clsx(
-          'border-amber-800',
-          'bg-amber-100',
-          'overflow-hidden',
-          'shadow-lg sm:shadow-xl md:shadow-2xl',
-          'transition-all duration-300',
-          'animate-retro-flicker',
-          sizeClasses[size],
-          borderClasses[size]
-        )}
+    <Box
+      className={className}
+      sx={{
+        width: '100%',
+        overflow: 'hidden',
+        transition: 'all 0.3s ease',
+        animation: `${retroFlicker} 3s infinite`,
+        boxShadow: {
+          xs: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+          sm: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          md: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+        },
+      }}
+    >
+      <TerminalHeader>
+        <TrafficLights>
+          <TrafficLight color="#ef4444" />
+          <TrafficLight color="#f59e0b" />
+          <TrafficLight color="#10b981" />
+        </TrafficLights>
+        <TerminalTitle>{title}</TerminalTitle>
+      </TerminalHeader>
+      <Box
+        sx={{
+          fontFamily: 'Courier New, monospace',
+          color: '#92400e',
+          textAlign: 'left',
+          lineHeight: 1.6,
+          ...sizeConfig,
+        }}
       >
-        {/* Terminal Header */}
-        <div
-          className={clsx(
-            'h-4 sm:h-5 md:h-6',
-            'bg-amber-800',
-            'flex items-center',
-            'px-1 sm:px-2 md:px-3'
-          )}
-        >
-          {/* Traffic Light Buttons */}
-          <div className={clsx('flex items-center', 'space-x-1 sm:space-x-2')}>
-            <div
-              className={clsx(
-                'w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3',
-                'rounded-full',
-                'bg-red-500'
-              )}
-            />
-            <div
-              className={clsx(
-                'w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3',
-                'rounded-full',
-                'bg-yellow-500'
-              )}
-            />
-            <div
-              className={clsx(
-                'w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3',
-                'rounded-full',
-                'bg-green-500'
-              )}
-            />
-          </div>
-
-          {/* Terminal Title */}
-          <span
-            className={clsx(
-              'text-[10px] sm:text-xs md:text-sm',
-              'text-white',
-              'ml-auto',
-              'font-mono',
-              'truncate',
-              'max-w-[60%]'
-            )}
-          >
-            {title}
-          </span>
-        </div>
-
-        {/* Terminal Content */}
-        <div
-          className={clsx(
-            // Base styles
-            'font-mono',
-            'text-amber-800',
-            'text-start',
-            'leading-relaxed',
-            'min-h-[80px] sm:min-h-[100px] md:min-h-[120px]',
-            // Size-specific classes
-            paddingClasses[size],
-            textClasses[size],
-            // Custom className
-            className
-          )}
-        >
-          {children}
-        </div>
-      </div>
-    </div>
+        {children}
+      </Box>
+    </Box>
   );
 };
 

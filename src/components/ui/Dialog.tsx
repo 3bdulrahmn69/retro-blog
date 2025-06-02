@@ -1,4 +1,19 @@
 import React, { useEffect, useState, useRef } from 'react';
+import {
+  Box,
+  Typography,
+  TextField,
+  Card,
+  CardContent,
+  Chip,
+  IconButton,
+  CircularProgress,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import {
+  Close as CloseIcon,
+  Warning as WarningIcon,
+} from '@mui/icons-material';
 import Button from './Button';
 import useAuth from '../../hooks/useAuth';
 import { getCommentsByPostId, addCommentToPost } from '../../utils/api';
@@ -45,14 +60,84 @@ interface Comment {
 
 type DialogProps = ConfirmationDialogProps | ContentDialogProps;
 
+// Styled components
+const StyledDialog = styled(Box)(() => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  zIndex: 1300,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  padding: 16,
+}));
+
+const DialogCard = styled(Box)(() => ({
+  backgroundColor: '#ffffff',
+  border: '4px solid #b45309',
+  boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+  fontFamily: 'Courier New, monospace',
+  maxHeight: '90vh',
+  overflow: 'hidden',
+}));
+
+const DialogHeader = styled(Box)(() => ({
+  background: 'linear-gradient(to right, #fbbf24, #d97706)',
+  padding: 16,
+  color: '#78350f',
+  fontWeight: 'bold',
+  borderBottom: '4px solid #b45309',
+}));
+
+const ConfirmationHeader = styled(Box)(() => ({
+  background: 'linear-gradient(to right, #f87171, #dc2626)',
+  padding: 16,
+  color: '#ffffff',
+  fontWeight: 'bold',
+  borderBottom: '4px solid #b45309',
+}));
+
+const PostContent = styled(Box)(() => ({
+  background: 'linear-gradient(to right, #fffbeb, #fef3c7)',
+  borderLeft: '4px solid #f59e0b',
+  borderRadius: '0 8px 8px 0',
+  padding: 24,
+  marginBottom: 32,
+}));
+
+const CommentCard = styled(Card)(() => ({
+  backgroundColor: '#ffffff',
+  border: '2px solid #d97706',
+  boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+  marginBottom: 16,
+}));
+
+const RetroScrollContent = styled(Box)(() => ({
+  padding: 24,
+  overflowY: 'auto',
+  maxHeight: 'calc(90vh - 140px)',
+  '&::-webkit-scrollbar': {
+    width: 12,
+  },
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: '#fef3c7',
+    border: '2px solid #d97706',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: '#d97706',
+    border: '2px solid #b45309',
+    borderRadius: 0,
+  },
+  '&::-webkit-scrollbar-thumb:hover': {
+    backgroundColor: '#b45309',
+  },
+}));
+
 const Dialog: React.FC<DialogProps> = (props) => {
-  const {
-    isOpen,
-    onClose,
-    title,
-    variant = 'confirmation',
-    className = '',
-  } = props;
+  const { isOpen, onClose, title, variant = 'confirmation' } = props;
 
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
@@ -236,7 +321,6 @@ const Dialog: React.FC<DialogProps> = (props) => {
     const paragraphs = content.split('\n\n').filter((p) => p.trim());
     return paragraphs.length > 0 ? paragraphs : [content];
   };
-
   // Render confirmation dialog
   const renderConfirmationDialog = (props: ConfirmationDialogProps) => {
     const {
@@ -245,29 +329,53 @@ const Dialog: React.FC<DialogProps> = (props) => {
       confirmText = 'CONFIRM',
       cancelText = 'CANCEL',
       isLoading = false,
-      icon = <div className="text-4xl mb-4">⚠️</div>,
+      icon = <WarningIcon sx={{ fontSize: 48, color: '#d97706', mb: 2 }} />,
     } = props;
 
     return (
-      <div className="bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] max-w-md w-full font-mono">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-red-400 to-red-600 p-3 text-white font-bold border-b-4 border-amber-700">
-          <h3 className="text-lg tracking-wider text-center">{title}</h3>
-        </div>
+      <DialogCard sx={{ maxWidth: 448, width: '100%' }}>
+        <ConfirmationHeader>
+          <Typography
+            variant="h6"
+            component="h3"
+            sx={{
+              fontSize: '1.125rem',
+              fontFamily: 'Courier New, monospace',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              letterSpacing: '0.1em',
+            }}
+          >
+            {title}
+          </Typography>
+        </ConfirmationHeader>
 
-        {/* Content */}
-        <div className="p-6">
-          <div className="text-center mb-6">
+        <Box sx={{ p: 6 }}>
+          <Box sx={{ textAlign: 'center', mb: 6 }}>
             {icon}
-            <p className="text-amber-800 leading-relaxed">{message}</p>
-          </div>
+            <Typography
+              variant="body1"
+              sx={{
+                color: '#92400e',
+                lineHeight: 1.6,
+                fontFamily: 'Courier New, monospace',
+              }}
+            >
+              {message}
+            </Typography>
+          </Box>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3">
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              gap: 3,
+            }}
+          >
             <Button
               variant="outline"
               size="md"
-              className="flex-1"
+              sx={{ flex: 1 }}
               onClick={onClose}
               disabled={isLoading}
             >
@@ -276,214 +384,410 @@ const Dialog: React.FC<DialogProps> = (props) => {
             <Button
               variant="danger"
               size="md"
-              className="flex-1"
+              sx={{ flex: 1 }}
               onClick={onConfirm}
               disabled={isLoading}
             >
-              {isLoading ? 'PROCESSING...' : confirmText}
-              {isLoading && (
-                <div className="ml-2 w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              {isLoading ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  PROCESSING...
+                  <CircularProgress
+                    size={16}
+                    sx={{
+                      color: '#ffffff',
+                      ml: 1,
+                    }}
+                  />
+                </Box>
+              ) : (
+                confirmText
               )}
             </Button>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </DialogCard>
     );
   };
-
   // Render content dialog
   const renderContentDialog = (props: ContentDialogProps) => {
     const { post } = props;
 
     return (
-      <div className="bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] max-w-4xl w-full max-h-[90vh] overflow-hidden font-mono">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-4 text-amber-900 font-bold border-b-4 border-amber-700">
-          <div className="flex justify-between items-start gap-4">
-            <h2 className="text-lg md:text-xl tracking-wider leading-tight flex-1">
+      <DialogCard sx={{ maxWidth: 896, width: '100%' }}>
+        <DialogHeader>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              gap: 2,
+            }}
+          >
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{
+                fontSize: { xs: '1.125rem', md: '1.25rem' },
+                fontFamily: 'Courier New, monospace',
+                fontWeight: 'bold',
+                letterSpacing: '0.1em',
+                lineHeight: 1.2,
+                flex: 1,
+              }}
+            >
               {post.title}
-            </h2>
-            <button
+            </Typography>
+            <IconButton
               onClick={onClose}
-              className="cursor-pointer text-amber-900 hover:text-amber-700 transition-colors p-1 bg-amber-100 hover:bg-amber-200 border-2 border-amber-800 shadow-[2px_2px_0px_0px_rgba(180,83,9)] hover:shadow-[1px_1px_0px_0px_rgba(180,83,9)] active:translate-x-0.5 active:translate-y-0.5"
+              size="small"
+              sx={{
+                color: '#78350f',
+                backgroundColor: '#fef3c7',
+                border: '2px solid #92400e',
+                boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+                borderRadius: 0,
+                p: 0.5,
+                '&:hover': {
+                  backgroundColor: '#fde68a',
+                  boxShadow: '1px 1px 0px 0px rgba(180,83,9)',
+                  transform: 'translate(0.5px, 0.5px)',
+                },
+                '&:active': {
+                  transform: 'translate(1px, 1px)',
+                  boxShadow: '0px 0px 0px 0px rgba(180,83,9)',
+                },
+              }}
               aria-label="Close dialog"
             >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <CloseIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' },
+              justifyContent: { sm: 'space-between' },
+              alignItems: { sm: 'center' },
+              gap: 1,
+              mt: 3,
+              fontSize: '0.875rem',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Typography
+                component="span"
+                sx={{ fontFamily: 'Courier New, monospace' }}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="3"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Meta Information */}
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mt-3 text-sm">
-            <div className="flex items-center gap-2">
-              <span className="font-mono">By:</span>
-              <span className="font-semibold">
+                By:
+              </Typography>
+              <Typography
+                component="span"
+                sx={{
+                  fontWeight: 600,
+                  fontFamily: 'Courier New, monospace',
+                }}
+              >
                 {post.author || 'Anonymous'}
-              </span>
-            </div>
-            <div className="text-xs bg-amber-100 px-2 py-1 border border-amber-600 font-mono">
-              {post.editedAt ? (
-                <>
-                  <span>EDITED: </span>
-                  <time dateTime={post.editedAt}>
-                    {formatDate(post.editedAt)}
-                  </time>
-                </>
-              ) : (
-                <>
-                  <span>POSTED: </span>
-                  <time dateTime={post.createdAt}>
-                    {formatDate(post.createdAt)}
-                  </time>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
+              </Typography>
+            </Box>
+            <Chip
+              label={
+                post.editedAt ? (
+                  <Box component="span">
+                    EDITED: {formatDate(post.editedAt)}
+                  </Box>
+                ) : (
+                  <Box component="span">
+                    POSTED: {formatDate(post.createdAt)}
+                  </Box>
+                )
+              }
+              size="small"
+              sx={{
+                backgroundColor: '#fef3c7',
+                color: '#78350f',
+                border: '1px solid #d97706',
+                fontFamily: 'Courier New, monospace',
+                fontSize: '0.75rem',
+                fontWeight: 'bold',
+                borderRadius: 0,
+                height: 28,
+              }}
+            />
+          </Box>
+        </DialogHeader>
 
-        {/* Content */}
-        <div
-          ref={contentRef}
-          className="p-6 overflow-y-auto max-h-[calc(90vh-140px)] retro-scroll"
-        >
+        <RetroScrollContent ref={contentRef}>
           {/* Featured Image */}
           {post.image && (
-            <div className="mb-6">
-              <figure className="w-full max-w-2xl mx-auto border-4 border-amber-600 shadow-[4px_4px_0px_0px_rgba(180,83,9)] overflow-hidden rounded-lg">
-                <img
+            <Box sx={{ mb: 6 }}>
+              <Box
+                component="figure"
+                sx={{
+                  width: '100%',
+                  maxWidth: 512,
+                  mx: 'auto',
+                  border: '4px solid #d97706',
+                  boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+                  overflow: 'hidden',
+                  borderRadius: 2,
+                  m: 0,
+                }}
+              >
+                <Box
+                  component="img"
                   src={post.image}
                   alt={`Featured image for ${post.title}`}
-                  className="w-full h-auto object-cover"
+                  sx={{
+                    width: '100%',
+                    height: 'auto',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
                   loading="lazy"
                 />
-              </figure>
-            </div>
+              </Box>
+            </Box>
           )}
 
           {/* Post Content */}
-          <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 rounded-r-lg p-6 mb-8">
-            <div className="space-y-4">
+          <PostContent>
+            <Box sx={{ '& > p': { mb: 2 } }}>
               {formatFullContent(post.content).map((paragraph, idx) => (
-                <p
+                <Typography
                   key={idx}
-                  className="text-amber-800 leading-relaxed text-base"
+                  variant="body1"
+                  component="p"
+                  sx={{
+                    color: '#92400e',
+                    lineHeight: 1.6,
+                    fontFamily: 'inherit',
+                    fontSize: '1rem',
+                    '&:last-child': { mb: 0 },
+                  }}
                 >
                   {paragraph.trim()}
-                </p>
+                </Typography>
               ))}
-            </div>
-          </div>
+            </Box>
+          </PostContent>
 
           {/* Comments Section */}
-          <div ref={commentsRef} className="border-t-4 border-amber-600 pt-6">
-            <div className="bg-gradient-to-r from-amber-100 to-yellow-100 p-4 border-2 border-amber-600 shadow-[4px_4px_0px_0px_rgba(180,83,9)] mb-6">
-              <h3 className="text-lg font-bold text-amber-900 tracking-wider mb-2">
+          <Box ref={commentsRef} sx={{ borderTop: '4px solid #d97706', pt: 6 }}>
+            <Box
+              sx={{
+                background: 'linear-gradient(to right, #fef3c7, #fef3c7)',
+                p: 4,
+                border: '2px solid #d97706',
+                boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+                mb: 6,
+              }}
+            >
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 'bold',
+                  color: '#78350f',
+                  letterSpacing: '0.1em',
+                  mb: 1,
+                  fontFamily: 'Courier New, monospace',
+                }}
+              >
                 💬 COMMENTS ({comments.length})
-              </h3>
-              <p className="text-amber-700 text-sm">
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: '#b45309',
+                  fontFamily: 'Courier New, monospace',
+                }}
+              >
                 Share your thoughts about this retro tech story!
-              </p>
-            </div>
+              </Typography>
+            </Box>
 
             {/* Add Comment Form */}
             {isAuthenticated ? (
-              <div className="mb-6 bg-white border-2 border-amber-600 shadow-[2px_2px_0px_0px_rgba(180,83,9)] p-4">
-                <h4 className="text-amber-800 font-bold mb-3 tracking-wider">
-                  ADD COMMENT
-                </h4>
-                <div className="space-y-3">
-                  <textarea
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    placeholder="Share your thoughts..."
-                    className="w-full p-3 border-2 border-amber-700 bg-amber-50 focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono text-sm resize-none"
-                    rows={3}
-                    disabled={isSubmittingComment}
-                  />
-                  <div className="flex justify-end">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={handleAddComment}
-                      disabled={!newComment.trim() || isSubmittingComment}
-                    >
-                      {isSubmittingComment ? 'POSTING...' : 'POST COMMENT'}
-                    </Button>
-                  </div>
-                </div>
-              </div>
+              <CommentCard sx={{ mb: 6 }}>
+                <CardContent sx={{ p: 4 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      color: '#92400e',
+                      fontWeight: 'bold',
+                      mb: 3,
+                      letterSpacing: '0.1em',
+                      fontFamily: 'Courier New, monospace',
+                    }}
+                  >
+                    ADD COMMENT
+                  </Typography>
+                  <Box
+                    sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}
+                  >
+                    <TextField
+                      multiline
+                      rows={3}
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      placeholder="Share your thoughts..."
+                      disabled={isSubmittingComment}
+                      variant="outlined"
+                      fullWidth
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          backgroundColor: '#fffbeb',
+                          border: '2px solid #b45309',
+                          borderRadius: 0,
+                          fontFamily: 'Courier New, monospace',
+                          fontSize: '0.875rem',
+                          '& fieldset': { border: 'none' },
+                          '&:hover fieldset': { border: 'none' },
+                          '&.Mui-focused fieldset': { border: 'none' },
+                          '&.Mui-focused': {
+                            outline: '2px solid #eab308',
+                            outlineOffset: '2px',
+                          },
+                        },
+                        '& .MuiInputBase-input': {
+                          resize: 'none',
+                        },
+                      }}
+                    />
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                      <Button
+                        variant="primary"
+                        size="sm"
+                        onClick={handleAddComment}
+                        disabled={!newComment.trim() || isSubmittingComment}
+                      >
+                        {isSubmittingComment ? 'POSTING...' : 'POST COMMENT'}
+                      </Button>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </CommentCard>
             ) : (
-              <div className="mb-6 bg-amber-50 border-2 border-amber-600 p-4 text-center">
-                <p className="text-amber-700 font-mono mb-3">
+              <Box
+                sx={{
+                  mb: 6,
+                  backgroundColor: '#fffbeb',
+                  border: '2px solid #d97706',
+                  p: 4,
+                  textAlign: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: '#b45309',
+                    fontFamily: 'Courier New, monospace',
+                    mb: 3,
+                  }}
+                >
                   Please log in to post comments
-                </p>
+                </Typography>
                 <Button variant="outline" size="sm" onClick={onClose}>
                   CLOSE & LOGIN
                 </Button>
-              </div>
+              </Box>
             )}
 
             {/* Comments List */}
             {commentsLoading ? (
-              <div className="text-center py-8">
-                <div className="animate-spin w-8 h-8 border-4 border-amber-600 border-t-transparent rounded-full mx-auto mb-3"></div>
-                <p className="text-amber-600 font-mono">Loading comments...</p>
-              </div>
+              <Box sx={{ textAlign: 'center', py: 8 }}>
+                <CircularProgress
+                  size={32}
+                  sx={{
+                    color: '#d97706',
+                    mb: 3,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: '#d97706',
+                    fontFamily: 'Courier New, monospace',
+                  }}
+                >
+                  Loading comments...
+                </Typography>
+              </Box>
             ) : comments.length > 0 ? (
-              <div className="space-y-4">
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {comments.map((comment) => (
-                  <div
-                    key={comment.id}
-                    className="bg-white border-2 border-amber-600 shadow-[2px_2px_0px_0px_rgba(180,83,9)] p-4"
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-bold text-amber-800">
-                        {comment.userName || 'Anonymous'}
-                      </span>
-                      <span className="text-xs text-amber-600 font-mono">
-                        {formatCommentDate(comment.createdAt)}
-                      </span>
-                    </div>
-                    <p className="text-amber-800 leading-relaxed">
-                      {comment.content}
-                    </p>
-                  </div>
+                  <CommentCard key={comment.id}>
+                    <CardContent sx={{ p: 4 }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'flex-start',
+                          mb: 2,
+                        }}
+                      >
+                        <Typography
+                          sx={{
+                            fontWeight: 'bold',
+                            color: '#92400e',
+                            fontFamily: 'Courier New, monospace',
+                          }}
+                        >
+                          {comment.userName || 'Anonymous'}
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          sx={{
+                            color: '#d97706',
+                            fontFamily: 'Courier New, monospace',
+                          }}
+                        >
+                          {formatCommentDate(comment.createdAt)}
+                        </Typography>
+                      </Box>
+                      <Typography
+                        sx={{
+                          color: '#92400e',
+                          lineHeight: 1.6,
+                          fontFamily: 'inherit',
+                        }}
+                      >
+                        {comment.content}
+                      </Typography>
+                    </CardContent>
+                  </CommentCard>
                 ))}
-              </div>
+              </Box>
             ) : (
-              <div className="text-center py-8 bg-amber-50 border-2 border-amber-600">
-                <div className="text-4xl mb-3">💭</div>
-                <p className="text-amber-700 font-mono">
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  py: 8,
+                  backgroundColor: '#fffbeb',
+                  border: '2px solid #d97706',
+                }}
+              >
+                <Typography sx={{ fontSize: '2rem', mb: 3 }}>💭</Typography>
+                <Typography
+                  sx={{
+                    color: '#b45309',
+                    fontFamily: 'Courier New, monospace',
+                  }}
+                >
                   No comments yet. Be the first to share your thoughts!
-                </p>
-              </div>
+                </Typography>
+              </Box>
             )}
-          </div>
-        </div>
-      </div>
+          </Box>
+        </RetroScrollContent>
+      </DialogCard>
     );
   };
-
   return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 ${className}`}
-      onClick={handleBackdropClick}
-    >
+    <StyledDialog onClick={handleBackdropClick}>
       {variant === 'confirmation'
         ? renderConfirmationDialog(props as ConfirmationDialogProps)
         : renderContentDialog(props as ContentDialogProps)}
-    </div>
+    </StyledDialog>
   );
 };
 

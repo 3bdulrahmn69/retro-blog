@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link, useLocation } from 'react-router';
+import { Box, Typography, CircularProgress } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import type { Theme } from '@mui/material';
 import useAuth from '../hooks/useAuth';
 import { getPostById, createPost, updatePost } from '../utils/api';
 import Form from '../components/ui/Form';
@@ -7,6 +10,63 @@ import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
 import { validateRequired } from '../utils/validation';
 import type { Post } from '../types/types';
+
+const BackButton = styled(Link)(({ theme }: { theme: Theme }) => ({
+  position: 'absolute',
+  top: theme.spacing(2),
+  left: theme.spacing(2),
+  display: 'inline-block',
+  backgroundColor: theme.palette.primary.light + '80',
+  border: `2px solid ${theme.palette.primary.dark}`,
+  boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+  padding: theme.spacing(1, 2),
+  color: theme.palette.primary.dark,
+  fontWeight: 'bold',
+  textDecoration: 'none',
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    backgroundColor: theme.palette.primary.light,
+    transform: 'translate(4px, 4px)',
+    boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+  },
+}));
+
+const LoadingContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: `4px solid ${theme.palette.primary.dark}`,
+  boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+  padding: theme.spacing(4),
+}));
+
+const ImagePreviewContainer = styled(Box)(({ theme }: { theme: Theme }) => ({
+  width: '100%',
+  maxWidth: '24rem',
+  margin: '0 auto',
+  border: `4px solid ${theme.palette.primary.main}`,
+  boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+  overflow: 'hidden',
+  borderRadius: theme.spacing(1),
+  backgroundColor: theme.palette.primary.light + '40',
+}));
+
+const ContentTextarea = styled('textarea', {
+  shouldForwardProp: (prop) => prop !== 'hasError',
+})<{ hasError?: boolean }>(({ theme, hasError }) => ({
+  width: '100%',
+  padding: theme.spacing(1.5),
+  backgroundColor: theme.palette.primary.light + '40',
+  border: `2px solid ${hasError ? '#dc2626' : theme.palette.primary.dark}`,
+  fontFamily: 'monospace',
+  transition: 'all 0.2s ease',
+  resize: 'vertical',
+  '&:focus': {
+    outline: 'none',
+    borderColor: hasError ? '#dc2626' : theme.palette.primary.main,
+    boxShadow: `0 0 0 2px ${
+      hasError ? '#fca5a5' : theme.palette.primary.light
+    }`,
+  },
+}));
 
 interface PostData {
   title: string;
@@ -232,54 +292,68 @@ const ControlPostsPage = () => {
   if (!isAuthenticated) {
     return null;
   }
-
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-amber-50 flex items-center justify-center">
-        <div className="bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] p-8">
-          <div className="flex items-center gap-3">
-            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-amber-600"></div>
-            <span className="font-mono text-amber-800">
+      <Box
+        sx={{
+          minHeight: '100vh',
+          backgroundColor: 'primary.light' + '40',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <LoadingContainer>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+            <CircularProgress size={24} sx={{ color: 'primary.main' }} />
+            <Typography sx={{ fontFamily: 'monospace', color: 'primary.dark' }}>
               Loading post data...
-            </span>
-          </div>
-        </div>
-      </div>
+            </Typography>
+          </Box>
+        </LoadingContainer>
+      </Box>
     );
   }
-
   return (
-    <div className="min-h-screen bg-amber-50 flex flex-col items-center justify-center p-4 font-mono relative">
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'primary.light' + '40',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 2,
+        fontFamily: 'monospace',
+        position: 'relative',
+      }}
+    >
       {/* Back Button */}
-      <div className="absolute top-4 left-4">
-        <Link
-          to="/blog"
-          className="inline-block bg-amber-100 border-2 border-amber-700 shadow-[4px_4px_0px_0px_rgba(180,83,9)] px-4 py-2 text-amber-800 font-bold hover:bg-amber-200 transition-all duration-200 transform hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0px_0px_rgba(180,83,9)]"
-        >
-          ← Back to Blog
-        </Link>
-      </div>
+      <BackButton to="/blog">← Back to Blog</BackButton>
 
       {/* Main Content */}
-      <div className="w-full max-w-4xl">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-amber-800 mb-2">
+      <Box sx={{ width: '100%', maxWidth: '64rem' }}>
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography
+            variant="h3"
+            sx={{ fontWeight: 'bold', color: 'primary.dark', mb: 1 }}
+          >
             {mod === 'create' ? 'CREATE NEW POST' : 'EDIT POST'}
-          </h1>
-          <p className="text-amber-600 font-mono">
+          </Typography>
+          <Typography sx={{ color: 'primary.main', fontFamily: 'monospace' }}>
             {mod === 'create'
               ? 'Share your retro computing thoughts with the community'
               : 'Update your post with new information'}
-          </p>
-        </div>
+          </Typography>
+        </Box>
 
         <Form
           title={mod === 'create' ? 'NEW POST' : 'EDIT POST'}
           onSubmit={handleSubmit}
           isSubmitting={isSubmitting}
-          className="w-full"
+          sx={{ width: '100%' }}
         >
-          <div className="grid gap-6">
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
             <Input
               label="Post Title"
               value={postData.title}
@@ -300,7 +374,7 @@ const ControlPostsPage = () => {
             />
 
             {/* Image URL Input with Preview */}
-            <div className="space-y-4">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               <Input
                 label="Featured Image URL (Optional)"
                 value={postData.image}
@@ -310,72 +384,156 @@ const ControlPostsPage = () => {
 
               {/* Image Preview Section */}
               {postData.image.trim() && (
-                <div className="space-y-2">
-                  <label className="block text-amber-800 font-bold uppercase tracking-wide text-sm">
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Typography
+                    component="label"
+                    sx={{
+                      color: 'primary.dark',
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      fontSize: '0.875rem',
+                    }}
+                  >
                     Image Preview
-                  </label>
+                  </Typography>
 
-                  <div className="relative">
-                    <div className="w-full max-w-md mx-auto border-4 border-amber-600 shadow-[4px_4px_0px_0px_rgba(180,83,9)] overflow-hidden rounded-lg bg-amber-50">
+                  <Box sx={{ position: 'relative' }}>
+                    <ImagePreviewContainer>
                       {imageLoading && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-amber-50 bg-opacity-75">
-                          <div className="flex items-center gap-2">
-                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-amber-600"></div>
-                            <span className="text-amber-700 text-sm font-mono">
+                        <Box
+                          sx={{
+                            position: 'absolute',
+                            inset: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: 'primary.light' + '60',
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 1,
+                            }}
+                          >
+                            <CircularProgress
+                              size={20}
+                              sx={{ color: 'primary.main' }}
+                            />
+                            <Typography
+                              sx={{
+                                color: 'primary.main',
+                                fontSize: '0.875rem',
+                                fontFamily: 'monospace',
+                              }}
+                            >
                               Loading image...
-                            </span>
-                          </div>
-                        </div>
+                            </Typography>
+                          </Box>
+                        </Box>
                       )}
 
                       {!imagePreviewError ? (
-                        <img
+                        <Box
+                          component="img"
                           src={postData.image}
                           alt="Preview"
-                          className="w-full h-48 object-cover transition-opacity duration-300"
+                          sx={{
+                            width: '100%',
+                            height: '12rem',
+                            objectFit: 'cover',
+                            transition: 'opacity 0.3s ease',
+                            opacity: imageLoading ? 0.5 : 1,
+                          }}
                           onLoad={handleImageLoad}
                           onError={handleImageError}
-                          style={{ opacity: imageLoading ? 0.5 : 1 }}
                         />
                       ) : (
-                        <div className="w-full h-48 flex flex-col items-center justify-center bg-red-50 text-red-600">
-                          <div className="text-3xl mb-2">❌</div>
-                          <p className="text-sm font-mono text-center px-4">
+                        <Box
+                          sx={{
+                            width: '100%',
+                            height: '12rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: '#fef2f2',
+                            color: '#dc2626',
+                          }}
+                        >
+                          <Typography sx={{ fontSize: '3rem', mb: 1 }}>
+                            ❌
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: '0.875rem',
+                              fontFamily: 'monospace',
+                              textAlign: 'center',
+                              px: 2,
+                            }}
+                          >
                             Failed to load image. Please check the URL.
-                          </p>
-                        </div>
+                          </Typography>
+                        </Box>
                       )}
-                    </div>
-                  </div>
-                </div>
+                    </ImagePreviewContainer>
+                  </Box>
+                </Box>
               )}
-            </div>
+            </Box>
 
-            <div className="space-y-2">
-              <label className="block text-amber-800 font-bold uppercase tracking-wide text-sm">
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Typography
+                component="label"
+                sx={{
+                  color: 'primary.dark',
+                  fontWeight: 'bold',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  fontSize: '0.875rem',
+                }}
+              >
                 Post Content
-                <span className="text-red-600 ml-1">*</span>
-              </label>
-              <textarea
+                <Box component="span" sx={{ color: '#dc2626', ml: 0.5 }}>
+                  *
+                </Box>
+              </Typography>{' '}
+              <ContentTextarea
                 value={postData.content}
                 onChange={(e) => handleContentChange(e.target.value)}
                 placeholder="Write your retro computing story, memories, or technical insights here. Use double line breaks to separate paragraphs."
                 rows={12}
-                className={`w-full px-3 py-2 bg-amber-50 border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono transition-colors resize-vertical ${
-                  validationErrors.content
-                    ? 'border-red-600 focus:border-red-600 focus:ring-red-500'
-                    : 'border-amber-700'
-                }`}
+                hasError={!!validationErrors.content}
               />
               {validationErrors.content && (
-                <p className="text-red-600 text-sm font-mono bg-red-50 border border-red-200 px-2 py-1 rounded">
+                <Typography
+                  sx={{
+                    color: '#dc2626',
+                    fontSize: '0.875rem',
+                    fontFamily: 'monospace',
+                    backgroundColor: '#fef2f2',
+                    border: '1px solid #fca5a5',
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: 0.5,
+                  }}
+                >
                   {'>'} {validationErrors.content}
-                </p>
+                </Typography>
               )}
-            </div>
+            </Box>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button type="submit" disabled={isSubmitting} className="flex-1">
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                gap: 1.5,
+                pt: 2,
+              }}
+            >
+              <Button type="submit" disabled={isSubmitting} sx={{ flex: 1 }}>
                 {isSubmitting
                   ? mod === 'create'
                     ? 'CREATING...'
@@ -386,17 +544,17 @@ const ControlPostsPage = () => {
               </Button>
               <Button
                 variant="outline"
-                className="flex-1"
+                sx={{ flex: 1 }}
                 onClick={() => navigate('/blog')}
                 disabled={isSubmitting}
               >
                 CANCEL
               </Button>
-            </div>
-          </div>
+            </Box>
+          </Box>
         </Form>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

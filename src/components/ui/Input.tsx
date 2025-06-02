@@ -1,4 +1,58 @@
 import React, { useState } from 'react';
+import {
+  TextField,
+  InputAdornment,
+  IconButton,
+  Box,
+  Button,
+  FormLabel,
+  OutlinedInput,
+  FormHelperText,
+  styled,
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+
+const RetroTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    backgroundColor: theme.palette.primary.light,
+    border: `2px solid ${theme.palette.primary.dark}`,
+    boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+    fontFamily: 'monospace',
+    '&:hover': {
+      border: `2px solid ${theme.palette.primary.dark}`,
+    },
+    '&.Mui-focused': {
+      border: `2px solid ${theme.palette.primary.dark}`,
+      boxShadow: `0 0 0 2px ${theme.palette.secondary.main}`,
+    },
+    '&.Mui-error': {
+      border: `2px solid ${theme.palette.error.main}`,
+      boxShadow: `0 0 0 2px ${theme.palette.error.light}`,
+    },
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none',
+  },
+  '& .MuiInputBase-input': {
+    fontFamily: 'monospace',
+    fontSize: '0.875rem',
+    color: theme.palette.primary.dark,
+    '&::placeholder': {
+      color: theme.palette.primary.main,
+      opacity: 1,
+    },
+  },
+}));
+
+const SearchContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  backgroundColor: theme.palette.primary.light,
+  border: `2px solid ${theme.palette.primary.main}`,
+  boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+  '&:focus-within': {
+    boxShadow: `0 0 0 2px ${theme.palette.secondary.main}`,
+  },
+}));
 
 interface InputProps {
   label?: string;
@@ -9,7 +63,7 @@ interface InputProps {
   error?: string;
   required?: boolean;
   disabled?: boolean;
-  className?: string;
+  sx?: any;
   variant?: 'default' | 'search';
   onSubmit?: () => void;
   submitButtonText?: string;
@@ -25,21 +79,16 @@ const Input: React.FC<InputProps> = ({
   error,
   required = false,
   disabled = false,
-  className = '',
+  sx,
   variant = 'default',
   onSubmit,
   submitButtonText = 'SUBMIT',
   icon,
-  ...props
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const isPasswordField = type === 'password';
   const isSearchField = variant === 'search';
-  const inputType = isPasswordField
-    ? showPassword
-      ? 'text'
-      : 'password'
-    : type;
+  const inputType = isPasswordField && showPassword ? 'text' : type;
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && onSubmit) {
@@ -48,112 +97,194 @@ const Input: React.FC<InputProps> = ({
     }
   };
 
-  const renderInput = () => (
-    <div className="relative">
-      <input
-        type={inputType}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyPress={handleKeyPress}
-        placeholder={placeholder}
-        disabled={disabled}
-        className={`w-full px-3 py-2 bg-amber-50 border-2 focus:outline-none focus:ring-2 focus:ring-yellow-500 font-mono transition-colors ${
-          isPasswordField ? 'pr-12' : ''
-        } ${isSearchField && onSubmit ? 'pr-20' : ''} ${
-          error
-            ? 'border-red-600 focus:border-red-600 focus:ring-red-500'
-            : 'border-amber-700'
-        } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
-        {...props}
-      />
-
-      {/* Password toggle button */}
-      {isPasswordField && (
-        <button
-          type="button"
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 transform -translate-y-1/2 text-amber-600 hover:text-amber-800 font-mono text-sm font-bold"
-        >
-          {showPassword ? 'HIDE' : 'SHOW'}
-        </button>
-      )}
-
-      {/* Search submit button */}
-      {isSearchField && onSubmit && (
-        <button
-          type="button"
-          onClick={onSubmit}
-          className="absolute right-2 top-1/2 transform -translate-y-1/2 px-2 py-1 bg-amber-600 text-white hover:bg-amber-700 transition-colors border border-amber-700 font-mono text-xs font-bold rounded"
-        >
-          {submitButtonText}
-        </button>
-      )}
-
-      {/* Icon */}
-      {icon && !isPasswordField && !isSearchField && (
-        <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-amber-600">
-          {icon}
-        </div>
-      )}
-    </div>
-  );
-
   // Search variant - inline with submit button
   if (isSearchField) {
     return (
-      <div className={`${className}`}>
+      <Box sx={sx}>
         {label && (
-          <label className="block text-amber-800 font-bold uppercase tracking-wide text-sm mb-2">
+          <FormLabel
+            sx={{
+              display: 'block',
+              color: 'primary.dark',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              fontSize: '0.875rem',
+              mb: 1,
+              fontFamily: 'monospace',
+            }}
+          >
             {label}
-            {required && <span className="text-red-600 ml-1">*</span>}
-          </label>
+            {required && (
+              <Box component="span" sx={{ color: 'error.main', ml: 0.5 }}>
+                *
+              </Box>
+            )}
+          </FormLabel>
         )}
-        <div className="bg-amber-50 border-2 border-amber-600 shadow-[2px_2px_0px_0px_rgba(180,83,9)] flex">
-          <input
+        <SearchContainer>
+          <OutlinedInput
             type={inputType}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={placeholder}
             disabled={disabled}
-            className="flex-1 px-4 py-2 bg-transparent text-amber-800 placeholder-amber-600 focus:outline-none font-mono text-sm"
-            {...props}
+            sx={{
+              flex: 1,
+              border: 'none',
+              backgroundColor: 'transparent',
+              fontFamily: 'monospace',
+              fontSize: '0.875rem',
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '& .MuiInputBase-input': {
+                color: 'primary.dark',
+                '&::placeholder': {
+                  color: 'primary.main',
+                  opacity: 1,
+                },
+              },
+            }}
           />
           {onSubmit && (
-            <button
-              type="button"
+            <Button
               onClick={onSubmit}
-              className="px-4 py-2 bg-amber-600 text-white hover:bg-amber-700 transition-colors border-l-2 border-amber-700 font-mono text-sm font-bold"
+              sx={{
+                px: 2,
+                py: 1,
+                backgroundColor: 'primary.main',
+                color: 'white',
+                borderLeft: 2,
+                borderColor: 'primary.dark',
+                fontFamily: 'monospace',
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                borderRadius: 0,
+                minWidth: 'auto',
+                '&:hover': {
+                  backgroundColor: 'primary.dark',
+                },
+              }}
             >
               {submitButtonText}
-            </button>
+            </Button>
           )}
-        </div>
+        </SearchContainer>
         {error && (
-          <p className="text-red-600 text-sm font-mono bg-red-50 border border-red-200 px-2 py-1 rounded mt-2">
-            {'>'} {error}
-          </p>
+          <FormHelperText
+            sx={{
+              color: 'error.main',
+              fontSize: '0.875rem',
+              fontFamily: 'monospace',
+              backgroundColor: 'error.light',
+              border: 1,
+              borderColor: 'error.light',
+              px: 1,
+              py: 0.5,
+              borderRadius: 1,
+              mt: 1,
+              '&::before': {
+                content: '">"',
+                mr: 0.5,
+              },
+            }}
+          >
+            {error}
+          </FormHelperText>
         )}
-      </div>
+      </Box>
     );
   }
 
   // Default variant - standard form input
   return (
-    <div className={`space-y-2 ${className}`}>
+    <Box sx={{ ...sx }}>
       {label && (
-        <label className="block text-amber-800 font-bold uppercase tracking-wide text-sm">
+        <FormLabel
+          sx={{
+            display: 'block',
+            color: 'primary.dark',
+            fontWeight: 700,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            fontSize: '0.875rem',
+            mb: 1,
+            fontFamily: 'monospace',
+          }}
+        >
           {label}
-          {required && <span className="text-red-600 ml-1">*</span>}
-        </label>
+          {required && (
+            <Box component="span" sx={{ color: 'error.main', ml: 0.5 }}>
+              *
+            </Box>
+          )}
+        </FormLabel>
       )}
-      {renderInput()}
+      <RetroTextField
+        type={inputType}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onKeyPress={handleKeyPress}
+        placeholder={placeholder}
+        disabled={disabled}
+        error={!!error}
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <>
+              {isPasswordField && (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                    sx={{
+                      color: 'primary.main',
+                      fontFamily: 'monospace',
+                      fontSize: '0.875rem',
+                      fontWeight: 700,
+                      '&:hover': {
+                        color: 'primary.dark',
+                      },
+                    }}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )}
+              {icon && !isPasswordField && (
+                <InputAdornment position="end">
+                  <Box sx={{ color: 'primary.main' }}>{icon}</Box>
+                </InputAdornment>
+              )}
+            </>
+          ),
+        }}
+      />
       {error && (
-        <p className="text-red-600 text-sm font-mono bg-red-50 border border-red-200 px-2 py-1 rounded">
-          {'>'} {error}
-        </p>
+        <FormHelperText
+          sx={{
+            color: 'error.main',
+            fontSize: '0.875rem',
+            fontFamily: 'monospace',
+            backgroundColor: 'error.light',
+            border: 1,
+            borderColor: 'error.light',
+            px: 1,
+            py: 0.5,
+            borderRadius: 1,
+            mt: 1,
+            '&::before': {
+              content: '">"',
+              mr: 0.5,
+            },
+          }}
+        >
+          {error}
+        </FormHelperText>
       )}
-    </div>
+    </Box>
   );
 };
 

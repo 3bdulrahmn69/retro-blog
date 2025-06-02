@@ -1,63 +1,166 @@
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import Container from '../ui/Container';
 import Section from '../ui/Section';
 
+const AboutCard = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.paper,
+  border: `4px solid ${theme.palette.primary.dark}`,
+  boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+  transition: 'all 0.7s ease',
+}));
+
+const AboutHeader = styled(Box)(({ theme }) => ({
+  background: `linear-gradient(to right, ${theme.palette.primary.light}, ${theme.palette.primary.main})`,
+  padding: theme.spacing(2),
+  color: theme.palette.primary.dark,
+  textAlign: 'center',
+  fontWeight: 'bold',
+  borderBottom: `4px solid ${theme.palette.primary.dark}`,
+}));
+
+const FeatureCard = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.light + '40',
+  padding: theme.spacing(2),
+  borderLeft: `4px solid ${theme.palette.primary.main}`,
+}));
+
 const AboutSection = ({ activeSection }: { activeSection: number }) => {
   return (
-    <Section id="about" className=" bg-amber-100">
+    <Section id="about" sx={{ backgroundColor: 'primary.light' + '40' }}>
       <Container>
-        <div
-          className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] transition-all duration-700 ${
-            activeSection >= 2
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-8'
-          }`}
+        <AboutCard
+          sx={{
+            opacity: activeSection >= 2 ? 1 : 0,
+            transform:
+              activeSection >= 2 ? 'translateY(0)' : 'translateY(32px)',
+          }}
         >
-          <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-2 text-amber-900 text-center font-bold border-b-4 border-amber-700">
-            <h2 className="text-2xl tracking-wider">ABOUT RETRO BLOG</h2>
-          </div>
-          <div className="p-6 md:p-8">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-amber-800">
+          <AboutHeader>
+            <Typography
+              variant="h2"
+              sx={{
+                fontSize: { xs: '1.5rem', md: '2rem' },
+                letterSpacing: '0.1em',
+                fontFamily: 'Orbitron, monospace',
+              }}
+            >
+              ABOUT RETRO BLOG
+            </Typography>
+          </AboutHeader>
+
+          <Box sx={{ p: { xs: 3, md: 4 } }}>
+            <Box sx={{ mb: 6 }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: { xs: '1.75rem', md: '2rem' },
+                  fontWeight: 'bold',
+                  color: 'primary.dark',
+                  mb: 3,
+                }}
+              >
                 Nostalgia-Driven Blogging
-              </h3>
-              <p className="text-amber-700">
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  color: 'primary.main',
+                  lineHeight: 1.6,
+                }}
+              >
                 Retro Blog was founded in 2025 by a group of tech enthusiasts
                 who missed the aesthetic charm of early computing. Our platform
                 combines the visual appeal of 80s and 90s interfaces with modern
                 functionality.
-              </p>
-
-              <div className="grid md:grid-cols-3 gap-6 mt-8">
-                <div className="bg-amber-50 p-4 border-l-4 border-amber-500">
-                  <h4 className="text-lg font-bold text-amber-800 mb-2">
+              </Typography>
+            </Box>{' '}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', md: 'row' },
+                gap: 3,
+                mt: 4,
+              }}
+            >
+              <Box sx={{ flex: { xs: '1', md: '1 1 33.333%' } }}>
+                <FeatureCard>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: '1.125rem',
+                      fontWeight: 'bold',
+                      color: 'primary.dark',
+                      mb: 2,
+                    }}
+                  >
                     Retro Design
-                  </h4>
-                  <p className="text-amber-700">
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'primary.main',
+                      lineHeight: 1.5,
+                    }}
+                  >
                     We embrace chunky borders, vibrant gradients, and pixelated
                     charm.
-                  </p>
-                </div>
-                <div className="bg-amber-50 p-4 border-l-4 border-amber-500">
-                  <h4 className="text-lg font-bold text-amber-800 mb-2">
+                  </Typography>
+                </FeatureCard>
+              </Box>
+              <Box sx={{ flex: { xs: '1', md: '1 1 33.333%' } }}>
+                <FeatureCard>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: '1.125rem',
+                      fontWeight: 'bold',
+                      color: 'primary.dark',
+                      mb: 2,
+                    }}
+                  >
                     Modern Tech
-                  </h4>
-                  <p className="text-amber-700">
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'primary.main',
+                      lineHeight: 1.5,
+                    }}
+                  >
                     Built with React and TypeScript for a smooth experience.
-                  </p>
-                </div>
-                <div className="bg-amber-50 p-4 border-l-4 border-amber-500">
-                  <h4 className="text-lg font-bold text-amber-800 mb-2">
+                  </Typography>
+                </FeatureCard>
+              </Box>
+              <Box sx={{ flex: { xs: '1', md: '1 1 33.333%' } }}>
+                {' '}
+                <FeatureCard>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontSize: '1.125rem',
+                      fontWeight: 'bold',
+                      color: 'primary.dark',
+                      mb: 2,
+                    }}
+                  >
                     Community Focus
-                  </h4>
-                  <p className="text-amber-700">
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'primary.main',
+                      lineHeight: 1.5,
+                    }}
+                  >
                     A platform for sharing knowledge with fellow retro
                     enthusiasts.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                  </Typography>
+                </FeatureCard>
+              </Box>
+            </Box>
+          </Box>
+        </AboutCard>
       </Container>
     </Section>
   );

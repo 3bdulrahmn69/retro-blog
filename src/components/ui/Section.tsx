@@ -1,47 +1,71 @@
-import { clsx } from 'clsx';
+import { Box, Typography } from '@mui/material';
+import type { BoxProps } from '@mui/material/Box';
+import type { TypographyProps } from '@mui/material/Typography';
 
-interface TitleProps {
+interface TitleProps extends Omit<TypographyProps, 'children'> {
   children: React.ReactNode;
-  className?: string;
 }
 
-export const Title = ({ children, className }: TitleProps) => {
+export const Title = ({ children, sx, ...props }: TitleProps) => {
   return (
-    <h2
-      className={clsx(
-        'text-3xl font-bold text-amber-800 mb-8 text-center',
-        className
-      )}
+    <Typography
+      variant="h2"
+      component="h2"
+      sx={{
+        fontSize: { xs: '1.875rem', md: '2.25rem' },
+        fontWeight: 700,
+        color: 'primary.dark',
+        mb: 4,
+        textAlign: 'center',
+        ...sx,
+      }}
+      {...props}
     >
       {children}
-    </h2>
+    </Typography>
   );
 };
 
-export const Subtitle = ({ children, className }: TitleProps) => {
+export const Subtitle = ({ children, sx, ...props }: TitleProps) => {
   return (
-    <span
-      className={clsx(
-        'text-2xl font-semibold text-amber-700 mb-4 text-center',
-        className
-      )}
+    <Typography
+      variant="h3"
+      component="span"
+      sx={{
+        fontSize: { xs: '1.5rem', md: '1.875rem' },
+        fontWeight: 600,
+        color: 'primary.main',
+        mb: 2,
+        textAlign: 'center',
+        display: 'block',
+        ...sx,
+      }}
+      {...props}
     >
       {children}
-    </span>
+    </Typography>
   );
 };
 
-interface SectionProps {
+interface SectionProps extends Omit<BoxProps, 'children'> {
   children: React.ReactNode;
   id: string;
-  className?: string;
 }
 
-const Section = ({ id, children, className }: SectionProps) => {
+const Section = ({ id, children, sx, ...props }: SectionProps) => {
   return (
-    <section id={id} className={clsx('py-16 relative', className)}>
+    <Box
+      component="section"
+      id={id}
+      sx={{
+        py: 8,
+        position: 'relative',
+        ...sx,
+      }}
+      {...props}
+    >
       {children}
-    </section>
+    </Box>
   );
 };
 

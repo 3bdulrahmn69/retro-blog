@@ -1,4 +1,15 @@
 import { useState, useEffect } from 'react';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  Box,
+  Chip,
+  Divider,
+  Paper,
+} from '@mui/material';
+import { Edit, Delete, MenuBook } from '@mui/icons-material';
 import useAuth from '../../hooks/useAuth';
 import { deletePost, getAllPosts, getCommentsByPostId } from '../../utils/api';
 import Button from './Button';
@@ -136,194 +147,425 @@ const BlogPostCard = ({
   const isPostOwner =
     isAuthenticated && Number(user?.id) === Number(post.userId);
   const hasValidImage = post.image && !imageError;
-
   return (
     <>
-      <article
-        className={`group bg-white border-2 sm:border-4 border-amber-700 shadow-[4px_4px_0px_0px_rgba(180,83,9)] sm:shadow-[8px_8px_0px_0px_rgba(180,83,9)] transition-all duration-500 ${
-          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-        style={{ transitionDelay: `${index * 100}ms` }}
+      <Card
+        component="article"
+        elevation={0}
+        sx={{
+          backgroundColor: 'background.paper',
+          border: { xs: 2, sm: 4 },
+          borderColor: 'primary.dark',
+          boxShadow: {
+            xs: '4px 4px 0px 0px rgba(180,83,9)',
+            sm: '8px 8px 0px 0px rgba(180,83,9)',
+          },
+          opacity: isLoaded ? 1 : 0,
+          transform: isLoaded ? 'translateY(0)' : 'translateY(2rem)',
+          transition: 'all 0.5s ease',
+          transitionDelay: `${index * 100}ms`,
+          '&:hover': {
+            '& .post-image': {
+              transform: 'scale(1.05)',
+            },
+          },
+        }}
         role="article"
         aria-labelledby={`post-title-${post.id}`}
       >
         {/* Post Header */}
-        <header className="bg-gradient-to-r from-yellow-400 to-amber-600 p-3 sm:p-4 text-amber-900 font-bold border-b-2 sm:border-b-4 border-amber-700">
-          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
-            <h2
-              id={`post-title-${post.id}`}
-              className="text-base sm:text-lg lg:text-xl tracking-wider leading-tight"
-              title={post.title}
+        <CardHeader
+          sx={{
+            background: 'linear-gradient(to right, #fbbf24, #d97706)',
+            color: 'primary.dark',
+            fontWeight: 700,
+            borderBottom: { xs: 2, sm: 4 },
+            borderColor: 'primary.dark',
+            p: { xs: 2, sm: 3 },
+          }}
+          title={
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                justifyContent: { sm: 'space-between' },
+                alignItems: { sm: 'flex-start' },
+                gap: 1,
+              }}
             >
-              {post.title}
-            </h2>
-            <div className="flex items-center gap-2 text-xs">
-              {post.editedAt ? (
-                <div className="hidden sm:block bg-amber-100 px-2 py-1 font-mono">
-                  <span>edited- </span>
-                  <time
-                    dateTime={post.editedAt}
-                    title={formatDateLong(post.editedAt)}
-                  >
-                    {formatDate(post.editedAt)}
-                  </time>
-                </div>
-              ) : (
-                <time
-                  dateTime={post.createdAt}
-                  className="hidden sm:block bg-amber-100 px-2 py-1 font-mono"
-                  title={formatDateLong(post.createdAt)}
-                >
-                  {formatDate(post.createdAt)}
-                </time>
-              )}
-            </div>
-          </div>
-        </header>
+              <Typography
+                id={`post-title-${post.id}`}
+                variant="h6"
+                component="h2"
+                sx={{
+                  fontSize: { xs: '1rem', sm: '1.125rem', lg: '1.25rem' },
+                  letterSpacing: '0.1em',
+                  lineHeight: 1.2,
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                }}
+                title={post.title}
+              >
+                {post.title}
+              </Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  fontSize: '0.75rem',
+                }}
+              >
+                {post.editedAt ? (
+                  <Chip
+                    label={
+                      <Box component="span">
+                        edited -{' '}
+                        <time
+                          dateTime={post.editedAt}
+                          title={formatDateLong(post.editedAt)}
+                        >
+                          {formatDate(post.editedAt)}
+                        </time>
+                      </Box>
+                    }
+                    size="small"
+                    sx={{
+                      display: { xs: 'none', sm: 'flex' },
+                      backgroundColor: 'primary.light',
+                      fontFamily: 'monospace',
+                      fontSize: '0.75rem',
+                    }}
+                  />
+                ) : (
+                  <Chip
+                    label={
+                      <time
+                        dateTime={post.createdAt}
+                        title={formatDateLong(post.createdAt)}
+                      >
+                        {formatDate(post.createdAt)}
+                      </time>
+                    }
+                    size="small"
+                    sx={{
+                      display: { xs: 'none', sm: 'flex' },
+                      backgroundColor: 'primary.light',
+                      fontFamily: 'monospace',
+                      fontSize: '0.75rem',
+                    }}
+                  />
+                )}
+              </Box>
+            </Box>
+          }
+        />
 
-        <div className="p-4 sm:p-5 lg:p-6">
+        <CardContent sx={{ p: { xs: 2, sm: 3, lg: 4 } }}>
           {/* Mobile Image */}
           {hasValidImage && (
-            <div className="mb-5 lg:hidden">
-              <figure className="w-full h-48 sm:h-56 border-2 sm:border-4 border-amber-600 shadow-[2px_2px_0px_0px_rgba(180,83,9)] sm:shadow-[4px_4px_0px_0px_rgba(180,83,9)] overflow-hidden">
-                <img
+            <Box sx={{ mb: 3, display: { lg: 'none' } }}>
+              <Paper
+                elevation={0}
+                sx={{
+                  width: '100%',
+                  height: { xs: '192px', sm: '224px' },
+                  border: { xs: 2, sm: 4 },
+                  borderColor: 'primary.main',
+                  boxShadow: {
+                    xs: '2px 2px 0px 0px rgba(180,83,9)',
+                    sm: '4px 4px 0px 0px rgba(180,83,9)',
+                  },
+                  overflow: 'hidden',
+                }}
+              >
+                <Box
+                  component="img"
+                  className="post-image"
                   src={post.image}
                   alt={`Featured image for ${post.title}`}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    transition: 'transform 0.3s ease',
+                  }}
                   onError={handleImageError}
                   loading="lazy"
                 />
-              </figure>
-            </div>
+              </Paper>
+            </Box>
           )}
 
           {/* Content Layout */}
-          <div
-            className={`${
-              hasValidImage ? 'lg:grid lg:grid-cols-5 lg:gap-6' : ''
-            }`}
+          <Box
+            sx={{
+              display: hasValidImage ? { lg: 'grid' } : 'block',
+              gridTemplateColumns: hasValidImage
+                ? { lg: '2fr 3fr' }
+                : undefined,
+              gap: hasValidImage ? { lg: 3 } : undefined,
+            }}
           >
             {/* Desktop Image */}
             {hasValidImage && (
-              <figure className="hidden lg:block lg:col-span-2">
-                <div className="w-full h-64 xl:h-72 border-4 border-amber-600 shadow-[4px_4px_0px_0px_rgba(180,83,9)] overflow-hidden">
-                  <img
+              <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
+                <Paper
+                  elevation={0}
+                  sx={{
+                    width: '100%',
+                    height: { lg: '256px', xl: '288px' },
+                    border: 4,
+                    borderColor: 'primary.main',
+                    boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Box
+                    component="img"
+                    className="post-image"
                     src={post.image}
                     alt={`Featured image for ${post.title}`}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transition: 'transform 0.3s ease',
+                    }}
                     onError={handleImageError}
                     loading="lazy"
                   />
-                </div>
-              </figure>
+                </Paper>
+              </Box>
             )}
 
             {/* Content Section */}
-            <div className={`${hasValidImage ? 'lg:col-span-3' : ''}`}>
+            <Box>
               {/* Meta Information */}
-              <div className="flex flex-col xs:flex-row xs:justify-between xs:items-start mb-4 text-sm text-amber-600 gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono">By:</span>
-                  <span className="font-semibold text-amber-700">
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'column', sm: 'row' },
+                  justifyContent: { sm: 'space-between' },
+                  alignItems: { sm: 'flex-start' },
+                  mb: 2,
+                  fontSize: '0.875rem',
+                  color: 'primary.main',
+                  gap: 1,
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
+                    By:
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 600, color: 'primary.dark' }}
+                  >
                     {post.author || 'Anonymous'}
-                  </span>
-                </div>
-                <time
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="caption"
+                  component="time"
                   dateTime={post.createdAt}
-                  className="lg:hidden font-mono text-xs text-amber-500"
                   title={formatDateLong(post.createdAt)}
+                  sx={{
+                    display: { lg: 'none' },
+                    fontFamily: 'monospace',
+                    fontSize: '0.75rem',
+                    color: 'text.secondary',
+                  }}
                 >
                   {formatDate(post.createdAt)}
-                </time>
-              </div>
+                </Typography>
+              </Box>
 
               {/* Content Preview */}
-              <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border-l-4 border-amber-500 mb-5 rounded-r-lg overflow-hidden">
-                <div className="p-4 sm:p-5">
-                  <p className="text-amber-800 leading-relaxed text-sm sm:text-base">
+              <Paper
+                elevation={0}
+                sx={{
+                  background: 'linear-gradient(to right, #fffbeb, #fefce8)',
+                  borderLeft: 4,
+                  borderColor: 'secondary.main',
+                  mb: 3,
+                  borderRadius: '0 0.5rem 0.5rem 0',
+                  overflow: 'hidden',
+                }}
+              >
+                <Box sx={{ p: { xs: 2, sm: 3 } }}>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: 'primary.dark',
+                      lineHeight: 1.6,
+                      fontSize: { xs: '0.875rem', sm: '1rem' },
+                    }}
+                  >
                     {truncateContent(post.content)}
-                  </p>
-                </div>
+                  </Typography>
+                </Box>
 
                 {/* Gradient overlay for truncated content */}
                 {shouldShowReadMore && (
-                  <div className="h-6 bg-gradient-to-t from-yellow-50 to-transparent" />
+                  <Box
+                    sx={{
+                      height: '1.5rem',
+                      background:
+                        'linear-gradient(to top, #fefce8, transparent)',
+                    }}
+                  />
                 )}
-              </div>
+              </Paper>
 
               {/* Action Buttons */}
-              <div className="space-y-3">
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 {/* Read More Button */}
                 {shouldShowReadMore && (
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full sm:w-auto transition-all duration-300 hover:scale-105"
                     onClick={handleReadMore}
+                    sx={{
+                      width: { xs: '100%', sm: 'auto' },
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'scale(1.05)',
+                      },
+                    }}
                   >
-                    <span className="mr-2">📖</span>
+                    <MenuBook sx={{ mr: 1, fontSize: '1rem' }} />
                     READ FULL POST
                   </Button>
                 )}
 
                 {/* Owner Actions */}
                 {isPostOwner && (
-                  <div className="flex flex-row gap-3 pt-4 border-t-2 border-amber-200">
-                    <Link to={`/posts/edit/${post.id}`} className="flex-1">
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      gap: 2,
+                      pt: 2,
+                      borderTop: 2,
+                      borderColor: 'primary.light',
+                    }}
+                  >
+                    <Link
+                      to={`/posts/edit/${post.id}`}
+                      style={{ flex: 1, textDecoration: 'none' }}
+                    >
                       <Button
                         variant="secondary"
                         size="sm"
-                        className="w-full transition-all duration-200 hover:scale-105 hover:shadow-[4px_4px_0px_0px_rgba(180,83,9)] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_0px_rgba(180,83,9)]"
-                        aria-label={`Edit post: ${post.title}`}
+                        fullWidth
                         disabled={isDeleting}
+                        sx={{
+                          transition: 'all 0.2s ease',
+                          '&:hover': {
+                            transform: 'scale(1.05)',
+                            boxShadow: '4px 4px 0px 0px rgba(180,83,9)',
+                          },
+                          '&:active': {
+                            transform: 'translate(1px, 1px)',
+                            boxShadow: '2px 2px 0px 0px rgba(180,83,9)',
+                          },
+                        }}
+                        startIcon={<Edit />}
                       >
-                        <span className="font-bold tracking-wider">
-                          EDIT POST
-                        </span>
+                        EDIT POST
                       </Button>
                     </Link>
                     <Button
                       variant="danger"
                       size="sm"
-                      className="flex-1 transition-all duration-200 hover:scale-105 hover:shadow-[4px_4px_0px_0px_rgba(153,27,27)] active:translate-x-1 active:translate-y-1 active:shadow-[2px_2px_0px_0px_rgba(153,27,27)]"
                       onClick={handleDeleteClick}
-                      aria-label={`Delete post: ${post.title}`}
                       disabled={isDeleting}
+                      sx={{
+                        flex: 1,
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          transform: 'scale(1.05)',
+                        },
+                        '&:active': {
+                          transform: 'translate(1px, 1px)',
+                        },
+                      }}
+                      startIcon={<Delete />}
                     >
-                      <span className="font-bold tracking-wider">
-                        DELETE POST
-                      </span>
+                      DELETE POST
                     </Button>
-                  </div>
+                  </Box>
                 )}
-              </div>
+              </Box>
 
               {/* Post Stats */}
-              <div className="mt-4 pt-3 border-t border-amber-100 flex flex-wrap items-center gap-4 text-xs text-amber-500 font-mono">
-                <span>
+              <Divider sx={{ mt: 2, borderColor: 'primary.light' }} />
+              <Box
+                sx={{
+                  mt: 2,
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: 2,
+                  fontSize: '0.75rem',
+                  color: 'text.secondary',
+                  fontFamily: 'monospace',
+                }}
+              >
+                <Typography variant="caption" sx={{ fontFamily: 'monospace' }}>
                   📖 {Math.ceil(post.content.split(' ').length / 200)} min read
-                </span>
-                <button
+                </Typography>
+                <Box
+                  component="button"
                   onClick={handleCommentsClick}
-                  className="group/comments hover:text-amber-700 transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-offset-1 rounded px-1 py-0.5 hover:bg-amber-50"
+                  sx={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'text.secondary',
+                    fontFamily: 'monospace',
+                    fontSize: '0.75rem',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.5,
+                    p: 0.5,
+                    borderRadius: 1,
+                    transition: 'all 0.2s ease',
+                    '&:hover': {
+                      color: 'primary.dark',
+                      backgroundColor: 'primary.light',
+                      '& .emoji': {
+                        transform: 'scale(1.1)',
+                      },
+                    },
+                    '&:focus': {
+                      outline: 2,
+                      outlineColor: 'secondary.main',
+                      outlineOffset: 1,
+                    },
+                  }}
                   title="View comments"
                   aria-label={`View ${commentsCount} comment${
                     commentsCount !== 1 ? 's' : ''
                   } for ${post.title}`}
                 >
-                  <span className="group-hover/comments:scale-110 transition-transform inline-block">
+                  <Box
+                    component="span"
+                    className="emoji"
+                    sx={{ transition: 'transform 0.2s ease' }}
+                  >
                     💬
-                  </span>{' '}
-                  <span className="group-hover/comments:underline">
+                  </Box>
+                  <Box component="span">
                     {commentsLoading ? '...' : commentsCount} comment
                     {commentsCount !== 1 ? 's' : ''}
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
 
       {/* Post Content Dialog */}
       <Dialog

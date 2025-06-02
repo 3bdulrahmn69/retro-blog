@@ -1,9 +1,11 @@
 import React from 'react';
+import { Box, Typography, Paper } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material';
 
 interface FormProps {
   onSubmit: (e: React.FormEvent) => void;
   children: React.ReactNode;
-  className?: string;
+  sx?: SxProps<Theme>;
   title?: string;
   isSubmitting?: boolean;
 }
@@ -11,7 +13,7 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({
   onSubmit,
   children,
-  className = '',
+  sx,
   title,
   isSubmitting = false,
 }) => {
@@ -24,21 +26,57 @@ const Form: React.FC<FormProps> = ({
   };
 
   return (
-    <div
-      className={`bg-white border-4 border-amber-700 shadow-[8px_8px_0px_0px_rgba(180,83,9)] ${className}`}
+    <Paper
+      elevation={0}
+      sx={{
+        backgroundColor: 'background.paper',
+        border: 4,
+        borderColor: 'primary.dark',
+        boxShadow: '8px 8px 0px 0px rgba(180,83,9)',
+        ...sx,
+      }}
     >
       {title && (
-        <div className="bg-gradient-to-r from-yellow-400 to-amber-600 p-3 text-amber-900 font-bold border-b-4 border-amber-700">
-          <h2 className="text-xl tracking-wider text-center">{title}</h2>
-        </div>
+        <Box
+          sx={{
+            background: 'linear-gradient(to right, #fbbf24, #d97706)',
+            p: 2,
+            color: 'primary.dark',
+            fontWeight: 700,
+            borderBottom: 4,
+            borderColor: 'primary.dark',
+          }}
+        >
+          <Typography
+            variant="h5"
+            component="h2"
+            sx={{
+              letterSpacing: '0.1em',
+              textAlign: 'center',
+              fontFamily: 'monospace',
+              fontWeight: 700,
+            }}
+          >
+            {title}
+          </Typography>
+        </Box>
       )}
-      <form
+      <Box
+        component="form"
         onSubmit={handleSubmit}
-        className="p-6 space-y-6 min-h-[400px] flex flex-col transition-all duration-300"
+        sx={{
+          p: 3,
+          minHeight: '400px',
+          display: 'flex',
+          flexDirection: 'column',
+          transition: 'all 0.3s ease',
+        }}
       >
-        <div className="space-y-6 flex-1">{children}</div>
-      </form>
-    </div>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, flex: 1 }}>
+          {children}
+        </Box>
+      </Box>
+    </Paper>
   );
 };
 

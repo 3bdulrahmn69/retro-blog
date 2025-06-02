@@ -1,5 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Collapse,
+} from '@mui/material';
+import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import Button from './Button';
 import Container from './Container';
 import Input from './Input';
@@ -58,27 +72,71 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
   };
 
   return (
-    <header
-      className={`sticky top-0 z-50 bg-white border-b-4 border-amber-700 transition-all duration-500 ${
-        isLoaded ? 'opacity-100' : 'opacity-0 -translate-y-8'
-      }`}
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: 'background.paper',
+        borderBottom: 4,
+        borderColor: 'primary.dark',
+        boxShadow: 'none',
+        opacity: isLoaded ? 1 : 0,
+        transform: isLoaded ? 'translateY(0)' : 'translateY(-2rem)',
+        transition: 'all 0.5s ease',
+      }}
     >
-      <nav>
-        <Container>
-          <div className="flex justify-between items-center h-16">
+      <Toolbar
+        sx={{
+          minHeight: '64px !important',
+          px: 0,
+          '&.MuiToolbar-root': {
+            paddingLeft: 0,
+            paddingRight: 0,
+          },
+        }}
+      >
+        {/* Use the exact same Container as other pages */}
+        <Container
+          sx={{
+            width: '100%',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              width: '100%',
+            }}
+          >
             {/* Logo */}
-            <div className="flex-shrink-0 flex items-center">
-              <Link
+            <Box sx={{ flexShrink: 0 }}>
+              <Typography
+                variant="h6"
+                component={Link}
                 to="/"
-                className="text-xl font-bold bg-gradient-to-r from-yellow-400 to-amber-600 text-transparent bg-clip-text"
+                sx={{
+                  fontWeight: 700,
+                  background: 'linear-gradient(to right, #fbbf24, #d97706)',
+                  backgroundClip: 'text',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                  textDecoration: 'none',
+                  fontFamily: 'monospace',
+                }}
               >
                 RETRO BLOG
-              </Link>
-            </div>
+              </Typography>
+            </Box>
 
             {/* Search Bar - Only on blog page and desktop */}
             {isBlogPage && (
-              <div className="hidden lg:flex flex-1 max-w-lg mx-8">
+              <Box
+                sx={{
+                  display: { xs: 'none', lg: 'flex' },
+                  flex: 1,
+                  maxWidth: '512px',
+                  mx: 4,
+                }}
+              >
                 <Input
                   variant="search"
                   value={searchQuery}
@@ -86,78 +144,69 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                   placeholder="Search posts by title, content, or author..."
                   onSubmit={handleSearch}
                   submitButtonText="SEARCH"
-                  className="w-full"
+                  sx={{ width: '100%' }}
                 />
-              </div>
+              </Box>
             )}
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-4">
+            <Box
+              sx={{
+                display: { xs: 'none', md: 'flex' },
+                alignItems: 'center',
+                gap: 2,
+                ml: 'auto',
+              }}
+            >
               {!isBlogPage && (
-                <>
-                  <button
-                    onClick={() => handleSectionNavigation('home')}
-                    className={`px-3 py-2 cursor-pointer font-mono ${
-                      activeSection === 0
-                        ? 'text-amber-600 font-bold'
-                        : 'text-amber-800 hover:text-amber-600'
-                    }`}
-                  >
-                    HOME
-                  </button>
-                  <button
-                    onClick={() => handleSectionNavigation('features')}
-                    className={`px-3 py-2 cursor-pointer font-mono ${
-                      activeSection === 1
-                        ? 'text-amber-600 font-bold'
-                        : 'text-amber-800 hover:text-amber-600'
-                    }`}
-                  >
-                    FEATURES
-                  </button>
-                  <button
-                    onClick={() => handleSectionNavigation('about')}
-                    className={`px-3 py-2 cursor-pointer font-mono ${
-                      activeSection === 2
-                        ? 'text-amber-600 font-bold'
-                        : 'text-amber-800 hover:text-amber-600'
-                    }`}
-                  >
-                    ABOUT
-                  </button>
-                  <button
-                    onClick={() => handleSectionNavigation('faq')}
-                    className={`px-3 py-2 cursor-pointer font-mono ${
-                      activeSection === 3
-                        ? 'text-amber-600 font-bold'
-                        : 'text-amber-800 hover:text-amber-600'
-                    }`}
-                  >
-                    FAQ
-                  </button>
-                  <button
-                    onClick={() => handleSectionNavigation('contact')}
-                    className={`px-3 py-2 cursor-pointer font-mono ${
-                      activeSection === 4
-                        ? 'text-amber-600 font-bold'
-                        : 'text-amber-800 hover:text-amber-600'
-                    }`}
-                  >
-                    CONTACT
-                  </button>
-                </>
+                <Box sx={{ display: 'flex', gap: 1 }}>
+                  {Object.values({
+                    0: 'HOME',
+                    1: 'FEATURES',
+                    2: 'ABOUT',
+                    3: 'FAQ',
+                    4: 'CONTACT',
+                  }).map((label, index) => (
+                    <Box
+                      key={index}
+                      component="button"
+                      onClick={() =>
+                        handleSectionNavigation(label.toLowerCase())
+                      }
+                      sx={{
+                        px: 1.5,
+                        py: 1,
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontFamily: 'monospace',
+                        fontSize: '0.875rem',
+                        color:
+                          activeSection === index
+                            ? 'primary.main'
+                            : 'primary.dark',
+                        fontWeight: activeSection === index ? 700 : 400,
+                        '&:hover': {
+                          color: 'primary.main',
+                        },
+                      }}
+                    >
+                      {label}
+                    </Box>
+                  ))}
+                </Box>
               )}
 
               {isAuthenticated ? (
-                <div className="flex items-center space-x-2">
+                <Box sx={{ display: 'flex', gap: 1 }}>
                   {isBlogPage ? (
-                    <Link to="/posts/create">
+                    <Link to="/posts/create" style={{ textDecoration: 'none' }}>
                       <Button variant="secondary" size="sm">
                         NEW POST
                       </Button>
                     </Link>
                   ) : (
-                    <Link to="/blog">
+                    <Link to="/blog" style={{ textDecoration: 'none' }}>
                       <Button variant="secondary" size="sm">
                         BLOG
                       </Button>
@@ -166,48 +215,39 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                   <Button variant="danger" size="sm" onClick={handleLogout}>
                     LOGOUT
                   </Button>
-                </div>
+                </Box>
               ) : (
-                <div className="flex items-center space-x-2">
-                  <Link to="/auth/login">
-                    <Button variant="primary" size="sm">
-                      LOGIN
-                    </Button>
-                  </Link>
-                </div>
+                <Link to="/auth/login" style={{ textDecoration: 'none' }}>
+                  <Button variant="primary" size="sm">
+                    LOGIN
+                  </Button>
+                </Link>
               )}
-            </div>
+            </Box>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button
+            <Box sx={{ display: { xs: 'flex', md: 'none' }, ml: 'auto' }}>
+              <IconButton
                 onClick={toggleMobileMenu}
-                className="text-amber-800 hover:text-amber-600"
+                sx={{
+                  color: 'primary.dark',
+                  '&:hover': {
+                    color: 'primary.main',
+                  },
+                }}
               >
-                <svg
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d={
-                      isMobileMenuOpen
-                        ? 'M6 18L18 6M6 6l12 12'
-                        : 'M4 6h16M4 12h16M4 18h16'
-                    }
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+                {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+              </IconButton>
+            </Box>
+          </Box>
+        </Container>
+      </Toolbar>
 
-          {/* Mobile Search Bar - Only on blog page */}
-          {isBlogPage && (
-            <div className="lg:hidden pb-4">
+      {/* Mobile Search Bar - Only on blog page */}
+      {isBlogPage && (
+        <Collapse in={true}>
+          <Container>
+            <Box sx={{ display: { xs: 'block', lg: 'none' }, pb: 2 }}>
               <Input
                 variant="search"
                 value={searchQuery}
@@ -215,69 +255,68 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                 placeholder="Search posts..."
                 onSubmit={handleSearch}
                 submitButtonText="SEARCH"
-                className="w-full"
+                sx={{ width: '100%' }}
               />
-            </div>
-          )}
+            </Box>
+          </Container>
+        </Collapse>
+      )}
 
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden border-t-2 border-amber-600 bg-amber-50 px-4 py-4 space-y-3">
-              {!isBlogPage && (
-                <>
-                  <button
-                    onClick={() => {
-                      handleSectionNavigation('home');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-left px-3 py-2 text-amber-800 hover:text-amber-600 font-mono"
-                  >
-                    HOME
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleSectionNavigation('features');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-left px-3 py-2 text-amber-800 hover:text-amber-600 font-mono"
-                  >
-                    FEATURES
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleSectionNavigation('about');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-left px-3 py-2 text-amber-800 hover:text-amber-600 font-mono"
-                  >
-                    ABOUT
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleSectionNavigation('faq');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-left px-3 py-2 text-amber-800 hover:text-amber-600 font-mono"
-                  >
-                    FAQ
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleSectionNavigation('contact');
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="block w-full text-left px-3 py-2 text-amber-800 hover:text-amber-600 font-mono"
-                  >
-                    CONTACT
-                  </button>
-                </>
-              )}
+      {/* Mobile Menu Drawer */}
+      <Drawer
+        anchor="top"
+        open={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            borderTop: 2,
+            borderColor: 'primary.main',
+            backgroundColor: 'primary.light',
+            mt: '64px',
+          },
+        }}
+      >
+        <Container>
+          <Box sx={{ py: 2 }}>
+            {!isBlogPage && (
+              <List>
+                {Object.values({
+                  0: 'HOME',
+                  1: 'FEATURES',
+                  2: 'ABOUT',
+                  3: 'FAQ',
+                  4: 'CONTACT',
+                }).map((label) => (
+                  <ListItem key={label} disablePadding>
+                    <ListItemButton
+                      onClick={() => {
+                        handleSectionNavigation(label.toLowerCase());
+                        setIsMobileMenuOpen(false);
+                      }}
+                      sx={{
+                        color: 'primary.dark',
+                        fontFamily: 'monospace',
+                        '&:hover': {
+                          color: 'primary.main',
+                        },
+                      }}
+                    >
+                      <ListItemText primary={label} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            )}
 
+            <Box
+              sx={{ mt: 2, display: 'flex', flexDirection: 'column', gap: 1 }}
+            >
               {isAuthenticated ? (
-                <div className="flex flex-col gap-2">
+                <>
                   <Link
                     to="/posts/create"
                     onClick={() => setIsMobileMenuOpen(false)}
+                    style={{ textDecoration: 'none' }}
                   >
                     <Button variant="secondary" size="sm" fullWidth>
                       NEW POST
@@ -291,24 +330,23 @@ const Header = ({ isLoaded = true, activeSection }: HeaderProps) => {
                   >
                     LOGOUT
                   </Button>
-                </div>
+                </>
               ) : (
-                <div className="space-y-2">
-                  <Link
-                    to="/auth/login"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <Button variant="outline" size="sm" fullWidth>
-                      LOGIN
-                    </Button>
-                  </Link>
-                </div>
+                <Link
+                  to="/auth/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Button variant="outline" size="sm" fullWidth>
+                    LOGIN
+                  </Button>
+                </Link>
               )}
-            </div>
-          )}
+            </Box>
+          </Box>
         </Container>
-      </nav>
-    </header>
+      </Drawer>
+    </AppBar>
   );
 };
 
